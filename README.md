@@ -1,6 +1,9 @@
 # OnlyHack-web
 
-![OnlyHack-web](https://example.com/onlyhack-web.png)
+<p align="center">
+  <img src="https://github.com/sergioironhacker/OnlyHack-web/blob/main/public/logo.png" alt="OnlyHack-web" width="200" />
+</p>
+
 
 OnlyHack-web es una plataforma de crowdfunding desarrollada utilizando React y Tailwind CSS. Permite a los usuarios crear y apoyar proyectos innovadores.
 
@@ -22,5 +25,4 @@ OnlyHack-web es una plataforma de crowdfunding desarrollada utilizando React y T
 
 - **Tailwind CSS:** Se emplea como el framework de diseño para estilizar y diseñar la interfaz de usuario de manera eficiente.
 
-- 
 
