@@ -1,16 +1,16 @@
-import { useState } from 'react';
+/* import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function NavBar() {
-  // Estado para controlar la visibilidad del menú de usuario
+
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
-  // Función para manejar el clic en el botón de usuario
+ 
   const toggleUserMenu = () => {
     setUserMenuOpen(!userMenuOpen);
   };
 
-  // Función para cerrar el menú de usuario cuando se hace clic fuera de él
+  
   const closeUserMenu = () => {
     setUserMenuOpen(false);
   };
@@ -28,7 +28,7 @@ function NavBar() {
             <span className="sr-only">Open user menu</span>
             <img className="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="user photo" />
           </button>
-          {/* Menú de usuario */}
+         
           <div className={`z-50 ${userMenuOpen ? '' : 'hidden'} my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600`} id="user-dropdown">
             <div className="px-4 py-3">
               <span className="block text-sm text-gray-900 dark:text-white">Sergio Esteban</span>
@@ -67,10 +67,11 @@ function NavBar() {
           </ul>
         </div>
       </div>
-      {/* Event listener para cerrar el menú de usuario cuando se hace clic fuera */}
+     
       {userMenuOpen && <div className="fixed inset-0 z-40 bg-black opacity-50" onClick={closeUserMenu}></div>}
     </nav>
   );
 }
 
 export default NavBar;
+ */
