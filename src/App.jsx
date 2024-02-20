@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom"
 import Home from "./pages/Home"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
-import Navbar from "./components/Navbar"
+import NavBar from "./components/NavBar"
 import ProtectedRoute from "./components/ProtectedRoute"
 import UserProfile from "./pages/UserProfile"
 import CurrentUserProfile from "./pages/CurrentUserProfile"
@@ -11,7 +11,7 @@ import Timeline from "./pages/Timeline"
 function App() {
   return (
     <div>
-      <Navbar />
+      <NavBar />
 
       <div className="max-w-container border-x-2 border-tw-light-gray mx-auto min-h-body p-4">
         <Routes>
