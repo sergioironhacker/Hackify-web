@@ -7,12 +7,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        'tw-primary': '#1DA1F2',
-        'tw-light-gray': '#E1E8ED',
-        'tw-dark-gray': '#657786',
-        'tw-dark': '#14171A',
-        'tw-primary-accent': '#FFAD1F',
-        'tw-background': '#eee'
+        'tw-primary': '#FF385C',
+        'tw-light-gray': '#DDDDDD',
+        'tw-dark-gray': '#484848',
+        'tw-dark': '#333333',
+        'tw-primary-accent': '#FF5A5F',
+        'tw-background': '#FFFFFF'
       },
       maxWidth: {
         'container': '980px'
@@ -25,4 +25,5 @@ export default {
   },
   plugins: [],
 }
+
 

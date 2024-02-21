@@ -1,5 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
-import TwitterLogo from "../assets/TwitterLogo";
+import OnlyHackLogo from "../assets/OnlyHackLogo";
 import { useContext } from "react";
 import AuthContext from '../contexts/AuthContext';
 import { logout } from "../stores/AccessTokenStore";
@@ -46,24 +46,24 @@ const Navbar = () => {
   const hasUser = isAuthFetched && user;
 
   return (
-    <div className="bg-tw-primary p-3 h-[70px] flex items-center">
-      <div className="flex justify-between items-center max-w-container mx-auto w-full">
-        <Link to={hasUser ? "/timeline" : "/"}>
-          <TwitterLogo />
+    <div className="bg-gray-100 dark:bg-gray-900 p-3 h-[70px] flex items-center">
+      <div className="flex justify-between items-center max-w-screen-lg mx-auto w-full">
+        <Link to={hasUser ? "/timeline" : "/"} className="text-3xl text-blue-400 hover:text-blue-600">
+          <OnlyHackLogo />
         </Link>
 
         <div className="flex gap-x-3">
           {routes ? routes.map((route) => (
-            <NavLink key={route.to} to={route.to} className="text-white hover:text-tw-light-gray">
+            <NavLink key={route.to} to={route.to} className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-200">
               {route.text}
             </NavLink>
           )) : null}
           {hasUser ? (
             <button
-              className="text-white hover:text-tw-light-gray"
+              className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-200"
               onClick={logout}
             >
-                Logout
+              Logout
             </button>
           ) : null}
         </div>
