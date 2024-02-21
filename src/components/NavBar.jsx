@@ -16,7 +16,15 @@ const Navbar = () => {
       to: '/profile',
       text: 'Profile'
     },
-  ]
+    {
+      to: '/create-form',
+      text: 'Create Form'
+    },
+    {
+      to: '/view-forms',
+      text: 'View Forms' // Cambia el texto a 'View Forms' para diferenciarlo de 'Create Form'
+    }
+  ];
 
   const unprotectedRoutes = [
     {
@@ -27,6 +35,14 @@ const Navbar = () => {
       to: '/register',
       text: 'Register'
     },
+    {
+      to: '/create-form',
+      text: 'Create Form'
+    },
+    {
+      to: '/view-forms',
+      text: 'View Forms' // Cambia el texto a 'View Forms' para diferenciarlo de 'Create Form'
+    }
   ];
 
   const getRoutesToShow = () => {
