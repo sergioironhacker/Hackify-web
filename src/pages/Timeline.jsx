@@ -86,11 +86,11 @@ const Timeline = () => {
 
       <form className="flex flex-col gap-2" onSubmit={onSubmit}>
         <Input
-          label="¿En qué estás pensando hoy?"
+          label="¿Cual es tu idea?"
           onChange={onChange}
           value={tweetText}
         />
-        <Button text="Twittear" disabled={!isValid} />
+        <Button text="Crear" disabled={!isValid} />
       </form>
 
       <div className="mt-4">
@@ -102,7 +102,7 @@ const Timeline = () => {
         ))}
         {loading ? <p>Loading...</p> : null }
         {!loading && canShowButton ? (
-          <Button text="Get more tweets" extraClassName="mt-3" onClick={handlePage} />
+          <Button text="Mostrar mas" extraClassName="mt-3" onClick={handlePage} />
         ) : null}
       </div>
     </div>

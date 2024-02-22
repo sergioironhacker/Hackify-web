@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import { getForms } from '../services/FormsService';
 
 const FormsList = () => {
@@ -8,7 +8,6 @@ const FormsList = () => {
     const fetchForms = async () => {
       try {
         const response = await getForms();
-        console.log('Forms:', response); // Verificar el contenido de response
         setForms(response);
       } catch (error) {
         console.error('Error al obtener los formularios:', error.message);
@@ -19,22 +18,22 @@ const FormsList = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Listado de Formularios</h1>
+    <div className="max-w-container mx-auto p-6">
+      <h1 className="text-2xl font-bold mb-4">Listado de Formularios</h1>
       {forms && forms.length > 0 ? (
-        <ul>
+        <ul className="space-y-4">
           {forms.map((form, index) => {
-            console.log('Formulario:', form); // Verificar cada formulario
             return (
-              <li key={index}>
-                <h2>{form.title}</h2>
-                <p>{form.description}</p>
+              <li key={index} className="bg-white shadow-md rounded-md p-4">
+                <h2 className="text-lg font-semibold">{form.title}</h2>
+                <p className="text-gray-600">{form.description}</p>
+                <p className="text-gray-500">Creado por: {form.user.username}</p>
               </li>
             );
           })}
         </ul>
       ) : (
-        <p>No hay formularios disponibles.</p>
+        <p className="text-gray-600">No hay formularios disponibles.</p>
       )}
     </div>
   );

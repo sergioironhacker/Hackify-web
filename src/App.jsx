@@ -15,7 +15,7 @@ function App() {
   return (
     <div>
       <NavBar />
-      <div className="max-w-container border-x-2 border-tw-light-gray mx-auto min-h-body p-4">
+      <div className="max-w-container  mx-auto min-h-body p-4">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />

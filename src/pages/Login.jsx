@@ -15,7 +15,7 @@ const Login = () => {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const { values, errors, touched, isValid,handleBlur, handleChange, handleSubmit } = useFormik({
+  const { values, errors, touched, isValid, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues: {
       email: '',
       password: ''
@@ -28,40 +28,41 @@ const Login = () => {
     validateOnChange: true,
     validateOnBlur: true,
     validateOnMount: true,
-  })
+  });
 
   return (
-    <div>
-      <h1 className='text-tw-primary uppercase font-bold text-3xl underline'>Sign in your account</h1>
-
-      <form onSubmit={handleSubmit}>
-        <div className="mt-4 grid grid-cols-1 gap-4">
-          <Input
-            name="email"
-            type="email"
-            label="Email"
-            placeholder="Ex: 'manolitogafotas@gmail.com'"
-            value={values.email}
-            error={touched.email && errors.email}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          <Input
-            name="password"
-            type="password"
-            label="Password"
-            placeholder="Ex: '12345678'"
-            value={values.password}
-            error={touched.password && errors.password}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-        </div>
-        <Button extraClassName="mt-4" disabled={!isValid} text="Sign in" />
-
-      </form>
+    <div className="flex justify-center items-center h-screen">
+      <div className="w-full max-w-md p-6 bg-white shadow-md rounded-md">
+        <h1 className="text-tw-primary uppercase font-bold text-3xl mb-6">Sign in to your account</h1>
+        
+        <form onSubmit={handleSubmit}>
+          <div className="grid grid-cols-1 gap-4">
+            <Input
+              name="email"
+              type="email"
+              label="Email"
+              placeholder="Enter your email"
+              value={values.email}
+              error={touched.email && errors.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+            <Input
+              name="password"
+              type="password"
+              label="Password"
+              placeholder="Enter your password"
+              value={values.password}
+              error={touched.password && errors.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+          </div>
+          <Button extraClassName="mt-6" disabled={!isValid} text="Sign in" />
+        </form>
+      </div>
     </div>
-  )
-}
+  );
+};
 
 export default Login;

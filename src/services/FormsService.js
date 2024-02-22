@@ -6,6 +6,9 @@ export const getForms = () => {
   return http.get('/forms');
 }
 
-export const createForm = (formData) => {
-  return http.post('/createform', formData);
+export const createForm = (formData, userId) => {
+  // Agregar el ID del usuario que ha creado el formulario a los datos del formulario
+  const formDataWithUser = { ...formData, userId };
+  
+  return http.post('/createform', formDataWithUser);
 }
