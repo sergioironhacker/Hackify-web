@@ -12,3 +12,8 @@ export const createForm = (formData, userId) => {
   
   return http.post('/createform', formDataWithUser);
 }
+
+
+
+
+export const buyProduct = (product) => http.post('/forms/checkout', product);

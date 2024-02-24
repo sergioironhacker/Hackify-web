@@ -1,19 +1,23 @@
 import { useFormik } from 'formik';
 import { createForm } from '../services/FormsService';
 
+
 const FormComponent = () => {
   const formik = useFormik({
     initialValues: {
       title: '',
       description: '',
+      price: 0,
     },
     onSubmit: async (values) => {
       try {
         await createForm(values);
+        
         // Aquí podrías añadir alguna lógica de redireccionamiento si es necesario
       } catch (error) {
         console.error('Error al crear el formulario:', error.message);
       }
+      
     },
   });
 
@@ -44,12 +48,29 @@ const FormComponent = () => {
             className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent"
           />
         </div>
+        <div>
+          <label htmlFor="price" className="block text-sm font-medium text-tw-dark-gray">Precio(€):</label>
+          <input type='number'
+            id="price"
+            name="price"
+            onChange={formik.handleChange}
+            value={formik.values.price}
+            required
+            className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent"
+          />
+        </div>
         <button type="submit" className="w-full bg-tw-primary text-white font-semibold py-2 px-4 rounded-md hover:bg-tw-primary-accent focus:outline-none focus:ring-2 focus:ring-tw-primary focus:ring-opacity-50">
           Crear Formulario
         </button>
       </form>
     </div>
+
+
+
+
   );
 };
+
+
 
 export default FormComponent;
