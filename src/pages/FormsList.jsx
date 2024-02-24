@@ -1,5 +1,6 @@
 import  { useState, useEffect } from 'react';
 import { getForms } from '../services/FormsService';
+import Button from '../components/Button';
 
 const FormsList = () => {
   const [forms, setForms] = useState([]);
@@ -28,6 +29,7 @@ const FormsList = () => {
                 <h2 className="text-lg font-semibold">{form.title}</h2>
                 <p className="text-gray-600">{form.description}</p>
                 <p className="text-gray-500">Creado por: {form.user.username}</p>
+                <Button text="Paga"></Button>
               </li>
             );
           })}
