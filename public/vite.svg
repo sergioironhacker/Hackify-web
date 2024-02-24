@@ -1,3 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <circle cx="50" cy="50" r="40" fill="red" stroke="white" stroke-width="20" />
+  <!-- Fondo rojo -->
+  <circle cx="50" cy="50" r="40" fill="#ff0066" />
+  <!-- Letra "O" -->
+  <circle cx="50" cy="50" r="30" fill="white" />
+  <!-- Letra "F" -->
+  <path d="M42 32h12v36h14c11 0 20-9 20-20S79 28 68 28H56v-4h12c6.6 0 12 5.4 12 12s-5.4 12-12 12H54v4h14c10 0 18-8 18-18S78 26 68 26H54v6h-12z" fill="white" />
 </svg>
