@@ -36,9 +36,7 @@ const FormsList = () => {
   return (
     <div className="max-w-container mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4">Listado de Formularios</h1>
-      <div className="text-gray-600 mb-4">
-        Cantidad total recaudada: {totalAmount}€
-      </div>
+      
       {forms && forms.length > 0 ? (
         <ul className="space-y-8">
           {forms.map((form, index) => {
