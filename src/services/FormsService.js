@@ -7,13 +7,16 @@ export const getForms = () => {
 }
 
 export const createForm = (formData, userId) => {
-  // Agregar el ID del usuario que ha creado el formulario a los datos del formulario
+  //  ID del usuario que ha creado el formulario a los datos del formulario
   const formDataWithUser = { ...formData, userId };
-  
+
   return http.post('/createform', formDataWithUser);
 }
 
 
 
 
-export const buyProduct = (product) => http.post('/forms/checkout', product);
+export const buyProduct = (formId) => {
+  
+  return http.post(`/forms/checkout/${formId}`);
+}

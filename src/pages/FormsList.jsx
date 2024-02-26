@@ -7,14 +7,13 @@ const FormsList = () => {
   const [progress, setProgress] = useState(0); // Estado para el progreso
   const [totalAmount, setTotalAmount] = useState(0); // Estado para la cantidad total recaudada
 
-  const handleCheckout = async () => {
-    buyProduct(forms)
-      .then((session) => {
-        window.location.href = session.url;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  const handleCheckout = async (formId) => {
+    try {
+      const session = await buyProduct(formId);
+      window.location.href = session.url;
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -35,8 +34,8 @@ const FormsList = () => {
 
   return (
     <div className="max-w-container mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">Listado de Formularios</h1>
-      
+      <h1 className="text-2xl font-bold mb-4">Listado de Ideas</h1>
+
       {forms && forms.length > 0 ? (
         <ul className="space-y-8">
           {forms.map((form, index) => {
@@ -53,7 +52,7 @@ const FormsList = () => {
                 <div className="text-xs text-gray-500 mb-2">
                   Cantidad recaudada: {form.price * (progress / 100)}€
                 </div>
-                <Button text="Paga" onClick={handleCheckout}></Button>
+                <Button text="Paga" onClick={() => handleCheckout(form.id)}></Button>
               </li>
             );
           })}
