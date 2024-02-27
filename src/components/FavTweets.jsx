@@ -1,4 +1,4 @@
-import Tweet from "./Tweet"
+/* import Tweet from "./Tweet"
 
 const FavTweets = ({tweets}) => {
   console.log(tweets)
@@ -15,4 +15,4 @@ const FavTweets = ({tweets}) => {
   )
 }
 
-export default FavTweets
+export default FavTweets */

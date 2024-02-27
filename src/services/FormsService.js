@@ -1,4 +1,4 @@
-import { createHttp } from "./BaseService";
+/* import { createHttp } from "./BaseService";
 
 const http = createHttp(true);
 
@@ -19,4 +19,4 @@ export const createForm = (formData, userId) => {
 export const buyProduct = (formId) => {
   
   return http.post(`/forms/checkout/${formId}`);
-}
+} */

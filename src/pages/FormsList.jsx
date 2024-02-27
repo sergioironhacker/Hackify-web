@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+/* import { useState, useEffect } from 'react';
 import { getForms, buyProduct } from '../services/FormsService';
 import Button from '../components/Button';
 
@@ -45,7 +45,7 @@ const FormsList = () => {
                 <p className="text-gray-600 mb-2">{form.description}</p>
                 <p className="text-gray-600 mb-2">{form.price}€</p>
                 <p className="text-gray-500 mb-4">Creado por: {form.user.username}</p>
-                {/* Barra de progreso */}
+    
                 <div className="relative w-full h-4 bg-gray-200 rounded-md overflow-hidden mb-4">
                   <div className="absolute top-0 left-0 h-full bg-blue-500" style={{ width: `${progress}%` }}></div>
                 </div>
@@ -65,3 +65,4 @@ const FormsList = () => {
 };
 
 export default FormsList;
+ */

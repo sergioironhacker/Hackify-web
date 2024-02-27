@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react'
+/* import { useState, useEffect, useContext } from 'react'
 import { getUserTweets } from '../services/UserService';
 import Tweet from './Tweet';
 import AuthContext from '../contexts/AuthContext';
@@ -29,4 +29,4 @@ const ProfileTweets = ({ userId }) => {
   )
 }
 
-export default ProfileTweets
+export default ProfileTweets */

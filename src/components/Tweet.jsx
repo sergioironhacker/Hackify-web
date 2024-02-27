@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+/* import { Link } from "react-router-dom"
 import { HeartIcon } from '@heroicons/react/24/solid'
 import { HeartIcon as OutlineHeartIcon } from '@heroicons/react/24/outline'
 import Avatar from "./Avatar"
@@ -41,4 +41,4 @@ const Tweet = ({ data, likes, isLiked, showLikeButton = true }) => {
   )
 }
 
-export default Tweet
+export default Tweet */

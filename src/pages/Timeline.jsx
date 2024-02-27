@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+/* import { useContext, useEffect, useState } from "react"
 import { createTweet, getTimeline } from "../services/TweetsService";
 import Tweet from "../components/Tweet";
 import AuthContext from "../contexts/AuthContext";
@@ -109,4 +109,4 @@ const Timeline = () => {
   )
 }
 
-export default Timeline
+export default Timeline */

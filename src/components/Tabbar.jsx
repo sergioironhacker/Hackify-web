@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+/* import { useMemo, useState } from 'react';
 import clsx from 'clsx';
 import ProfileTweets from './ProfileTweets';
 import FavTweets from './FavTweets';
@@ -61,4 +61,4 @@ const Tabbar = ({ user }) => {
   )
 }
 
-export default Tabbar;
+export default Tabbar; */
