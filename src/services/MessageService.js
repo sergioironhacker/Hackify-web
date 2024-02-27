@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3000/api'; // Cambia esto por la URL de tu servidor backend
+const BASE_URL = 'http://localhost:3000/api'; 
 
 const messageService = {
   // Enviar un mensaje
@@ -11,7 +11,7 @@ const messageService = {
       return response.data;
     } catch (error) {
       console.error('Error al enviar el mensaje:', error);
-      throw error; // Propaga el error para que pueda ser manejado por el componente que llamó a esta función
+      throw error; 
     }
   },
 
