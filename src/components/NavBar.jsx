@@ -18,12 +18,12 @@ const Navbar = () => {
       text: 'Profile'
     },
     {
-      to: '/create-form',
-      text: 'Create Form'
+      to: '/ideas/create',
+      text: 'Crear Idea'
     },
     {
-      to: '/view-forms',
-      text: 'View Forms' // Cambia el texto a 'View Forms' para diferenciarlo de 'Create Form'
+      to: '/ideas',
+      text: 'Ideas' 
     }
   ];
 

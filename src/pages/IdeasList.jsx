@@ -1,15 +1,15 @@
-/* import { useState, useEffect } from 'react';
-import { getForms, buyProduct } from '../services/FormsService';
+import { useState, useEffect } from 'react';
+import { getIdeas, buyProduct } from '../services/IdeaService.js';
 import Button from '../components/Button';
 
-const FormsList = () => {
-  const [forms, setForms] = useState([]);
+const IdeasList = () => {
+  const [ideas, setIdeas] = useState([]);
   const [progress, setProgress] = useState(0); // Estado para el progreso
   const [totalAmount, setTotalAmount] = useState(0); // Estado para la cantidad total recaudada
 
-  const handleCheckout = async (formId) => {
+  const handleCheckout = async (ideaId) => {
     try {
-      const session = await buyProduct(formId);
+      const session = await buyProduct(ideaId);
       window.location.href = session.url;
     } catch (error) {
       console.error(error);
@@ -17,52 +17,51 @@ const FormsList = () => {
   };
 
   useEffect(() => {
-    const fetchForms = async () => {
+    const fetchIdeas = async () => {
       try {
-        const response = await getForms();
-        setForms(response);
+        const response = await getIdeas();
+        setIdeas(response);
         // Calcular la cantidad total recaudada
-        const total = response.reduce((acc, form) => acc + form.price, 0);
+        const total = response.reduce((acc, form) => acc + form.contributionMax, 0);
         setTotalAmount(total);
       } catch (error) {
         console.error('Error al obtener los formularios:', error.message);
       }
     };
 
-    fetchForms();
+    fetchIdeas();
   }, []);
 
   return (
     <div className="max-w-container mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4">Listado de Ideas</h1>
 
-      {forms && forms.length > 0 ? (
+      {ideas && ideas.length > 0 ? (
         <ul className="space-y-8">
-          {forms.map((form, index) => {
+          {ideas.map((idea, index) => {
             return (
               <li key={index} className="bg-white shadow-md rounded-md p-6">
-                <h2 className="text-lg font-semibold">{form.title}</h2>
-                <p className="text-gray-600 mb-2">{form.description}</p>
-                <p className="text-gray-600 mb-2">{form.price}€</p>
-                <p className="text-gray-500 mb-4">Creado por: {form.user.username}</p>
+                <h2 className="text-lg font-semibold">{idea.title}</h2>
+                <p className="text-gray-600 mb-2">{idea.description}</p>
+                <p className="text-gray-600 mb-2">{idea.contributionMax}€</p>
+                <p className="text-gray-500 mb-4">Creado por: {idea.user.username}</p>
     
                 <div className="relative w-full h-4 bg-gray-200 rounded-md overflow-hidden mb-4">
                   <div className="absolute top-0 left-0 h-full bg-blue-500" style={{ width: `${progress}%` }}></div>
                 </div>
                 <div className="text-xs text-gray-500 mb-2">
-                  Cantidad recaudada: {form.price * (progress / 100)}€
+                  Cantidad recaudada: {idea.contributionMax * (progress / 100)}€
                 </div>
-                <Button text="Paga" onClick={() => handleCheckout(form.id)}></Button>
+                <Button text="Contribuye" onClick={() => handleCheckout(idea.id)}></Button>
               </li>
             );
           })}
         </ul>
       ) : (
-        <p className="text-gray-600">No hay formularios disponibles.</p>
+        <p className="text-gray-600">No hay ideas disponibles.</p>
       )}
     </div>
   );
 };
 
-export default FormsList;
- */
+export default IdeasList;
