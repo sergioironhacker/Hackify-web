@@ -1,20 +1,17 @@
-import { /* useMemo, */ useState } from 'react';
+import { useState } from 'react';
+import { CogIcon } from '@heroicons/react/solid';
 import clsx from 'clsx';
-/* import ProfileTweets from './ProfileTweets'; */
-/* import FavTweets from './FavTweets'; */
 
 const Tabbar = ({ user }) => {
-  /* const favTweets = useMemo(() => user.data.likes.map((like) => ({data: like.tweet})), [user.data.likes]); */
-
   const tabs = [
     {
       key: 0,
       title: 'Mis Ideas',
-      body: <> Mis Ideas </>
+      body: <>Mis Ideas</>
     },
     {
       key: 1,
-      title: 'Mis contribuciones',
+      title: 'Mis Contribuciones',
       body: <>Mis Contribuciones</>
     },
     {
@@ -24,41 +21,37 @@ const Tabbar = ({ user }) => {
     },
     {
       key: 3,
-      title: 'Ajustes',
+      title: <CogIcon className="h-5 w-5" />, // Icono de tuerca en lugar de texto
       body: <>Ajustes</> 
     },
-  ]
+  ];
 
   const [activeTab, setActiveTab] = useState(0);
 
   return (
-    <div>
-      <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200">
-        <ul className="flex flex-wrap -mb-px justify-between">
-          {
-            tabs.map(tab => (
-              <li className="me-2" key={tab.key}>
-                  <button
-                    onClick={() => setActiveTab(tab.key)}
-                    className={clsx(
-                      "inline-block p-4 border-b-2 border-transparent rounded-t-lg",
-                      { "text-tw-primary border-tw-primary": tab.key === activeTab},
-                      {"hover:text-gray-600 hover:border-gray-300": tab.key !== activeTab}
-                    )}
-                  >
-                    {tab.title}
-                  </button>
-              </li>
-            ))
-          }
-        </ul>
-
+    <div className="sm:hidden">
+      <div className="border-t border-gray-200">
+        <nav className="flex" aria-label="Tabs">
+          {tabs.map(tab => (
+            <button
+              key={tab.key}
+              onClick={() => setActiveTab(tab.key)}
+              className={clsx(
+                "w-full py-4 px-1 text-sm font-medium rounded-t-lg focus:outline-none focus:ring-inset focus:ring-tw-primary",
+                { "text-tw-primary": tab.key === activeTab },
+                { "text-airbnb-red": tab.key !== activeTab } // Cambio de clase para el color de texto
+              )}
+            >
+              {tab.title}
+            </button>
+          ))}
+        </nav>
       </div>
-      <div className="">
+      <div className="p-4">
         {tabs[activeTab].body}
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Tabbar;

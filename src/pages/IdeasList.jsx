@@ -1,11 +1,18 @@
 import { useState, useEffect } from 'react';
+import SearchBar from '../pages/SearchBar.jsx'; // Importa el componente SearchBar
 import { getIdeas, buyProduct } from '../services/IdeaService.js';
-import Button from '../components/Button';
+import Button from '../components/Button'; // Importa el componente Button
 
 const IdeasList = () => {
   const [ideas, setIdeas] = useState([]);
-  const [progress, setProgress] = useState(0); // Estado para el progreso
-  const [totalAmount, setTotalAmount] = useState(0); // Estado para la cantidad total recaudada
+  const [filteredIdeas, setFilteredIdeas] = useState([]); // Estado para almacenar las ideas filtradas
+
+  const handleSearch = (searchTerm) => {
+    const filtered = ideas.filter((idea) =>
+      idea.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredIdeas(filtered); // Actualiza el estado con las ideas filtradas
+  };
 
   const handleCheckout = async (ideaId) => {
     try {
@@ -21,11 +28,9 @@ const IdeasList = () => {
       try {
         const response = await getIdeas();
         setIdeas(response);
-        // Calcular la cantidad total recaudada
-        const total = response.reduce((acc, form) => acc + form.contributionMax, 0);
-        setTotalAmount(total);
+        setFilteredIdeas(response); // Inicialmente muestra todas las ideas sin filtrar
       } catch (error) {
-        console.error('Error al obtener los formularios:', error.message);
+        console.error('Error al obtener las ideas:', error.message);
       }
     };
 
@@ -36,9 +41,13 @@ const IdeasList = () => {
     <div className="max-w-container mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4">Listado de Ideas</h1>
 
-      {ideas && ideas.length > 0 ? (
+      {/* Renderiza el componente SearchBar y pasa la función de búsqueda */}
+      <SearchBar onSearch={handleSearch} />
+
+      {/* Renderiza las ideas filtradas o todas las ideas */}
+      {filteredIdeas && filteredIdeas.length > 0 ? (
         <ul className="space-y-8">
-          {ideas.map((idea, index) => {
+          {filteredIdeas.map((idea, index) => {
             return (
               <li key={index} className="bg-white shadow-md rounded-md p-6">
                 <h2 className="text-lg font-semibold">{idea.title}</h2>
@@ -46,13 +55,8 @@ const IdeasList = () => {
                 <p className="text-gray-600 mb-2">{idea.contributionMax}€</p>
                 <p className="text-gray-500 mb-4">Creado por: {idea.user.username}</p>
     
-                <div className="relative w-full h-4 bg-gray-200 rounded-md overflow-hidden mb-4">
-                  <div className="absolute top-0 left-0 h-full bg-blue-500" style={{ width: `${progress}%` }}></div>
-                </div>
-                <div className="text-xs text-gray-500 mb-2">
-                  Cantidad recaudada: {idea.contributionMax * (progress / 100)}€
-                </div>
-                <Button text="Contribuye" onClick={() => handleCheckout(idea.id)}></Button>
+                {/* Aquí se utiliza el componente Button para el botón de contribuir */}
+                <Button text="Contribuir" onClick={() => handleCheckout(idea.id)} />
               </li>
             );
           })}

@@ -9,6 +9,7 @@ import UserIcon from "../assets/UserIcon";
 import IdeaIcon from "../assets/IdeaIcon";
 import CreateIdeaIcon from "../assets/CreateIdeaIcon";
 
+
 const Navbar = () => {
   const { user, isAuthFetched } = useContext(AuthContext);
 
@@ -30,7 +31,7 @@ const Navbar = () => {
       text: <IdeaIcon />
     },
     {
-      to: '/',
+      to: '/search',
       text:<FindLogo />
     },
     {
