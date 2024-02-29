@@ -1,6 +1,12 @@
 import axios from 'axios';
 
+
 const BASE_URL = 'http://localhost:3000/api'; 
+
+
+
+
+
 
 const messageService = {
   // Enviar un mensaje
@@ -16,9 +22,9 @@ const messageService = {
   },
 
   // Obtener mensajes enviados por el usuario actual
-  getSentMessages: async () => {
+  getSentMessages: async (userId) => {
     try {
-      const response = await axios.get(`${BASE_URL}/messages/sent`);
+      const response = await axios.get(`${BASE_URL}/messages/sent/${userId}`);
       console.log('Mensajes enviados obtenidos exitosamente:', response.data);
       return response.data;
     } catch (error) {
@@ -28,9 +34,10 @@ const messageService = {
   },
 
   // Obtener mensajes recibidos por el usuario actual
-  getReceivedMessages: async () => {
+  getReceivedMessages: async (userId) => {
     try {
-      const response = await axios.get(`${BASE_URL}/messages/received`);
+    
+      const response = await axios.get(`${BASE_URL}/messages/received/${userId}`);
       console.log('Mensajes recibidos obtenidos exitosamente:', response.data);
       return response.data;
     } catch (error) {

@@ -12,8 +12,9 @@ const Profile = ({ user }) => {
 
       <Tabbar user={user} />
 
-      {/* Agrega el componente de mensajería aquí */}
-      <MessagingComponent />
+   
+      <MessagingComponent  user={user} />
+      
     </div>
   );
 };
