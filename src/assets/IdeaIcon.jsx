@@ -1,20 +1,13 @@
-function IdeaIcon({ width = 24, height = 24, color = "#ffffff" }) {
-    return (
-        <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width={width}
-        height={height}
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke={color}
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M12 22v-2M12 18V8M9 5l3-3 3 3M7.5 9h5M7.5 12h5M7.5 15h5"></path>
-      </svg>
-    );
-  }
-  
-  export default IdeaIcon;
-  
+function CreateIdeaIcon({ width = 24, height = 24 }) {
+  return (
+    <img
+      src="https://cdn-icons-png.flaticon.com/128/702/702814.png"
+      alt="Idea Icon"
+      width={width}
+      height={height}
+      style={{ filter: 'brightness(0) invert(1)' }}
+    />
+  );
+}
+
+export default CreateIdeaIcon;

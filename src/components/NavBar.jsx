@@ -7,43 +7,37 @@ import FindLogo from "../assets/FindLogo";
 import MessageLogo from "../assets/MessageLogo";
 import UserIcon from "../assets/UserIcon";
 import IdeaIcon from "../assets/IdeaIcon";
+import CreateIdeaIcon from "../assets/CreateIdeaIcon";
 
 const Navbar = () => {
   const { user, isAuthFetched } = useContext(AuthContext);
 
   const protectedRoutes = [
     {
-      id: 'onlyHackLogo',
       to: '/',
-      text: <OnlyHackLogo />
+      text:<OnlyHackLogo />
     },
     {
-      id: 'userIcon',
-      to: '/',
+      to: '/profile',
       text: <UserIcon />
     },
     {
-      id: 'createIdea',
-      to: '/',
-      text: 'Crear Idea'
+      to: '/ideas/create',
+      text: < CreateIdeaIcon />
     },
     {
-      id: 'ideaIcon',
-      to: '/',
+      to: '/ideas',
       text: <IdeaIcon />
     },
     {
-      id: 'findLogo',
       to: '/',
-      text: <FindLogo />
+      text:<FindLogo />
     },
     {
-      id: 'messageLogo',
       to: '/',
       text: <MessageLogo />
     }
   ];
-  
 
   const unprotectedRoutes = [
     {
