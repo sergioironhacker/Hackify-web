@@ -34,7 +34,7 @@ const Navbar = () => {
       text:<FindLogo />
     },
     {
-      to: '/',
+      to: '/messages',
       text: <MessageLogo />
     }
   ];

@@ -1,6 +1,6 @@
 import Tabbar from "../components/Tabbar";
 import Avatar from "../components/Avatar";
-import MessagingComponent from '../pages/MessagingComponent'; // Importa el componente de mensajería
+
 
 const Profile = ({ user }) => {
   return (
@@ -13,7 +13,7 @@ const Profile = ({ user }) => {
       <Tabbar user={user} />
 
    
-      <MessagingComponent  user={user} />
+     
       
     </div>
   );
