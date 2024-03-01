@@ -7,12 +7,12 @@ const MessagingComponent = () => {
   const [recipient, setRecipient] = useState('');
   const [content, setContent] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     fetchReceivedMessages();
     fetchSentMessages();
-  }, []); // Llama a fetchReceivedMessages y fetchSentMessages cuando el componente se monta
+  }, []); 
 
   const fetchSentMessages = async () => {
     try {
@@ -45,15 +45,13 @@ const MessagingComponent = () => {
       await messageService.sendMessage({ recipient, content, sender: user.data._id});
       setRecipient('');
       setContent('');
-      await fetchSentMessages(); // Actualizar los mensajes enviados después de enviar uno nuevo
+      await fetchSentMessages(); 
     } catch (error) {
       console.error('Error al enviar el mensaje:', error);
     } finally {
       setIsLoading(false);
     }
   };
-
-  //////////////////////
 
   return (
     <div className="max-w-lg mx-auto">
@@ -92,13 +90,13 @@ const MessagingComponent = () => {
         <p className="text-gray-600">Cargando mensajes...</p>
       ) : (
         <ul>
-          {messages.map((message) => (
-            <li key={message._id} className="border-b border-gray-300 py-4">
-              <p className="font-bold mb-1">Destinatario: {message.recipient}</p>
-              <p className="mb-1">mensaje: {message.content}</p>
-              <p className="text-sm text-gray-500">Fecha: {new Date(message.timestamp).toLocaleString()}</p>
-            </li>
-          ))}
+        {messages.map((message) => (
+  <li key={message._id} className="border-b border-gray-300 py-4">
+    <p className="font-bold mb-1">Destinatario: {message.recipient}</p>
+    <p className="mb-1">Contenido: {message.content}</p>
+    <p className="text-sm text-gray-500">Fecha: {new Date(message.timestamp).toLocaleString()}</p>
+  </li>
+))}
         </ul>
       )}
     </div>
