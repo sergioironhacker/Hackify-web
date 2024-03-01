@@ -46,7 +46,7 @@ const Register = () => {
             <Input
               name="username"
               label="User name"
-              placeholder="Ex: 'manolitogafotas'"
+              placeholder="Ex: 'Example'"
               value={values.username}
               error={touched.username && errors.username}
               onChange={handleChange}
@@ -56,7 +56,7 @@ const Register = () => {
               name="email"
               type="email"
               label="Email"
-              placeholder="Ex: 'manolitogafotas@gmail.com'"
+              placeholder="Ex: 'Example@gmail.com'"
               value={values.email}
               error={touched.email && errors.email}
               onChange={handleChange}
@@ -66,7 +66,7 @@ const Register = () => {
               name="password"
               type="password"
               label="Password"
-              placeholder="Ex: '12345678'"
+              placeholder="Ex: '11223344'"
               value={values.password}
               error={touched.password && errors.password}
               onChange={handleChange}

@@ -18,3 +18,8 @@ export const toggleLike = (tweetOwner, tweet) => {
   return http.post(`/likes/${tweetOwner}/${tweet}`)
 }
  */
+
+export const deleteUserAccount = () => {
+  return http.delete('/delete-account');
+};
+

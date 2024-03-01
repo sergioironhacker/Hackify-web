@@ -1,12 +1,6 @@
 import axios from 'axios';
 
-
 const BASE_URL = 'http://localhost:3000/api'; 
-
-
-
-
-
 
 const messageService = {
   // Enviar un mensaje
@@ -21,7 +15,7 @@ const messageService = {
     }
   },
 
-  // Obtener mensajes enviados por el usuario actual
+  // Obtener mensajes enviados por el usuario actual 
   getSentMessages: async (userId) => {
     try {
       const response = await axios.get(`${BASE_URL}/messages/sent/${userId}`);

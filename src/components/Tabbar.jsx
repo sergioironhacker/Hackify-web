@@ -1,19 +1,70 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import { CogIcon, MoonIcon, SunIcon, TrashIcon } from '@heroicons/react/solid';
 import clsx from 'clsx';
-import { logout } from "../stores/AccessTokenStore"; // Importamos la función logout
+import { logout } from "../stores/AccessTokenStore";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { deleteUserAccount } from '../services/UserService';
 
 const Tabbar = ({ user }) => {
-  const [theme, setTheme] = useState('light'); // Estado para controlar el tema (light o dark)
+  const [theme, setTheme] = useState('light');
 
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');
-    // Aquí puedes agregar la lógica para cambiar el tema de tu aplicación
+  };
+
+  const confirmDeleteAccount = () => {
+    toast.warn(
+      <div>
+        <p>¿Estás seguro de que quieres borrar tu cuenta?</p>
+        <button className="mr-2 bg-red-500 text-white px-3 py-1 rounded-md" onClick={deleteAccount}>Sí</button>
+        <button className="bg-gray-400 text-white px-3 py-1 rounded-md" onClick={toast.dismiss}>No</button>
+      </div>,
+      {
+        position: "bottom",
+        autoClose: false,
+        hideProgressBar: true,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        closeButton: false
+      }
+    );
   };
 
   const deleteAccount = () => {
-    // Aquí deberías implementar la lógica para eliminar la cuenta del usuario
-    console.log("Eliminar cuenta del usuario...");
+    deleteUserAccount() // Usa deleteUserAccount en lugar de axios.delete
+      .then(response => {
+        console.log("La cuenta del usuario ha sido eliminada correctamente.");
+        logout();
+      })
+      .catch(error => {
+        console.error("Error al eliminar la cuenta del usuario:", error);
+      });
+  };
+  const handleLogout = () => {
+    toast.warn(
+      <div>
+        <p>¿Estás seguro de que quieres cerrar sesión?</p>
+        <button className="mr-2 bg-red-500 text-white px-3 py-1 rounded-md" onClick={() => {
+          logout();
+          toast.dismiss();
+        }}>Sí</button>
+        <button className="bg-gray-400 text-white px-3 py-1 rounded-md" onClick={() => toast.dismiss()}>No</button>
+      </div>,
+      {
+        position: "bottom",
+        autoClose: false,
+        hideProgressBar: true,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        closeButton: false
+      }
+    );
   };
 
   const tabs = [
@@ -34,8 +85,8 @@ const Tabbar = ({ user }) => {
     },
     {
       key: 3,
-      title: <CogIcon className="h-5 w-5" />, // Icono de tuerca en lugar de texto
-      body: null // No necesitamos un cuerpo para el botón de ajustes
+      title: <CogIcon className="h-5 w-5" />,
+      body: null
     },
   ];
 
@@ -52,7 +103,7 @@ const Tabbar = ({ user }) => {
               className={clsx(
                 "w-full py-4 px-1 text-sm font-medium rounded-t-lg focus:outline-none focus:ring-inset focus:ring-tw-primary",
                 { "text-tw-primary": tab.key === activeTab },
-                { "text-airbnb-red": tab.key !== activeTab } // Cambio de clase para el color de texto
+                { "text-airbnb-red": tab.key !== activeTab }
               )}
             >
               {tab.title}
@@ -61,8 +112,8 @@ const Tabbar = ({ user }) => {
         </nav>
       </div>
       <div className="p-4">
-        {activeTab !== 3 && tabs[activeTab].body} {/* Renderizamos el cuerpo solo si no estamos en la pestaña de ajustes */}
-        {activeTab === 3 && ( // Si estamos en la pestaña de ajustes, mostramos los botones de ajustes
+        {activeTab !== 3 && tabs[activeTab].body}
+        {activeTab === 3 && (
           <>
             <div className="flex justify-between mb-2">
               <button
@@ -76,7 +127,7 @@ const Tabbar = ({ user }) => {
             </div>
             <button
               type="button"
-              onClick={deleteAccount}
+              onClick={confirmDeleteAccount}
               className="w-full py-2 px-4 mt-2 text-sm font-medium rounded-lg text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
             >
               <TrashIcon className="h-5 w-5 inline-block mr-1" />
@@ -84,7 +135,7 @@ const Tabbar = ({ user }) => {
             </button>
             <button
               type="button"
-              onClick={logout}
+              onClick={handleLogout}
               className="w-full py-2 px-4 mt-2 text-sm font-medium rounded-lg text-white bg-tw-primary hover:bg-tw-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-tw-primary"
             >
               Cerrar sesión
@@ -92,6 +143,7 @@ const Tabbar = ({ user }) => {
           </>
         )}
       </div>
+      <ToastContainer position="bottom" />
     </div>
   );
 };

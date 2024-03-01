@@ -7,7 +7,7 @@ const MessagingComponent = () => {
   const [recipient, setRecipient] = useState('');
   const [content, setContent] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const {user} = useContext(AuthContext)
+  const {user} = useContext(AuthContext);
 
   useEffect(() => {
     fetchReceivedMessages();
