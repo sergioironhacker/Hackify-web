@@ -53,8 +53,7 @@ const IdeasList = () => {
                 <h2 className="text-lg font-semibold">{idea.title}</h2>
                 <p className="text-gray-600 mb-2">{idea.description}</p>
                 <p className="text-gray-600 mb-2">{idea.contributionMax}€</p>
-                <p className="text-gray-500 mb-4">Creado por: {idea.user.username}</p>
-    
+                <p className="text-gray-500 mb-4">Creado por: {idea.user && idea.user.username}</p>
                 {/* Aquí se utiliza el componente Button para el botón de contribuir */}
                 <Button text="Contribuir" onClick={() => handleCheckout(idea.id)} />
               </li>
