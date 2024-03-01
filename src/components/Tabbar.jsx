@@ -1,8 +1,21 @@
 import { useState } from 'react';
-import { CogIcon } from '@heroicons/react/solid';
+import { CogIcon, MoonIcon, SunIcon, TrashIcon } from '@heroicons/react/solid';
 import clsx from 'clsx';
+import { logout } from "../stores/AccessTokenStore"; // Importamos la función logout
 
 const Tabbar = ({ user }) => {
+  const [theme, setTheme] = useState('light'); // Estado para controlar el tema (light o dark)
+
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+    // Aquí puedes agregar la lógica para cambiar el tema de tu aplicación
+  };
+
+  const deleteAccount = () => {
+    // Aquí deberías implementar la lógica para eliminar la cuenta del usuario
+    console.log("Eliminar cuenta del usuario...");
+  };
+
   const tabs = [
     {
       key: 0,
@@ -22,7 +35,7 @@ const Tabbar = ({ user }) => {
     {
       key: 3,
       title: <CogIcon className="h-5 w-5" />, // Icono de tuerca en lugar de texto
-      body: <>Ajustes</> 
+      body: null // No necesitamos un cuerpo para el botón de ajustes
     },
   ];
 
@@ -48,7 +61,36 @@ const Tabbar = ({ user }) => {
         </nav>
       </div>
       <div className="p-4">
-        {tabs[activeTab].body}
+        {activeTab !== 3 && tabs[activeTab].body} {/* Renderizamos el cuerpo solo si no estamos en la pestaña de ajustes */}
+        {activeTab === 3 && ( // Si estamos en la pestaña de ajustes, mostramos los botones de ajustes
+          <>
+            <div className="flex justify-between mb-2">
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="p-1 rounded-full text-gray-500 hover:text-gray-700 focus:outline-none"
+              >
+                {theme === 'light' ? <MoonIcon className="h-6 w-6" /> : <SunIcon className="h-6 w-6" />}
+              </button>
+              <span className="text-sm text-gray-500">Cambiar tema</span>
+            </div>
+            <button
+              type="button"
+              onClick={deleteAccount}
+              className="w-full py-2 px-4 mt-2 text-sm font-medium rounded-lg text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+            >
+              <TrashIcon className="h-5 w-5 inline-block mr-1" />
+              Borrar cuenta
+            </button>
+            <button
+              type="button"
+              onClick={logout}
+              className="w-full py-2 px-4 mt-2 text-sm font-medium rounded-lg text-white bg-tw-primary hover:bg-tw-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-tw-primary"
+            >
+              Cerrar sesión
+            </button>
+          </>
+        )}
       </div>
     </div>
   );

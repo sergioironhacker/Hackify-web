@@ -1,22 +1,21 @@
 import Tabbar from "../components/Tabbar";
 import Avatar from "../components/Avatar";
 
-
 const Profile = ({ user }) => {
   return (
     <div className="p-4">
-      <div className="flex flex-col items-center gap-y-4">
+      <div className="flex items-center gap-4">
         <Avatar avatar={user.data.avatar} />
-        <h1 className="font-bold text-2xl">{user.data.username}</h1>
+        <div>
+          <h1 className="font-bold text-xl lg:text-2xl text-gray-600">{user.data.username}</h1>
+          <p className="text-gray-600">Email: {user.data.email}</p>
+          {/* Agrega más detalles del usuario aquí si lo deseas */}
+        </div>
       </div>
 
       <Tabbar user={user} />
-
-   
-     
-      
     </div>
   );
 };
 
-export default Profile
+export default Profile;

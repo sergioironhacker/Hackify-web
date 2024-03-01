@@ -8,6 +8,7 @@ import MessageLogo from "../assets/MessageLogo";
 import UserIcon from "../assets/UserIcon";
 import IdeaIcon from "../assets/IdeaIcon";
 import CreateIdeaIcon from "../assets/CreateIdeaIcon";
+import HomeLogo from "../assets/HomeLogo";
 
 
 const Navbar = () => {
@@ -50,13 +51,13 @@ const Navbar = () => {
       text: 'Register'
     },
     {
-      to: '/create-form',
-      text: 'Create Form'
+      to: '/',
+      text: 'About us'
     },
     {
-      to: '/view-forms',
-      text: 'View Forms' 
-    },
+      to: '/',
+      text: <HomeLogo />
+    }
    
   ];
 
