@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import { createIdea, getIdeas } from '../services/IdeaService';
+import { createIdea } from '../services/IdeaService';
 
 
 
@@ -9,18 +9,27 @@ const IdeaComponent = () => {
       title: '',
       description: '',
       contributionMax: 0,
+      images: [],
     },
+
     onSubmit: async (values) => {
       try {
-        await createIdea(values);
-        
-        // Aquí podrías añadir alguna lógica de redireccionamiento si es necesario
+        const formData = new FormData();
+        formData.append('title', values.title);
+        formData.append('description', values.description);
+        formData.append('contributionMax', values.contributionMax);
+        values.images.forEach(image => formData.append('images', image));
+        await createIdea(formData);
       } catch (error) {
-        console.error('Error al crear el formulario:', error.message);
+        console.error('Error al crear la idea:', error.message);
       }
-      
     },
   });
+
+  const handleImageChange = (event) => {
+    const newImages = Array.from(event.target.files);
+    formik.setFieldValue('images', newImages);
+  };
 
   return (
     <div className="max-w-container mx-auto p-6">
@@ -60,14 +69,23 @@ const IdeaComponent = () => {
             className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent"
           />
         </div>
+        <div>
+          <label htmlFor="images" className="block text-sm font-medium text-tw-dark-gray">Imágenes:</label>
+          <input
+            id="images"
+            name="images"
+            type="file"
+            onChange={handleImageChange}
+            multiple
+            className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent"
+          />
+        </div>
+
         <button type="submit" className="w-full bg-tw-primary text-white font-semibold py-2 px-4 rounded-md hover:bg-tw-primary-accent focus:outline-none focus:ring-2 focus:ring-tw-primary focus:ring-opacity-50">
           Crear Idea
         </button>
       </form>
     </div>
-
-
-
 
   );
 };

@@ -1,6 +1,4 @@
 import { Link } from "react-router-dom";
-import Button from "./Button";
-import { buyProduct } from "../services/IdeaService.js";
 
 
 const IdeaCard = ({
@@ -9,6 +7,7 @@ const IdeaCard = ({
   title,
   description,
   contributionMax,
+  images,
   user,
   onClick,
 }) => {
@@ -19,6 +18,14 @@ const IdeaCard = ({
         <h2 className="text-lg font-semibold">{title}</h2>
         <p className="text-gray-600 mb-2">{description}</p>
         <p className="text-gray-600 mb-2">{contributionMax}€</p>
+        {images.map((image, index) => (
+        <img
+          key={index}
+          src={image}
+          alt={`Imagen ${index + 1}`}
+          className="w-full mb-2"
+        />
+      ))}
         <p className="text-gray-500 mb-4">
           Creado por: {user && user.username}
         </p>

@@ -55,21 +55,18 @@ const IdeaDetail = () => {
           ) : (
             <div>
               <div className="">
-                {/*<div className="">
-                <img className="" src={idea.cover} alt={idea.title} /> 
-                  {idea.genres && idea.genres.length > 0 ? (
-                    <div className="d-flex gap-2 mt-3">
-                      {idea.genres.map((genre, i) => (
-                        <span className="badge bg-secondary" key={i}>
-                          {genre}
-                        </span>
-                      ))}
-                    </div>
-                  ) : null}
-                </div>*/}
                 <div className="">
                   <h1>{idea.title}</h1>
+                  {idea.images.map((image, index) => (
+                    <img
+                      key={index}
+                      src={image}
+                      alt={`Imagen ${index + 1}`}
+                      className="w-full mb-2"
+                    />
+                  ))}
                   <p>{idea.description}</p>
+                  
                   <p>Necesita recaudar: {idea.contributionMax}</p>
                   <div className="">
                     <Link to={`/ideas/${id}/edit`} className="">

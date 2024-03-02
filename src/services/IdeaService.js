@@ -6,11 +6,11 @@ export const getIdeas = () => {
   return http.get('/ideas');
 }
 
-export const createIdea = (ideaData, userId) => {
+export const createIdea = (formData, userId) => {
   //  ID del usuario que ha creado el formulario a los datos del formulario
-  const ideaDataWithUser = { ...ideaData, userId };
+  formData.append('userId', userId);
 
-  return http.post('/ideas/create', ideaDataWithUser);
+  return http.post('/ideas/create', formData);
 }
 
 export const getIdeaDetail = (id) => http.get(`/ideas/${id}`)
