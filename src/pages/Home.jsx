@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import SearchBar from "../pages/SearchBar.jsx"; // Importa el componente SearchBar
-import { getIdeas, buyProduct } from "../services/IdeaService.js";
-import Button from "../components/Button"; // Importa el componente Button
+import IdeaCard from "../components/IdeaCard.jsx";
+import { getIdeas } from "../services/IdeaService.js";
 
 const Home = () => {
   const [ideas, setIdeas] = useState([]);
@@ -12,15 +12,6 @@ const Home = () => {
       idea.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredIdeas(filtered); // Actualiza el estado con las ideas filtradas
-  };
-
-  const handleCheckout = async (ideaId) => {
-    try {
-      const session = await buyProduct(ideaId);
-      window.location.href = session.url;
-    } catch (error) {
-      console.error(error);
-    }
   };
 
   useEffect(() => {
@@ -45,25 +36,15 @@ const Home = () => {
       <SearchBar onSearch={handleSearch} />
       {/* Renderiza las ideas filtradas o todas las ideas */}
       {filteredIdeas && filteredIdeas.length > 0 ? (
-        <ul className="space-y-8">
-          {filteredIdeas.map((idea, index) => {
+        <div className="space-y-8">
+          {filteredIdeas.map((idea) => {
             return (
-              <li key={index} className="bg-white shadow-md rounded-md p-6">
-                <h2 className="text-lg font-semibold">{idea.title}</h2>
-                <p className="text-gray-600 mb-2">{idea.description}</p>
-                <p className="text-gray-600 mb-2">{idea.contributionMax}€</p>
-                <p className="text-gray-500 mb-4">
-                  Creado por: {idea.user && idea.user.username}
-                </p>
-                {/* Aquí se utiliza el componente Button para el botón de contribuir */}
-                <Button
-                  text="Contribuir"
-                  onClick={() => handleCheckout(idea.id)}
-                />
-              </li>
+              <div key={idea.id}>
+                <IdeaCard {...idea} />
+              </div>
             );
           })}
-        </ul>
+        </div>
       ) : (
         <p className="text-gray-600">No hay ideas disponibles.</p>
       )}

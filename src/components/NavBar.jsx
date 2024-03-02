@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
-import OnlyHackLogo from "../assets/OnlyHackLogo";
 import AuthContext from '../contexts/AuthContext';
 import { logout } from "../stores/AccessTokenStore";
 import FindLogo from "../assets/FindLogo";
@@ -16,7 +15,7 @@ const Navbar = () => {
 
   const protectedRoutes = [
     {
-      to: '/ideas',
+      to: '/',
       text:<IdeaIcon />
     },
     {

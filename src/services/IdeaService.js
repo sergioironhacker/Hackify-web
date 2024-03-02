@@ -13,10 +13,15 @@ export const createIdea = (ideaData, userId) => {
   return http.post('/ideas/create', ideaDataWithUser);
 }
 
+export const getIdeaDetail = (id) => http.get(`/ideas/${id}`)
 
+export const getLatestIdeas = () => http.get('/ideas/latest');
 
+export const editIdea = (id, data) => http.put(`/ideas/${id}`, data)
+
+export const deleteIdea = (id) => http.delete(`/ideas/${id}`)
 
 export const buyProduct = (ideaId) => {
   
-  return http.post(`/ideas/checkout/${ideaId}`);
+  return http.post(`/ideas/${ideaId}/checkout`);
 }
