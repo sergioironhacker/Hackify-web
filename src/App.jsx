@@ -8,7 +8,6 @@ import UserProfile from './pages/UserProfile';
 import CurrentUserProfile from './pages/CurrentUserProfile';
 /* import Timeline from './pages/Timeline';  */
  import Idea from './components/Idea'; 
- import IdeasList from './pages/IdeasList'; 
  import Messages from './pages/Messages';
  import SearchBar from './pages/SearchBar';
 
@@ -27,7 +26,6 @@ function App() {
           <Route path="/users/:id" element={<UserProfile />} />
           {/* <Route path="/timeline" element={<ProtectedRoute><Timeline /></ProtectedRoute>} /> */}
           <Route path="/ideas/create" element={<ProtectedRoute><Idea /></ProtectedRoute>} />
-          <Route path="/ideas" element={<ProtectedRoute><IdeasList /></ProtectedRoute>} /> 
           <Route path="/messages" element={<ProtectedRoute><Messages /></ProtectedRoute>} />
           <Route path="/search" element={<SearchBar />} /> 
         </Routes>
