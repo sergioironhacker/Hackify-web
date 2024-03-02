@@ -1,23 +1,41 @@
 import { useCallback, useEffect, useState } from 'react';
 import { getIdeaDetail, deleteIdea, buyProduct } from '../services/IdeaService';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useFormik } from 'formik';
+
 import Button from '../components/Button';
 
 const IdeaDetail = () => {
+  const formik = useFormik({
+    initialValues: {
+      paymentAmount: 0,
+    },
+    onSubmit: async (values) => {
+      try {
+        const formData = new FormData();
+        formData.append('paymentAmount', values.paymentAmount);
+        await buyProduct(formData);
+      } catch (error) {
+        console.error('Error al pagar:', error.message);
+      }
+    },
+  });
+
     const { id } = useParams();
     const navigate = useNavigate();
   
     const [idea, setIdea] = useState({});
     const [loading, setLoading] = useState(true);
 
-    const handleCheckout = async (ideaId) => {
+    const handleCheckout = async () => {
       try {
-        const session = await buyProduct(ideaId);
+        const session = await buyProduct(idea.id, formik.values.paymentAmount);
         window.location.href = session.url;
       } catch (error) {
         console.error(error);
       }
     };
+    
 
   
     const fetchIdeaData = useCallback(() => {
@@ -75,8 +93,20 @@ const IdeaDetail = () => {
                     <button onClick={onDelete} className="">
                       Borrar Idea
                     </button>
+
+                    <div>
+                  <label htmlFor="paymentAmount" className="block text-sm font-medium text-tw-dark-gray">Cantidad a contribuir(€):</label>
+                  <input type='number'
+                    id="paymentAmount"
+                    name="paymentAmount"
+                    onChange={formik.handleChange}
+                    value={formik.values.paymentAmount}
+                    required
+                    className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent"
+                  />
+                </div>
                     
-                    <Button text="Contribuir" onClick={() => {handleCheckout(idea.id)}} />
+                    <Button text="Contribuir" onClick={() => {handleCheckout(idea.id, formik.values.paymentAmount)}} />
 
                   </div>
                 </div>

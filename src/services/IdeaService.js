@@ -21,7 +21,7 @@ export const editIdea = (id, data) => http.put(`/ideas/${id}`, data)
 
 export const deleteIdea = (id) => http.delete(`/ideas/${id}`)
 
-export const buyProduct = (ideaId) => {
+export const buyProduct = (ideaId, paymentAmount) => {
   
-  return http.post(`/ideas/${ideaId}/checkout`);
+  return http.post(`/ideas/${ideaId}/checkout`, {paymentAmount});
 }
