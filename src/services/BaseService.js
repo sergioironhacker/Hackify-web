@@ -5,7 +5,7 @@ const INVALID_CODES = [401];
 
 export const createHttp = (useAccessToken = false) => {
   const http = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,
+    baseURL: import.meta.env.VITE_API_URL
   });
 
   if (useAccessToken) {
