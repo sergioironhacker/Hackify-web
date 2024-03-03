@@ -7,10 +7,12 @@ import ProtectedRoute from './components/ProtectedRoute';
 import UserProfile from './pages/UserProfile';
 import CurrentUserProfile from './pages/CurrentUserProfile';
 /* import Timeline from './pages/Timeline';  */
- import Idea from './components/Idea'; 
- import Messages from './pages/Messages';
- import SearchBar from './pages/SearchBar';
+import Idea from './components/Idea';
+import SearchBar from './pages/SearchBar';
 import IdeaDetail from './pages/IdeaDetail';
+import ChatsView from './pages/AllChats'; //
+import Conversation from './pages/Conversation'; // 
+import AboutUsPage from './pages/AboutUs'; // 
 
 
 
@@ -19,6 +21,7 @@ function App() {
     <div>
       <NavBar />
       <div className="max-w-container mb-9 mx-auto min-h-body p-4">
+        
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
@@ -28,8 +31,13 @@ function App() {
           {/* <Route path="/timeline" element={<ProtectedRoute><Timeline /></ProtectedRoute>} /> */}
           <Route path="/ideas/create" element={<ProtectedRoute><Idea /></ProtectedRoute>} />
           <Route path="/ideas/:id" element={<ProtectedRoute><IdeaDetail /></ProtectedRoute>} />
-          <Route path="/messages" element={<ProtectedRoute><Messages /></ProtectedRoute>} />
-          <Route path="/search" element={<SearchBar />} /> 
+          <Route path="/search" element={<SearchBar />} />
+          <Route path="/about-us" element={<AboutUsPage />} />
+
+
+
+          <Route path="/user/chats" element={<ChatsView />} />
+          <Route path="/user/chat/:id" element={<Conversation />} />
         </Routes>
       </div>
     </div>

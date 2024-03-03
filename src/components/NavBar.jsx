@@ -32,7 +32,7 @@ const Navbar = () => {
       text:<FindLogo />
     },
     {
-      to: '/messages',
+      to: '/user/chats',
       text: <MessageLogo />
     }
   ];
@@ -47,7 +47,7 @@ const Navbar = () => {
       text: 'Register'
     },
     {
-      to: '/',
+      to: '/about-us',
       text: 'About us'
     },
     {
