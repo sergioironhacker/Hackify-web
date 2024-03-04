@@ -84,6 +84,7 @@ const Navbar = () => {
                   key={index}
                   to={route.to}
                   className="text-white hover:bg-red-600 px-3 py-2 rounded-md text-sm font-medium flex items-center"
+                  style={{ marginRight: '10px' }} // Agrega margen entre los elementos NavLink
                 >
                   {route.text}
                 </NavLink>

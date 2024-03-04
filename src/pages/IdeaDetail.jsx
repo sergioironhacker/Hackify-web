@@ -110,11 +110,11 @@ const IdeaDetail = () => {
 
               <p>Necesita recaudar: {idea.contributionMax}</p>
               <div className="">
-                <Link to={`/ideas/${id}/edit`} className="inline-block bg-blue-500  text-white font-bold py-2 px-4 rounded-md shadow-md mr-2">
+                <Link to={`/ideas/${id}/edit`} className="inline-block bg-blue-500  text-white font-bold py-2 px-3 rounded-md shadow-md mr-1">
                   Editar Idea
                 </Link>
 
-                <button onClick={onDelete} className="inline-block bg-yellow-500  text-white font-bold py-2 px-4 rounded-md shadow-md">
+                <button onClick={onDelete} className="inline-block bg-yellow-500  text-white font-bold py-2 px-3 rounded-md shadow-md mr-1">
                   Borrar Idea
                 </button>
 
@@ -122,24 +122,22 @@ const IdeaDetail = () => {
 
                 {/* //////////////////////// */}
 
-                <button onClick={onCreateChat} className="inline-block bg-green-500  text-white font-bold py-2 px-4 rounded-md shadow-md">
+                <button onClick={onCreateChat} className="inline-block bg-green-500  text-white font-bold py-2 px-3 rounded-md shadow-md ">
                   Chatear
                 </button>
 
                 {/* //////////////////////////////// */}
 
-
-
-
                 <div>
                   <label htmlFor="paymentAmount" className="block text-sm font-medium text-tw-dark-gray">Cantidad a contribuir(€):</label>
-                  <input type='number'
+                  <input
+                    type='number'
                     id="paymentAmount"
                     name="paymentAmount"
                     onChange={formik.handleChange}
                     value={formik.values.paymentAmount}
                     required
-                    className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent"
+                    className="mt-1 p-2 block w-full rounded-md border border-black shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent mb-1" // Utilizando solo la clase border-black para el borde negro
                   />
                 </div>
 
