@@ -22,25 +22,27 @@ const Chats = () => {
     return (
         <div className="chats-margin">
             <div className="top-div-header"></div>
+
             <div className="Chats container mx-auto">
                 <div className="chat-title mt-4">
                     <h1 className="text-2xl text-red-600 font-semibold">Tus conversaciones</h1>
                     <hr className="border-red-600" />
                 </div>
-                {chats.length > 0 ? (
+                {chats.length > 0 && currentUser ? (
                     <>
                         {chats
                             .sort((a, b) => new Date(b.messages[b.messages.length - 1].date) - new Date(a.messages[a.messages.length - 1].date))
                             .map((chat) => {
-                                const otherUser = chat?.users.find((user) => user.id !== currentUser.id);
-                                const unreadMessages = chat.messages.filter(message => message.sender !== currentUser.id && message.status === 'unread').length;
+                                const otherUser = chat?.users.find((user) => user.id !== currentUser._id);
+
+                                const unreadMessages = chat.messages.filter(message => message.sender !== currentUser._id && message.status === 'unread').length;
                                 return (
-                                    <NavLink style={{ textDecoration: 'none', color: '#3F423B' }} to={`/user/chat/${chat.id}`}  key={chat.id}>
+                                    <NavLink style={{ textDecoration: 'none', color: '#3F423B' }} to={`/user/chat/${chat.id}`} key={chat.id}>
                                         <div className="chat-list-container my-3 mt-4 bg-white rounded-lg shadow-md p-4">
                                             <div className="flex items-center">
                                                 <img src={otherUser.avatar} alt="" className="w-16 h-16 rounded-full" />
                                                 <div className="ml-4 chat-container-text">
-                                                    <h6 className="font-semibold text-lg text-red-600">{otherUser.name}</h6>
+                                                    <h6 className="font-semibold text-lg text-red-600">{otherUser.username}</h6>
                                                     {chat.messages.length > 0 ? (
                                                         <div className="conversation-text-content flex items-center">
                                                             <p className={unreadMessages ? 'font-semibold' : ''}>{chat.messages[chat.messages.length - 1].text}</p>
@@ -69,9 +71,10 @@ const Chats = () => {
                     </div>
                 )}
             </div>
+
         </div>
     );
-    
+
 }
 
 export default Chats;
