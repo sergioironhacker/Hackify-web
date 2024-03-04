@@ -30,7 +30,7 @@ const IdeaCard = ({
           Creado por: {user && user.username}
         </p>
         {/* Aquí se utiliza el componente Button para el botón de contribuir */}
-        <Link to={`/ideas/${id}`} className="" onClick={onClick}>
+        <Link to={`/ideas/${id}`} className="inline-block bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md" onClick={onClick}>
           Ver más detalles
         </Link>
       </div>
@@ -38,3 +38,5 @@ const IdeaCard = ({
 };
 
 export default IdeaCard;
+
+

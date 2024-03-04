@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import SearchBar from "../pages/SearchBar.jsx"; // Importa el componente SearchBar
 import IdeaCard from "../components/IdeaCard.jsx";
 import { getIdeas } from "../services/IdeaService.js";
+import AboutUsLogo from "../assets/AboutUsLogo.jsx";
 
 const Home = () => {
   const [ideas, setIdeas] = useState([]);
@@ -30,7 +31,7 @@ const Home = () => {
 
   return (
     <div className="max-w-container mx-auto p-6">
-      <h1 className="flex justify-center text-2xl font-bold text-tw-primary mb-4">OnlyHack</h1>
+      <h1 className="flex justify-center text-2xl font-bold text-tw-primary mb-4">OnlyHack <AboutUsLogo /> </h1>
 
       {/* Renderiza el componente SearchBar y pasa la función de búsqueda */}
       <SearchBar onSearch={handleSearch} />

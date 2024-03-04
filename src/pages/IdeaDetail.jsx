@@ -21,80 +21,81 @@ const IdeaDetail = () => {
     },
   });
 
-    const { id } = useParams();
-    const navigate = useNavigate();
-  
-    const [idea, setIdea] = useState({});
-    const [loading, setLoading] = useState(true);
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-    const handleCheckout = async () => {
-      try {
-        const session = await buyProduct(idea.id, formik.values.paymentAmount);
-        window.location.href = session.url;
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    
+  const [idea, setIdea] = useState({});
+  const [loading, setLoading] = useState(true);
 
-  
-    const fetchIdeaData = useCallback(() => {
-        const promises = [getIdeaDetail(id), ];
-        Promise.all(promises)
-          .then(([idea]) => {
-            setIdea(idea);
-            setLoading(false);
-          })
-          .catch((e) => console.error(e));
-      }, [id]);
-    
-      useEffect(() => {
-        fetchIdeaData();
-      }, [fetchIdeaData]);
-    
-    
-      const onDelete = () => {
-        if (confirm(`Estas a punto de borrar la idea: ${idea.title}`)) {
-          deleteIdea(id)
-            .then(() => {
-              navigate('/');
-            })
-            .catch((e) => console.error(e));
-        }
-      };
-    
+  const handleCheckout = async () => {
+    try {
+      const session = await buyProduct(idea.id, formik.values.paymentAmount);
+      window.location.href = session.url;
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-      return (
+
+
+  const fetchIdeaData = useCallback(() => {
+    const promises = [getIdeaDetail(id),];
+    Promise.all(promises)
+      .then(([idea]) => {
+        setIdea(idea);
+        setLoading(false);
+      })
+      .catch((e) => console.error(e));
+  }, [id]);
+
+  useEffect(() => {
+    fetchIdeaData();
+  }, [fetchIdeaData]);
+
+
+  const onDelete = () => {
+    if (confirm(`Estas a punto de borrar la idea: ${idea.title}`)) {
+      deleteIdea(id)
+        .then(() => {
+          navigate('/');
+        })
+        .catch((e) => console.error(e));
+    }
+  };
+
+
+  return (
+    <div className="">
+      {loading ? (
         <div className="">
-          {loading ? (
+          Loading...
+        </div>
+      ) : (
+        <div>
+          <div className="">
             <div className="">
-              Loading...
-            </div>
-          ) : (
-            <div>
-              <div className="">
-                <div className="">
-                  <h1>{idea.title}</h1>
-                  {idea.images.map((image, index) => (
-                    <img
-                      key={index}
-                      src={image}
-                      alt={`Imagen ${index + 1}`}
-                      className="w-full mb-2"
-                    />
-                  ))}
-                  <p>{idea.description}</p>
-                  
-                  <p>Necesita recaudar: {idea.contributionMax}</p>
-                  <div className="">
-                    <Link to={`/ideas/${id}/edit`} className="">
-                      Editar Idea
-                    </Link>
-                    <button onClick={onDelete} className="">
-                      Borrar Idea
-                    </button>
+              <h1>{idea.title}</h1>
+              {idea.images.map((image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  alt={`Imagen ${index + 1}`}
+                  className="w-full mb-2"
+                />
+              ))}
+              <p>{idea.description}</p>
 
-                    <div>
+              <p>Necesita recaudar: {idea.contributionMax}</p>
+              <div className="">
+                <Link to={`/ideas/${id}/edit`} className="inline-block bg-blue-500  text-white font-bold py-2 px-4 rounded-md shadow-md mr-2">
+                  Editar Idea
+                </Link>
+
+                <button onClick={onDelete} className="inline-block bg-yellow-500  text-white font-bold py-2 px-4 rounded-md shadow-md">
+                  Borrar Idea
+                </button>
+
+                <div>
                   <label htmlFor="paymentAmount" className="block text-sm font-medium text-tw-dark-gray">Cantidad a contribuir(€):</label>
                   <input type='number'
                     id="paymentAmount"
@@ -105,16 +106,16 @@ const IdeaDetail = () => {
                     className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent"
                   />
                 </div>
-                    
-                    <Button text="Contribuir" onClick={() => {handleCheckout(idea.id, formik.values.paymentAmount)}} />
 
-                  </div>
-                </div>
+                <Button text="Contribuir" onClick={() => { handleCheckout(idea.id, formik.values.paymentAmount) }} />
+
               </div>
             </div>
-          )}
+          </div>
         </div>
-      );
-    };
+      )}
+    </div>
+  );
+};
 
 export default IdeaDetail;
