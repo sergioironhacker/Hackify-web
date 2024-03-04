@@ -2,8 +2,14 @@ import { useCallback, useEffect, useState } from 'react';
 import { getIdeaDetail, deleteIdea, buyProduct } from '../services/IdeaService';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useFormik } from 'formik';
-
 import Button from '../components/Button';
+/* import { createChat } from '../services/Chat.service'; */
+
+
+/////////// añadir la logica de un onclick que haga la funciona de crear un chat
+
+
+
 
 const IdeaDetail = () => {
   const formik = useFormik({
@@ -94,6 +100,19 @@ const IdeaDetail = () => {
                 <button onClick={onDelete} className="inline-block bg-yellow-500  text-white font-bold py-2 px-4 rounded-md shadow-md">
                   Borrar Idea
                 </button>
+
+
+
+{/* //////////////////////// */}
+                
+                <button /* onClick={} */ className="inline-block bg-green-500  text-white font-bold py-2 px-4 rounded-md shadow-md">
+                  chatear
+                </button>
+
+{/* //////////////////////////////// */}
+
+
+
 
                 <div>
                   <label htmlFor="paymentAmount" className="block text-sm font-medium text-tw-dark-gray">Cantidad a contribuir(€):</label>

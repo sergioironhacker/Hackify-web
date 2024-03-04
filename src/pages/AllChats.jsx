@@ -11,7 +11,7 @@ const Chats = () => {
     useEffect(() => {
         getChats()
             .then((chats) => {
-                console.log("Chats data:", chats); // ////////////////////////////////////
+
                 setChats(chats);
             })
             .catch(err => {
@@ -28,12 +28,16 @@ const Chats = () => {
                     <h1 className="text-2xl text-red-600 font-semibold">Tus conversaciones</h1>
                     <hr className="border-red-600" />
                 </div>
-                {chats.length > 0 && currentUser ? (
+                {chats.length && currentUser ? (
                     <>
                         {chats
-                            .sort((a, b) => new Date(b.messages[b.messages.length - 1].date) - new Date(a.messages[a.messages.length - 1].date))
                             .map((chat) => {
                                 const otherUser = chat?.users.find((user) => user.id !== currentUser._id);
+                                if (!otherUser) {
+                                    console.log('otherUser', otherUser)
+                                    console.log('otherUser cjhat', chat)
+                                }
+
 
                                 const unreadMessages = chat.messages.filter(message => message.sender !== currentUser._id && message.status === 'unread').length;
                                 return (
