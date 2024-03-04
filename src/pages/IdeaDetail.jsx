@@ -3,7 +3,7 @@ import { getIdeaDetail, deleteIdea, buyProduct } from '../services/IdeaService';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import Button from '../components/Button';
-/* import { createChat } from '../services/Chat.service'; */
+import { createChat } from '../services/Chat.service';
 
 
 /////////// añadir la logica de un onclick que haga la funciona de crear un chat
@@ -70,6 +70,23 @@ const IdeaDetail = () => {
   };
 
 
+
+
+  ///////////////////////////
+
+  const onCreateChat = async () => {
+    try {
+      await createChat(idea.user, {});
+      // Redirigir a la vista de chats
+      window.location.href = '/user/chats';
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  /////////////////////////////////
+
+
   return (
     <div className="">
       {loading ? (
@@ -103,13 +120,13 @@ const IdeaDetail = () => {
 
 
 
-{/* //////////////////////// */}
-                
-                <button /* onClick={} */ className="inline-block bg-green-500  text-white font-bold py-2 px-4 rounded-md shadow-md">
-                  chatear
+                {/* //////////////////////// */}
+
+                <button onClick={onCreateChat} className="inline-block bg-green-500  text-white font-bold py-2 px-4 rounded-md shadow-md">
+                  Chatear
                 </button>
 
-{/* //////////////////////////////// */}
+                {/* //////////////////////////////// */}
 
 
 
