@@ -17,6 +17,8 @@ export const getIdeaDetail = (id) => http.get(`/ideas/${id}`)
 
 export const getLatestIdeas = () => http.get('/ideas/latest');
 
+
+
 export const editIdea = (id, data) => http.put(`/ideas/${id}`, data)
 
 export const deleteIdea = (id) => http.delete(`/ideas/${id}`)
