@@ -6,10 +6,19 @@ const IdeaCard = ({
   title,
   description,
   contributionMax,
+  contributionTotal,   ////////////////////////////
   images,
   user,
   onClick,
 }) => {
+
+
+  // Calcular el porcentaje de la cantidad recaudada en relación con la contribución máxima //////////////////////////
+  const contributionPercentage = (contributionTotal / contributionMax) * 100;
+
+
+
+
   return (
     <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden mt-3">
       <div className="relative">
@@ -22,8 +31,26 @@ const IdeaCard = ({
         <p className="text-gray-600 mb-4">{description}</p>
         <div className="flex justify-between items-center mb-4">
           <p className="text-gray-700">Contribución máxima: {contributionMax}€</p>
-          <p className="text-gray-500">Creado por: {user && user.username}</p>
         </div>
+
+
+
+       {/*  //////////////////// */}
+
+        <div className="mb-2">
+          <p className="text-gray-700 mb-1">Cantidad recaudada: {contributionTotal}€</p>
+          <div className="h-4 bg-gray-200 rounded-full">
+            <div 
+              className="h-full bg-green-500 rounded-full"
+              style={{ width: `${contributionPercentage}%` }}
+            ></div>
+          </div>
+        </div>
+
+
+        {/* /////////////////////////// */}
+
+
         <Link to={`/ideas/${id}`} className="inline-block bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md">
           Ver más detalles
         </Link>
