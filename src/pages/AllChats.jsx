@@ -1,4 +1,4 @@
-import { getChats } from "../services/Chat.service";
+import { getChats, deleteChat } from "../services/Chat.service"; // Importa la función para eliminar el chat si aún no lo has hecho
 import { useContext, useState, useEffect } from "react";
 import AuthContext from "../contexts/AuthContext";
 import { NavLink } from "react-router-dom";
@@ -11,13 +11,24 @@ const Chats = () => {
     useEffect(() => {
         getChats()
             .then((chats) => {
-
                 setChats(chats);
             })
             .catch(err => {
-                console.log("Error fetching chats:", err); ////////////////////////////////////
+                console.log("Error fetching chats:", err);
             })
     }, []);
+
+    const handleDeleteChat = (chatId) => {
+        // Lógica para eliminar el chat
+        deleteChat(chatId)
+            .then(() => {
+                // Actualiza la lista de chats después de eliminar el chat
+                setChats(chats.filter(chat => chat.id !== chatId));
+            })
+            .catch(err => {
+                console.log("Error deleting chat:", err);
+            });
+    };
 
     return (
         <div className="chats-margin">
@@ -30,42 +41,37 @@ const Chats = () => {
                 </div>
                 {chats.length && currentUser ? (
                     <>
-                        {chats
-                            .map((chat) => {
-                                const otherUser = chat?.users.find((user) => user.id !== currentUser._id);
-                                if (!otherUser) {
-                                    console.log('otherUser', otherUser)
-                                    console.log('otherUser cjhat', chat)
-                                }
-
-
-                                const unreadMessages = chat.messages.filter(message => message.sender !== currentUser._id && message.status === 'unread').length;
-                                return (
-                                    <NavLink style={{ textDecoration: 'none', color: '#3F423B' }} to={`/user/chat/${chat.id}`} key={chat.id}>
-                                        <div className="chat-list-container my-3 mt-4 bg-white rounded-lg shadow-md p-4">
-                                            <div className="flex items-center">
-                                                <img src={otherUser.avatar} alt="" className="w-16 h-16 rounded-full" />
-                                                <div className="ml-4 chat-container-text">
-                                                    <h6 className="font-semibold text-lg text-red-600">{otherUser.username}</h6>
-                                                    {chat.messages.length > 0 ? (
-                                                        <div className="conversation-text-content flex items-center">
-                                                            <p className={unreadMessages ? 'font-semibold' : ''}>{chat.messages[chat.messages.length - 1].text}</p>
-                                                            <p id="message-time-conversation" className="ml-4 mt-1 text-sm text-gray-600">{format(new Date(chat.messages[chat.messages.length - 1].date), "HH:mm")}</p>
-                                                        </div>
-                                                    ) : (
-                                                        <p className="text-gray-600">No hay mensajes aún</p>
-                                                    )}
-                                                </div>
-                                                {unreadMessages > 0 && (
-                                                    <div className="messages-number ml-auto mt-3">
-                                                        <span className="unread-circle bg-red-600 text-white rounded-full px-2 py-1">{unreadMessages}</span>
+                        {chats.map((chat) => {
+                            const otherUser = chat?.users.find((user) => user.id !== currentUser._id);
+                            const unreadMessages = chat.messages.filter(message => message.sender !== currentUser._id && message.status === 'unread').length;
+                            return (
+                                <NavLink style={{ textDecoration: 'none', color: '#3F423B' }} to={`/user/chat/${chat.id}`} key={chat.id}>
+                                    <div className="chat-list-container my-3 mt-4 bg-white rounded-lg shadow-md p-4">
+                                        <div className="flex items-center">
+                                            <img src={otherUser.avatar} alt="" className="w-16 h-16 rounded-full" />
+                                            <div className="ml-4 chat-container-text">
+                                                <h6 className="font-semibold text-lg text-red-600">{otherUser.username}</h6>
+                                                {chat.messages.length > 0 ? (
+                                                    <div className="conversation-text-content flex items-center">
+                                                        <p className={unreadMessages ? 'font-semibold' : ''}>{chat.messages[chat.messages.length - 1].text}</p>
+                                                        <p id="message-time-conversation" className="ml-4 mt-1 text-sm text-gray-600">{format(new Date(chat.messages[chat.messages.length - 1].date), "HH:mm")}</p>
                                                     </div>
+                                                ) : (
+                                                    <p className="text-gray-600">No hay mensajes aún</p>
                                                 )}
                                             </div>
+                                            {unreadMessages > 0 && (
+                                                <div className="messages-number ml-auto mt-3">
+                                                    <span className="unread-circle bg-red-600 text-white rounded-full px-2 py-1">{unreadMessages}</span>
+                                                </div>
+                                            )}
+                                            {/* Botón para borrar el chat */}
+                                            <button onClick={() => handleDeleteChat(chat.id)} className="ml-4 text-red-600 font-semibold">Eliminar</button>
                                         </div>
-                                    </NavLink>
-                                );
-                            })}
+                                    </div>
+                                </NavLink>
+                            );
+                        })}
                     </>
                 ) : (
                     <div className="row">
@@ -75,10 +81,8 @@ const Chats = () => {
                     </div>
                 )}
             </div>
-
         </div>
     );
-
 }
 
 export default Chats;

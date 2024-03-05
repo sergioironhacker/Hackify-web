@@ -38,7 +38,7 @@ const Chat = () => {
 
 
     useEffect(() => {
-        console.log("ID del chat:", id); /* /////////// Log para verificar el valor de id */
+        /* console.log("ID del chat:", id); */ /* /////////// Log para verificar el valor de id */
         if (chatContainerRef.current) {
             chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
         }
