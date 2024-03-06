@@ -1,14 +1,17 @@
-import { useFormik } from 'formik';
-import { object, string } from 'yup';
-import { createIdea, editIdea } from '../services/IdeaService';
+import { useFormik } from "formik";
+import { object, string } from "yup";
+import { createIdea, editIdea } from "../services/IdeaService";
+import { useEffect, useState } from "react";
 
 const ideaSchema = object({
-  title: string().required('Campo requerido'),
-  description: string().required('Campo requerido'),
-  contributionMax: string().required('Campo requerido'),
+  title: string().required("Campo requerido"),
+  description: string().required("Campo requerido"),
+  contributionMax: string().required("Campo requerido"),
 });
 
 const IdeaForm = ({ onSubmit, initialValues }) => {
+  const [existingImages, setExistingImages] = useState([]);
+
   const {
     values,
     isValid,
@@ -17,36 +20,41 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
     handleBlur,
     handleSubmit,
     setFieldValue,
+    setValues, // Include this line
   } = useFormik({
-    initialValues: initialValues || {
-      title: '',
-      description: '',
-      contributionMax: 0,
-      images: [],
+    initialValues: {
+      title: initialValues?.title || '',
+      description: initialValues?.description || '',
+      contributionMax: initialValues?.contributionMax || '',
+      images: existingImages || [],
     },
-
-    onSubmit: async (formValues) => {
+    onSubmit: async (values, { setSubmitting }) => {
       try {
-        const formData = new FormData();
-        formData.append('title', formValues.title);
-        formData.append('description', formValues.description);
-        formData.append('contributionMax', formValues.contributionMax);
-        formValues.images.forEach((image) => formData.append('images', image));
+        setSubmitting(true);
 
-        if (initialValues) {
-          // Editing existing idea
-          await editIdea(initialValues.id, formData);
-        } else {
-          // Creating new idea
-          await createIdea(formData);
+        const formData = new FormData();
+        formData.append('title', values.title);
+        formData.append('description', values.description);
+        formData.append('contributionMax', values.contributionMax);
+
+        existingImages.forEach((image) => formData.append('images', image));
+
+        if (values.images && values.images.length > 0) {
+          values.images.forEach((image) => formData.append('images', image));
         }
 
-        // Call the external onSubmit function if provided
-        if (onSubmit) {
-          onSubmit(formValues); // Pass form values here
+        if (initialValues) {
+          await editIdea(initialValues.id, formData);
+        } else {
+          const createdIdea = await createIdea(formData);
+          if (onSubmit) {
+            onSubmit(createdIdea); // Return the createdIdea to the onSubmit callback
+          }
         }
       } catch (error) {
         console.error('Error al crear/editar la idea:', error.message);
+      } finally {
+        setSubmitting(false);
       }
     },
     validationSchema: ideaSchema,
@@ -55,17 +63,24 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
     validateOnMount: true,
   });
 
+  useEffect(() => {
+    setFieldValue('title', initialValues?.title || '');
+    setFieldValue('description', initialValues?.description || '');
+    setFieldValue('contributionMax', initialValues?.contributionMax || '');
+    if (initialValues && initialValues.images) {
+      setExistingImages(initialValues.images);
+    }
+  }, [initialValues]);
+
   const handleImageChange = (event) => {
     const newImages = Array.from(event.target.files);
 
-    // Ensure the total size of images does not exceed a certain limit
     const totalSize = newImages.reduce((acc, image) => acc + image.size, 0);
-    const maxSizeInBytes = 10 * 1024 * 1024; // 10 MB
+    const maxSizeInBytes = 10 * 1024 * 1024;
 
     if (totalSize <= maxSizeInBytes) {
       setFieldValue('images', newImages);
     } else {
-      // Display an error or alert the user about the size limit
       console.error('Total size of images exceeds the limit');
     }
   };
@@ -76,8 +91,12 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
         {initialValues ? 'Editar' : 'Crear'} una nueva Idea
       </h1>
       <form onSubmit={handleSubmit} className="space-y-4">
+
         <div>
-          <label htmlFor="title" className="block text-sm font-medium text-tw-dark-gray">
+          <label
+            htmlFor="title"
+            className="block text-sm font-medium text-tw-dark-gray"
+          >
             Título:
           </label>
           <input
@@ -92,7 +111,10 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
           />
         </div>
         <div>
-          <label htmlFor="description" className="block text-sm font-medium text-tw-dark-gray">
+          <label
+            htmlFor="description"
+            className="block text-sm font-medium text-tw-dark-gray"
+          >
             Descripción:
           </label>
           <textarea
@@ -106,7 +128,10 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
           />
         </div>
         <div>
-          <label htmlFor="contributionMax" className="block text-sm font-medium text-tw-dark-gray">
+          <label
+            htmlFor="contributionMax"
+            className="block text-sm font-medium text-tw-dark-gray"
+          >
             Precio(€):
           </label>
           <input
@@ -121,7 +146,10 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
           />
         </div>
         <div>
-          <label htmlFor="images" className="block text-sm font-medium text-tw-dark-gray">
+          <label
+            htmlFor="images"
+            className="block text-sm font-medium text-tw-dark-gray"
+          >
             Imágenes:
           </label>
           <input
@@ -134,11 +162,9 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
             className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent"
           />
         </div>
-
         <button
           disabled={!isValid || isSubmitting}
           type="submit"
-          onSubmit={onSubmit}
           className="w-full bg-tw-primary text-white font-semibold py-2 px-4 rounded-md hover:bg-tw-primary-accent focus:outline-none focus:ring-2 focus:ring-tw-primary focus:ring-opacity-50"
         >
           {isSubmitting ? <>Guardando...</> : <>{initialValues ? 'Editar' : 'Crear'} Idea</>}

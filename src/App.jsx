@@ -9,9 +9,9 @@ import CurrentUserProfile from './pages/CurrentUserProfile';
 /* import Timeline from './pages/Timeline';  */
 import SearchBar from './pages/SearchBar';
 import IdeaDetail from './pages/IdeaDetail';
-import ChatsView from './pages/AllChats'; //
-import Conversation from './pages/Conversation'; // 
-import AboutUsPage from './pages/AboutUs'; // 
+import ChatsView from './pages/AllChats';
+import Conversation from './pages/Conversation';
+import AboutUsPage from './pages/AboutUs';
 import NewIdea from './pages/NewIdea';
 import EditIdea from './pages/EditIdea';
 

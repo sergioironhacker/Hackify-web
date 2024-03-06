@@ -17,9 +17,11 @@ export const getIdeaDetail = (id) => http.get(`/ideas/${id}`)
 
 export const getLatestIdeas = () => http.get('/ideas/latest');
 
-
-
-export const editIdea = (id, data) => http.put(`/ideas/${id}`, data)
+export const editIdea = async (id, formData) => {
+    const response = await http.put(`/ideas/${id}`, formData);
+    console.log(response); // Log the response
+    return response;
+  }
 
 export const deleteIdea = (id) => http.delete(`/ideas/${id}`)
 

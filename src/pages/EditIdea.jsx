@@ -26,12 +26,14 @@ const EditIdea = () => {
 
   const onSubmit = async (values) => {
     try {
-      await editIdea(id, values);
+      const response = await editIdea(id, values);
+      console.log(response); // Log the response to check its content
       navigate(`/ideas/${id}`);
     } catch (error) {
       console.error("Error editing idea:", error.message);
     }
   };
+  
 
   return (
     <div>
