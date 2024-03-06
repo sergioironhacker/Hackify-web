@@ -73,7 +73,6 @@ const IdeaDetail = () => {
       await createChat(idea.user, {});
       // Redirigir a la vista de chats
       window.location.href = "/user/chats";
-      window.location.href = "/user/chats";
     } catch (error) {
       console.error(error);
     }
