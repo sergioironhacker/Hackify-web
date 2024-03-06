@@ -14,6 +14,7 @@ import Conversation from './pages/Conversation';
 import AboutUsPage from './pages/AboutUs';
 import NewIdea from './pages/NewIdea';
 import EditIdea from './pages/EditIdea';
+import PaymentSuccess from './pages/PaymentSuccess';
 
 
 
@@ -35,6 +36,7 @@ function App() {
           <Route path="/ideas/:id/edit" element={<ProtectedRoute><EditIdea /></ProtectedRoute>} />
           <Route path="/search" element={<SearchBar />} />
           <Route path="/about-us" element={<AboutUsPage />} />
+          <Route path="/ideas/:id/contributions/:amount" element={<PaymentSuccess />} />
 
 
 

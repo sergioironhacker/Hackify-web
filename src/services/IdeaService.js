@@ -29,3 +29,9 @@ export const buyProduct = (ideaId, paymentAmount) => {
   
   return http.post(`/ideas/${ideaId}/checkout`, {paymentAmount});
 }
+
+export const createContribution = async (ideaId, amount) => {
+  const response = await http.post(`/ideas/${ideaId}/contributions/${amount}`);
+
+  return response;
+}
