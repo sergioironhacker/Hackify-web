@@ -4,7 +4,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { useFormik } from "formik";
 import Button from "../components/Button";
 import { createChat } from "../services/Chat.service";
-
+import { PencilIcon, TrashIcon, ChatAltIcon } from "@heroicons/react/outline";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -73,6 +73,7 @@ const IdeaDetail = () => {
       await createChat(idea.user, {});
       // Redirigir a la vista de chats
       window.location.href = "/user/chats";
+      window.location.href = "/user/chats";
     } catch (error) {
       console.error(error);
     }
@@ -92,14 +93,14 @@ const IdeaDetail = () => {
   };
 
   return (
-    <div className="">
+    <div className="max-w-sm mx-auto">
       {loading ? (
-        <div className="">Loading...</div>
+        <div className="text-center">Loading...</div>
       ) : (
         <div>
-          <div className="">
-            <div className="">
-              <h1>{idea.title}</h1>
+          <div className="bg-white shadow-md rounded-md p-4">
+            <div className="text-center">
+              <h1 className="text-2xl font-bold mb-2 ">{idea.title}</h1>
               {idea.images.length > 0 && (
                 <div className="relative">
                   <Slider {...settings}>
@@ -118,61 +119,49 @@ const IdeaDetail = () => {
                   </div>
                 </div>
               )}
-
-              <p>{idea.description}</p>
-
-              <p>Necesita recaudar: {idea.contributionMax}</p>
-              <div className="">
-                <Link
-                  to={`/ideas/${id}/edit`}
-                  className="inline-block bg-blue-500  text-white font-bold py-2 px-3 rounded-md shadow-md mr-1"
-                >
+              <p className="text-sm">{idea.description}</p>
+              <p className="font-bold text-sm">
+                Necesita recaudar: {idea.contributionMax}
+              </p>
+              <div className="flex justify-between items-center mt-4">
+                <Link to={`/ideas/${id}/edit`} className="">
+                  <PencilIcon className="w-7 ml-7  text-blue-400" />
                   Editar Idea
                 </Link>
 
-                <button
-                  onClick={onDelete}
-                  className="inline-block bg-yellow-500  text-white font-bold py-2 px-3 rounded-md shadow-md mr-1"
-                >
+                <button onClick={onDelete} className="">
+                  <TrashIcon className="w-7  ml-6 text-red-400" />
                   Borrar Idea
                 </button>
 
-                {/* //////////////////////// */}
-
-                <button
-                  onClick={onCreateChat}
-                  className="inline-block bg-green-500  text-white font-bold py-2 px-3 rounded-md shadow-md "
-                >
+                <button onClick={onCreateChat} className="">
+                  <ChatAltIcon className="w-7  ml-4  text-green-400" />
                   Chatear
                 </button>
-
-                {/* //////////////////////////////// */}
-
-                <div>
-                  <label
-                    htmlFor="paymentAmount"
-                    className="block text-sm font-medium text-tw-dark-gray"
-                  >
-                    Cantidad a contribuir(€):
-                  </label>
-                  <input
-                    type="number"
-                    id="paymentAmount"
-                    name="paymentAmount"
-                    onChange={formik.handleChange}
-                    value={formik.values.paymentAmount}
-                    required
-                    className="mt-1 p-2 block w-full rounded-md border border-black shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent mb-1" // Utilizando solo la clase border-black para el borde negro
-                  />
-                </div>
-
-                <Button
-                  text="Contribuir"
-                  onClick={() => {
-                    handleCheckout(idea.id, formik.values.paymentAmount);
-                  }}
+              </div>
+              <div className="mt-4">
+                <label
+                  htmlFor="paymentAmount"
+                  className="block font-bold text-sm"
+                >
+                  Cantidad a contribuir(€):
+                </label>
+                <input
+                  type="number"
+                  id="paymentAmount"
+                  name="paymentAmount"
+                  onChange={formik.handleChange}
+                  value={formik.values.paymentAmount}
+                  required
+                  className="mt-1 p-2 block w-full rounded-md border border-black shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent mb-1 text-sm"
                 />
               </div>
+              <Button
+                text="Contribuir"
+                onClick={() => {
+                  handleCheckout(idea.id, formik.values.paymentAmount);
+                }}
+              />
             </div>
           </div>
         </div>

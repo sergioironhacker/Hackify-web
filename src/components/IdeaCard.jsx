@@ -6,52 +6,32 @@ const IdeaCard = ({
   title,
   description,
   contributionMax,
-  contributionTotal,   ////////////////////////////
+  contributionTotal,
   images,
-  user,
-  onClick,
 }) => {
-
-
-  // Calcular el porcentaje de la cantidad recaudada en relación con la contribución máxima //////////////////////////
+  // Calculo
   const contributionPercentage = (contributionTotal / contributionMax) * 100;
 
-
-
-
   return (
-    <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden mt-3">
-      <div className="relative">
-        <img src={images[0]} alt={title} className="w-full h-56 object-cover object-center" />
-        <div className="absolute bottom-0 left-0 bg-black opacity-75 w-full py-2 px-4">
-          <h2 className="text-white text-lg font-semibold">{title}</h2>
-        </div>
-      </div>
-      <div className="p-6">
-        <p className="text-gray-600 mb-4">{description}</p>
+    <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden mt-6 font-bold flex flex-col items-center">
+      <img src={images[0]} alt={title} className="w-full h-48 object-cover object-center" />
+      <div className="p-6 text-center">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-4">{title}</h2>
+        <p className="mb-4">{description}</p>
         <div className="flex justify-between items-center mb-4">
-          <p className="text-gray-700">Contribución máxima: {contributionMax}€</p>
+          <p className="font-bold">Contribución máxima: {contributionMax}€</p>
         </div>
 
-
-
-       {/*  //////////////////// */}
-
-        <div className="mb-2">
-          <p className="text-gray-700 mb-1">Cantidad recaudada: {contributionTotal}€</p>
-          <div className="h-4 bg-gray-200 rounded-full">
-            <div 
-              className="h-full bg-green-500 rounded-full"
-              style={{ width: `${contributionPercentage}%` }}
-            ></div>
+        {/* Barra de progreso */}
+        <div className="mb-4">
+          <p className="font-bold">Cantidad recaudada: {contributionTotal}€</p>
+          <div className="h-3 bg-gray-200 rounded-full">
+            <div className="h-full bg-gray-500 rounded-full" style={{ width: `${contributionPercentage}%` }}></div>
           </div>
         </div>
 
-
-        {/* /////////////////////////// */}
-
-
-        <Link to={`/ideas/${id}`} className="inline-block bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md">
+        {/* Enlace para ver más detalles */}
+        <Link to={`/ideas/${id}`} className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
           Ver más detalles
         </Link>
       </div>
