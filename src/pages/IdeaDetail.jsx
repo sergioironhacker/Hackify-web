@@ -97,7 +97,8 @@ const IdeaDetail = () => {
         <div className="text-center">Loading...</div>
       ) : (
         <div>
-          <div className="bg-white shadow-md rounded-md p-4">
+
+          <div className="bg-white shadow-md rounded-md p-4   ">
             <div className="text-center">
               <h1 className="text-2xl font-bold mb-2 ">{idea.title}</h1>
               {idea.images.length > 0 && (
@@ -122,7 +123,7 @@ const IdeaDetail = () => {
               <p className="font-bold text-sm">
                 Necesita recaudar: {idea.contributionMax}
               </p>
-              <div className="flex justify-between items-center mt-4">
+              <div className="flex justify-between items-center mt-4 ">
                 <Link to={`/ideas/${id}/edit`} className="">
                   <PencilIcon className="w-7 ml-7  text-blue-400" />
                   Editar Idea
@@ -152,15 +153,17 @@ const IdeaDetail = () => {
                   onChange={formik.handleChange}
                   value={formik.values.paymentAmount}
                   required
-                  className="mt-1 p-2 block w-full rounded-md border border-black shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent mb-1 text-sm"
+                  className="mt-1 p-2 block w-full rounded-md border border-black shadow-sm  focus:ring-tw-primary focus:border-tw-primary-accent mb-1 text-sm"
                 />
               </div>
               <Button
-                text="Contribuir"
                 onClick={() => {
                   handleCheckout(idea.id, formik.values.paymentAmount);
                 }}
+                text="Contribuir"
+                className="bg-green-400 text-white"
               />
+
             </div>
           </div>
         </div>

@@ -26,12 +26,12 @@ const IdeaCard = ({
         <div className="mb-4">
           <p className="font-bold">Cantidad recaudada: {contributionTotal}€</p>
           <div className="h-3 bg-gray-200 rounded-full">
-            <div className="h-full bg-gray-500 rounded-full" style={{ width: `${contributionPercentage}%` }}></div>
+            <div className="h-full bg-green-400 rounded-full" style={{ width: `${contributionPercentage}%` }}></div>
           </div>
         </div>
 
         {/* Enlace para ver más detalles */}
-        <Link to={`/ideas/${id}`} className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
+        <Link to={`/ideas/${id}`} className="inline-block bg-green-400 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
           Ver más detalles
         </Link>
       </div>

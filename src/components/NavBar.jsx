@@ -69,7 +69,7 @@ const Navbar = () => {
   const hasUser = isAuthFetched && user;
 
   return (
-    <nav className="bg-red-500 fixed bottom-0 w-full z-10">
+    <nav className="bg-green-400 fixed bottom-0 w-full z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-around h-16">
           <div className="flex items-center">
@@ -83,7 +83,7 @@ const Navbar = () => {
                 <NavLink
                   key={index}
                   to={route.to}
-                  className="text-white hover:bg-red-600 px-3 py-2 rounded-md text-sm font-medium flex items-center"
+                  className="text-white hover:bg-green-300 px-3 py-2 rounded-md text-sm font-medium flex items-center"
                   style={{ marginRight: '10px' }} // Agrega margen entre los elementos NavLink
                 >
                   {route.text}

@@ -31,12 +31,12 @@ const Login = () => {
   });
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="w-full max-w-md p-6 bg-white shadow-md rounded-md">
-        <h1 className="text-tw-primary uppercase font-bold text-3xl mb-6">Sign in to your account</h1>
+    <div className="flex justify-center items-center h-screen ">
+      <div className="w-full max-w-md p-6 bg-white shadow-md rounded-md ">
+        <h1 className="text-green-400 uppercase font-bold text-3xl mb-6 ">Sign in to your account</h1>
         
         <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-1 gap-4">
+          <div className="grid grid-cols-1 gap-4 text-green-400 ">
             <Input
               name="email"
               type="email"
@@ -46,6 +46,8 @@ const Login = () => {
               error={touched.email && errors.email}
               onChange={handleChange}
               onBlur={handleBlur}
+              textClassName="text-green-400"
+              extraClassName="border-green-400 focus:border-green-400"
             />
             <Input
               name="password"
@@ -56,9 +58,11 @@ const Login = () => {
               error={touched.password && errors.password}
               onChange={handleChange}
               onBlur={handleBlur}
+              textClassName="text-green-400"
+              extraClassName="border-green-400 focus:border-green-400"
             />
           </div>
-          <Button extraClassName="mt-6" disabled={!isValid} text="Sign in" />
+          <Button extraClassName="mt-6 bg-green-400" disabled={!isValid} text="Sign in" />
         </form>
       </div>
     </div>

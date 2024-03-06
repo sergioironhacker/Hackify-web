@@ -2,13 +2,13 @@ import AboutUsLogo from '../assets/AboutUsLogo';
 
 const AboutUsPage = () => {
   return (
-    <div className="p-4 text-red-600">
-      <h1 className="text-3xl font-bold mb-4">Acerca de OnlyHack</h1>
-      <div className="mb-6">
-        <p className="mb-4">
+    <div className="p-4 text-green-400">
+      <h1 className="text-3xl font-bold mb-4 text-green-500">Acerca de OnlyHack</h1>
+      <div className="mb-6 text-green-500">
+        <p className="mb-4 text-green-500">
           En OnlyHack, estamos dedicados a romper las barreras financieras que impiden que las ideas brillantes se conviertan en realidad. Nuestra empresa se especializa en respaldar proyectos innovadores que desafían el status quo y abren nuevos horizontes en diversas industrias.
         </p>
-        <p className="mb-4">
+        <p className="mb-4 text-green-500">
           Nuestro enfoque se centra en apoyar a emprendedores con ideas disruptivas que no cuentan con los recursos financieros necesarios para llevarlas a cabo por sí mismos. Creemos que cada idea tiene el potencial de cambiar el mundo, y estamos aquí para asegurarnos de que incluso las más ambiciosas no se queden en el camino debido a la falta de financiamiento.
         </p>
        {/*  <p className="mb-4">

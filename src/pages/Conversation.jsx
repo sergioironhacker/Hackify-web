@@ -128,13 +128,13 @@ const Chat = () => {
                     <NavLink style={{ textDecoration: 'none', color: ' #FF5A5F' }} to={`/user/users/detail/${otherUser.id}`}>
                         <div className="chat-user-info flex items-center">
                             <img src={otherUser.avatar} alt="" className="w-16 h-16 rounded-full" />
-                            <div className="chat-user-name flex flex-col items-center ml-4">
-                                <h2 className="text-xl text-red-600">{otherUser.name}</h2>
-                                <button className="btn bg-red-600 text-white px-4 py-2 rounded-md mt-2">Ver perfil</button>
+                            <div className="chat-user-name flex flex-col items-center ml-4  text-green-400">
+                                <h2 className="text-xl text-green-400">{otherUser.name}</h2>
+                                <button className="btn bg-green-400 text-white px-4 py-2 rounded-md mt-2">Ver perfil</button>
                             </div>
                         </div>
                     </NavLink>
-                    <hr className="border-red-600" />
+                    <hr className="border-green-400" />
                     <div className="chat-box overflow-y-auto" ref={chatContainerRef}>
                         {chatMessages.map((msg) => (
                             <div className={`message flex ${msg.sender.id === currentUser.id ? 'justify-end' : 'justify-start'}`} key={msg.id}>
@@ -155,8 +155,8 @@ const Chat = () => {
 
                     <form onSubmit={handleSubmitMessage}>
                         <div className="form-group flex items-center">
-                            <input onChange={handleMessageChange} type="text" name="text" className="form-control w-full bg-white border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-red-600" placeholder="Escribe un mensaje..." value={message.text} onFocus={handleFocus} onBlur={handleBlur} />
-                            <button type="submit" className="btn-circle bg-red-600 text-white px-4 py-2 rounded-full ml-2">
+                            <input onChange={handleMessageChange} type="text" name="text" className="form-control w-full bg-white border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-green-400" placeholder="Escribe un mensaje..." value={message.text} onFocus={handleFocus} onBlur={handleBlur} />
+                            <button type="submit" className="btn-circle bg-green-400 text-white px-4 py-2 rounded-full ml-2">
                                 <FaPaperPlane />
                             </button>
                         </div>

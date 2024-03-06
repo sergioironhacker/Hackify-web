@@ -86,8 +86,8 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
   };
 
   return (
-    <div className="max-w-container mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">
+    <div className="max-w-container mx-auto p-6 text-green-400">
+      <h1 className="text-2xl font-bold mb-4 ">
         {initialValues ? 'Editar' : 'Crear'} una nueva Idea
       </h1>
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -95,7 +95,7 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
         <div>
           <label
             htmlFor="title"
-            className="block text-sm font-medium text-tw-dark-gray"
+            className="block text-sm font-medium text-green-400"
           >
             Título:
           </label>
@@ -113,7 +113,7 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
         <div>
           <label
             htmlFor="description"
-            className="block text-sm font-medium text-tw-dark-gray"
+            className="block text-sm font-medium text-green-400"
           >
             Descripción:
           </label>
@@ -124,13 +124,13 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
             onChange={handleChange}
             value={values.description}
             required
-            className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent"
+            className="mt-1 p-2 block w-full rounded-md text-green-400 shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent"
           />
         </div>
         <div>
           <label
             htmlFor="contributionMax"
-            className="block text-sm font-medium text-tw-dark-gray"
+            className="block text-sm font-medium text-green-400"
           >
             Precio(€):
           </label>
@@ -148,7 +148,7 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
         <div>
           <label
             htmlFor="images"
-            className="block text-sm font-medium text-tw-dark-gray"
+            className="block text-sm font-medium text-green-400"
           >
             Imágenes:
           </label>

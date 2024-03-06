@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import clsx from "clsx";
 
 const Button = ({ type, onClick, text, disabled, extraClassName }) => {
   return (
@@ -6,15 +6,18 @@ const Button = ({ type, onClick, text, disabled, extraClassName }) => {
       type={type}
       onClick={onClick}
       className={clsx(
-        "text-white bg-tw-primary focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center",
+        "text-white text-sm font-medium rounded-lg w-full sm:w-auto px-5 py-2.5 text-center focus:outline-none",
         extraClassName,
-        { "opacity-50 pointer-events-none": disabled },
-        { "hover:bg-blue-800": !disabled }
-        )}
+        {
+          "bg-green-400 cursor-pointer hover:bg-blue-800 focus:ring-4 focus:ring-blue-300": !disabled,
+          "opacity-50 pointer-events-none bg-green-400": disabled
+        }
+      )}
+      disabled={disabled}
     >
-        {text}
-      </button>
-  )
-}
+      {text}
+    </button>
+  );
+};
 
-export default Button
+export default Button;

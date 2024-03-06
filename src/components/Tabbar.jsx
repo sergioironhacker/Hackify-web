@@ -18,7 +18,7 @@ const Tabbar = ({ user }) => {
     toast.warn(
       <div>
         <p>¿Estás seguro de que quieres borrar tu cuenta?</p>
-        <button className="mr-2 bg-red-500 text-white px-3 py-1 rounded-md" onClick={deleteAccount}>Sí</button>
+        <button className="mr-2 bg-green-400 text-white px-3 py-1 rounded-md" onClick={deleteAccount}>Sí</button>
         <button className="bg-gray-400 text-white px-3 py-1 rounded-md" onClick={toast.dismiss}>No</button>
       </div>,
       {
@@ -48,7 +48,7 @@ const Tabbar = ({ user }) => {
     toast.warn(
       <div>
         <p>¿Estás seguro de que quieres cerrar sesión?</p>
-        <button className="mr-2 bg-red-500 text-white px-3 py-1 rounded-md" onClick={() => {
+        <button className="mr-2 bg-green-400 text-white px-3 py-1 rounded-md" onClick={() => {
           logout();
           toast.dismiss();
         }}>Sí</button>
@@ -102,8 +102,8 @@ const Tabbar = ({ user }) => {
               onClick={() => setActiveTab(tab.key)}
               className={clsx(
                 "w-full py-4 px-1 text-sm font-medium rounded-t-lg focus:outline-none focus:ring-inset focus:ring-tw-primary",
-                { "text-tw-primary": tab.key === activeTab },
-                { "text-airbnb-red": tab.key !== activeTab }
+                { "text-green-400": tab.key === activeTab },
+                { "text-grey-400": tab.key !== activeTab }
               )}
             >
               {tab.title}
@@ -123,12 +123,12 @@ const Tabbar = ({ user }) => {
               >
                 {theme === 'light' ? <MoonIcon className="h-6 w-6" /> : <SunIcon className="h-6 w-6" />}
               </button>
-              <span className="text-sm text-gray-500">Cambiar tema</span>
+              <span className="text-sm text-green-500">Cambiar tema</span>
             </div>
             <button
               type="button"
               onClick={confirmDeleteAccount}
-              className="w-full py-2 px-4 mt-2 text-sm font-medium rounded-lg text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+              className="w-full py-2 px-4 mt-2 text-sm font-medium rounded-lg text-white bg-green-400 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
             >
               <TrashIcon className="h-5 w-5 inline-block mr-1" />
               Borrar cuenta
@@ -136,7 +136,7 @@ const Tabbar = ({ user }) => {
             <button
               type="button"
               onClick={handleLogout}
-              className="w-full py-2 px-4 mt-2 text-sm font-medium rounded-lg text-white bg-tw-primary hover:bg-tw-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-tw-primary"
+              className="w-full py-2 px-4 mt-2 text-sm font-medium rounded-lg text-white bg-green-400 hover:bg-tw-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-tw-primary"
             >
               Cerrar sesión
             </button>

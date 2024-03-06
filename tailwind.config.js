@@ -8,14 +8,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        'tw-primary': {
+     /*    'tw-primary': {
           DEFAULT: '#FF385C',
           dark: '#FF5A5F', // Color primario en modo oscuro
         },
         'tw-light-gray': {
           DEFAULT: '#DDDDDD',
           dark: '#777777', // Color gris claro en modo oscuro
-        },
+        }, */
         'tw-dark-gray': '#484848',
         'tw-dark': '#333333',
         'tw-primary-accent': '#FF5A5F',

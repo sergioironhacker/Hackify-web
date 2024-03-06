@@ -36,8 +36,8 @@ const Chats = () => {
 
             <div className="Chats container mx-auto">
                 <div className="chat-title mt-4">
-                    <h1 className="text-2xl text-red-600 font-semibold">Tus conversaciones</h1>
-                    <hr className="border-red-600" />
+                    <h1 className="text-2xl  text-green-400 font-semibold">Tus conversaciones</h1>
+                    <hr className="border-green-600" />
                 </div>
                 {chats.length && currentUser ? (
                     <>
@@ -45,12 +45,12 @@ const Chats = () => {
                             const otherUser = chat?.users.find((user) => user.id !== currentUser._id);
                             const unreadMessages = chat.messages.filter(message => message.sender !== currentUser._id && message.status === 'unread').length;
                             return (
-                                <NavLink style={{ textDecoration: 'none', color: '#3F423B' }} to={`/user/chat/${chat.id}`} key={chat.id}>
+                                <NavLink style={{ textDecoration: 'none', color: '#3F423' }} to={`/user/chat/${chat.id}`} key={chat.id}>
                                     <div className="chat-list-container my-3 mt-4 bg-white rounded-lg shadow-md p-4">
                                         <div className="flex items-center">
                                             <img src={otherUser.avatar} alt="" className="w-16 h-16 rounded-full" />
                                             <div className="ml-4 chat-container-text">
-                                                <h6 className="font-semibold text-lg text-red-600">{otherUser.username}</h6>
+                                                <h6 className="font-semibold text-lg  text-green-400">{otherUser.username}</h6>
                                                 {chat.messages.length > 0 ? (
                                                     <div className="conversation-text-content flex items-center">
                                                         <p className={unreadMessages ? 'font-semibold' : ''}>{chat.messages[chat.messages.length - 1].text}</p>
@@ -66,7 +66,7 @@ const Chats = () => {
                                                 </div>
                                             )}
                                             {/* Botón para borrar el chat */}
-                                            <button onClick={() => handleDeleteChat(chat.id)} className="ml-4 text-red-600 font-semibold">Eliminar</button>
+                                            <button onClick={() => handleDeleteChat(chat.id)} className="ml-4  text-green-400 font-semibold">Eliminar</button>
                                         </div>
                                     </div>
                                 </NavLink>

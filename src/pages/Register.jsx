@@ -37,9 +37,9 @@ const Register = () => {
   });
 
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center items-center h-screen text-green-400">
       <div className="w-full max-w-md p-6 bg-white shadow-md rounded-md">
-        <h1 className="text-tw-primary uppercase font-bold text-3xl mb-6">Register your account</h1>
+        <h1 className="text-green-400 uppercase font-bold text-3xl mb-6">Register your account</h1>
         
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 gap-4">
@@ -83,7 +83,7 @@ const Register = () => {
               onBlur={handleBlur}
             />
           </div>
-          <Button extraClassName="mt-6 w-full" text="Create account" disabled={!isValid} />
+          <Button extraClassName="mt-6 w-full text-green-400" text="Create account" disabled={!isValid} />
         </form>
       </div>
     </div>
