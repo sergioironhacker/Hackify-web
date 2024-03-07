@@ -20,7 +20,7 @@ const Home = () => {
       try {
         const response = await getIdeas();
         setIdeas(response);
-        setFilteredIdeas(response); // Inicialmente muestra todas las ideas sin filtrar
+        setFilteredIdeas(response);
       } catch (error) {
         console.error("Error al obtener las ideas:", error.message);
       }
@@ -31,11 +31,11 @@ const Home = () => {
 
   return (
     <div className="max-w-container mx-auto p-6">
-      <h1 className="flex justify-center text-2xl font-bold text-green-400 mb-4">OnlyHack <AboutUsLogo /> </h1>
+      <h1 className="flex justify-center text-2xl font-bold text-green-400 mb-4">Hackify <AboutUsLogo /> </h1>
 
-      {/* Renderiza el componente SearchBar y pasa la función de búsqueda */}
+    
       <SearchBar onSearch={handleSearch} />
-      {/* Renderiza las ideas filtradas o todas las ideas */}
+   
       {filteredIdeas && filteredIdeas.length > 0 ? (
         <div className="space-y-8">
           {filteredIdeas.map((idea) => {

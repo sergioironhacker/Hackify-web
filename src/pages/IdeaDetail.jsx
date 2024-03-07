@@ -4,12 +4,12 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { useFormik } from "formik";
 import Button from "../components/Button";
 import { createChat } from "../services/Chat.service";
-import { PencilIcon, TrashIcon, ChatAltIcon } from "@heroicons/react/outline";
+import { PencilIcon, TrashIcon, ChatAltIcon, /* SaveIcon */ } from "@heroicons/react/outline";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-/////////// añadir la logica de un onclick que haga la funciona de crear un chat
+
 
 const IdeaDetail = () => {
   const formik = useFormik({
@@ -133,6 +133,14 @@ const IdeaDetail = () => {
                   <TrashIcon className="w-7  ml-6 text-red-400" />
                   Borrar Idea
                 </button>
+
+
+               {/*  <button className="flex items-center">
+                  <SaveIcon className="w-7 mr-2 text-yellow-500" /> 
+                  Guardar Idea
+                </button>
+ */}
+
 
                 <button onClick={onCreateChat} className="">
                   <ChatAltIcon className="w-7  ml-4  text-green-400" />

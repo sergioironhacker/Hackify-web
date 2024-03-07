@@ -65,8 +65,7 @@ const Chats = () => {
                                                     <span className="unread-circle bg-red-600 text-white rounded-full px-2 py-1">{unreadMessages}</span>
                                                 </div>
                                             )}
-                                            {/* Botón para borrar el chat */}
-                                            <button onClick={() => handleDeleteChat(chat.id)} className="ml-4  text-green-400 font-semibold">Eliminar</button>
+                                            <button onClick={() => handleDeleteChat(chat.id)} className="ml-20  text-green-400 font-semibold">Eliminar</button>
                                         </div>
                                     </div>
                                 </NavLink>

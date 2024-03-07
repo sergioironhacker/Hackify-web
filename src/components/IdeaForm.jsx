@@ -20,7 +20,7 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
     handleBlur,
     handleSubmit,
     setFieldValue,
-    setValues, // Include this line
+    /*  setValues,  */
   } = useFormik({
     initialValues: {
       title: initialValues?.title || '',
@@ -48,7 +48,7 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
         } else {
           const createdIdea = await createIdea(formData);
           if (onSubmit) {
-            onSubmit(createdIdea); // Return the createdIdea to the onSubmit callback
+            onSubmit(createdIdea);
           }
         }
       } catch (error) {

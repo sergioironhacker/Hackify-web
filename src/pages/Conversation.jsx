@@ -1,12 +1,14 @@
 import { getCurrentChat } from "../services/Chat.service";
 import { useParams } from "react-router-dom";
-import { useState, useEffect, useContext, useCallback } from "react";
+import { useState, useEffect, useContext, useCallback} from "react";
 import AuthContext from "../contexts/AuthContext";
 import { createMessage, updateMessages } from "../services/Message.Service";
 import { NavLink } from "react-router-dom";
 import { format } from "date-fns";
 import { useRef } from "react";
 import { FaPaperPlane } from 'react-icons/fa';
+
+
 
 const initialValues = {
     text: ''
@@ -23,11 +25,10 @@ const Chat = () => {
 
     const markMessagesAsRead = useCallback((messages) => {
         messages.forEach((message) => {
-            console.log("Message:", message); /* ///// Log para verificar cada mensaje */
             if (message.status === 'unread' && message.sender.id !== currentUser.id) {
                 updateMessages(message.id, { status: 'read' })
-                    .then((response) => {
-                        console.log('Mensaje actualizado:', response.message); //////////////////////
+                    .then(() => {
+                      
                     })
                     .catch(err => {
                         console.log(err)
@@ -38,14 +39,13 @@ const Chat = () => {
 
 
     useEffect(() => {
-        /* console.log("ID del chat:", id); */ /* /////////// Log para verificar el valor de id */
+       
         if (chatContainerRef.current) {
             chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
         }
         const fetchData = async () => {
             try {
                 const chatData = await getCurrentChat(id);
-                console.log("Chat data:", chatData); //////////////////////////////////////////////   
                 setChat(chatData);
                 setChatMessages(chatData.messages);
                 markMessagesAsRead(chatData.messages);
@@ -54,11 +54,11 @@ const Chat = () => {
             }
         };
 
-        // Llama a fetchData inmediatamente y luego cada 2 segundos
+      
         fetchData();
         const intervalId = setInterval(fetchData, 2000);
 
-        // Limpia el intervalo al desmontar el componente
+      
         return () => {
             clearInterval(intervalId);
         };
@@ -91,7 +91,7 @@ const Chat = () => {
             .then((response) => {
                 const newMessage = response.message;
 
-                console.log('Mensaje creado:', newMessage); ///////////////////////////
+                console.log('Mensaje creado:', newMessage); 
 
                 const newMessagePopulated = {
                     ...newMessage,
@@ -130,7 +130,9 @@ const Chat = () => {
                             <img src={otherUser.avatar} alt="" className="w-16 h-16 rounded-full" />
                             <div className="chat-user-name flex flex-col items-center ml-4  text-green-400">
                                 <h2 className="text-xl text-green-400">{otherUser.name}</h2>
-                                <button className="btn bg-green-400 text-white px-4 py-2 rounded-md mt-2">Ver perfil</button>
+                               
+                                <p className="text-green-600 mt-2"> {currentUser.id}</p>
+                               
                             </div>
                         </div>
                     </NavLink>

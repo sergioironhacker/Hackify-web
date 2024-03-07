@@ -16,7 +16,7 @@ export const AuthContextProvider = ({ children }) => {
   const fetchCurrentUser = useCallback(() => {
     getCurrentUser()
       .then(user => {
-        console.log('user', user)
+
         setUser(user)
         setIsAuthFetched(true)
       })
@@ -28,7 +28,6 @@ export const AuthContextProvider = ({ children }) => {
   const login = useCallback((data) => {
     return loginService(data)
       .then(response => {
-        // Guardo el token en el store que hemos creado para que sea accesible a los servicios
         setAccessToken(response.accessToken)
       })
       .then(() => {

@@ -10,7 +10,12 @@ const IdeaCard = ({
   images,
 }) => {
   // Calculo
-  const contributionPercentage = (contributionTotal / contributionMax) * 100;
+  let contributionPercentage = (contributionTotal / contributionMax) * 100;
+
+  if (contributionPercentage > 100) {
+    contributionPercentage = 100;
+  }
+
 
   return (
     <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden mt-6 font-bold flex flex-col items-center">
