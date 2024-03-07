@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useContext } from "react";
 import { getIdeaDetail, deleteIdea, buyProduct } from "../services/IdeaService";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useFormik } from "formik";
@@ -8,10 +8,13 @@ import { PencilIcon, TrashIcon, ChatAltIcon,  SaveIcon  } from "@heroicons/react
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
-
+import AuthContext from "../contexts/AuthContext";
 
 const IdeaDetail = () => {
+  const { user } = useContext(AuthContext);
+  const { id } = useParams();
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       paymentAmount: 0,
@@ -26,9 +29,6 @@ const IdeaDetail = () => {
       }
     },
   });
-
-  const { id } = useParams();
-  const navigate = useNavigate();
 
   const [idea, setIdea] = useState({});
   const [loading, setLoading] = useState(true);
@@ -57,7 +57,7 @@ const IdeaDetail = () => {
   }, [fetchIdeaData]);
 
   const onDelete = () => {
-    if (confirm(`Estas a punto de borrar la idea: ${idea.title}`)) {
+    if (confirm(`Estás a punto de borrar la idea: ${idea.title}`)) {
       deleteIdea(id)
         .then(() => {
           navigate("/");
@@ -66,19 +66,14 @@ const IdeaDetail = () => {
     }
   };
 
-  ///////////////////////////
-
   const onCreateChat = async () => {
     try {
       await createChat(idea.user, {});
-      // Redirigir a la vista de chats
       window.location.href = "/user/chats";
     } catch (error) {
       console.error(error);
     }
   };
-
-  /////////////////////////////////
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -97,10 +92,9 @@ const IdeaDetail = () => {
         <div className="text-center">Loading...</div>
       ) : (
         <div>
-
-          <div className="bg-white shadow-md rounded-md p-4   ">
+          <div className="bg-white shadow-md rounded-md p-4">
             <div className="text-center">
-              <h1 className="text-2xl font-bold mb-2 ">{idea.title}</h1>
+              <h1 className="text-2xl font-bold mb-2">{idea.title}</h1>
               {idea.images.length > 0 && (
                 <div className="relative">
                   <Slider {...settings}>
@@ -123,35 +117,33 @@ const IdeaDetail = () => {
               <p className="font-bold text-sm">
                 Necesita recaudar: {idea.contributionMax}
               </p>
-              <div className="flex justify-between items-center mt-4 ">
-                <Link to={`/ideas/${id}/edit`} className="">
-                  <PencilIcon className="w-7 ml-7  text-blue-400" />
-                  Editar Idea
-                </Link>
-
-                <button onClick={onDelete} className="">
-                  <TrashIcon className="w-7  ml-6 text-red-400" />
-                  Borrar Idea
-                </button>
-
-
-                 <button className="flex items-center">
-                  <SaveIcon className="w-7 mr-2 text-yellow-500" /> 
-                  Guardar Idea
-                </button>
- 
-
-
-                <button onClick={onCreateChat} className="">
-                  <ChatAltIcon className="w-7  ml-4  text-green-400" />
-                  Chatear
-                </button>
+              <div className="flex justify-between items-center mt-4">
+                {user.id === idea.user ? (
+                  <>
+                    <Link to={`/ideas/${id}/edit`}>
+                      <PencilIcon className="w-7 ml-7 text-blue-400" />
+                      Editar Idea
+                    </Link>
+                    <button onClick={onDelete}>
+                      <TrashIcon className="w-7 ml-6 text-red-400" />
+                      Borrar Idea
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button onClick={onCreateChat}>
+                      <ChatAltIcon className="w-7 ml-4 text-green-400" />
+                      Chatear
+                    </button>
+                    <button>
+                      <SaveIcon className="w-7 mr-2 text-yellow-500" />
+                      Guardar Idea
+                    </button>
+                  </>
+                )}
               </div>
               <div className="mt-4">
-                <label
-                  htmlFor="paymentAmount"
-                  className="block font-bold text-sm"
-                >
+                <label htmlFor="paymentAmount" className="block font-bold text-sm">
                   Cantidad a contribuir(€):
                 </label>
                 <input
@@ -161,7 +153,7 @@ const IdeaDetail = () => {
                   onChange={formik.handleChange}
                   value={formik.values.paymentAmount}
                   required
-                  className="mt-1 p-2 block w-full rounded-md border border-black shadow-sm  focus:ring-tw-primary focus:border-tw-primary-accent mb-1 text-sm"
+                  className="mt-1 p-2 block w-full rounded-md border border-black shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent mb-1 text-sm"
                 />
               </div>
               <Button
@@ -171,7 +163,6 @@ const IdeaDetail = () => {
                 text="Contribuir"
                 className="bg-green-400 text-white"
               />
-
             </div>
           </div>
         </div>
