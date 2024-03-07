@@ -1,0 +1,9 @@
+.dark{
+    background-color: rgb(30, 30, 46);
+    min-height: 100vh;
+    color: white;
+}
+
+.dark nav{
+    background-color: rgb(30, 30, 46);
+}

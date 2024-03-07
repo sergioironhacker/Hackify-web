@@ -15,12 +15,17 @@ import AboutUsPage from './pages/AboutUs';
 import NewIdea from './pages/NewIdea';
 import EditIdea from './pages/EditIdea';
 import PaymentSuccess from './pages/PaymentSuccess';
+import '../src/App.css';
+import { useContext } from 'react';
+import { ThemeContext } from './contexts/ThemeContext';
 
 
 
 function App() {
+  const {theme} = useContext(ThemeContext)
+
   return (
-    <div>
+    <div className={theme}>
       <NavBar />
       <div className="max-w-container mb-9 mx-auto min-h-body p-4">
         

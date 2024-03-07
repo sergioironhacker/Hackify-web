@@ -4,7 +4,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { useFormik } from "formik";
 import Button from "../components/Button";
 import { createChat } from "../services/Chat.service";
-import { PencilIcon, TrashIcon, ChatAltIcon, /* SaveIcon */ } from "@heroicons/react/outline";
+import { PencilIcon, TrashIcon, ChatAltIcon,  SaveIcon  } from "@heroicons/react/outline";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -135,11 +135,11 @@ const IdeaDetail = () => {
                 </button>
 
 
-               {/*  <button className="flex items-center">
+                 <button className="flex items-center">
                   <SaveIcon className="w-7 mr-2 text-yellow-500" /> 
                   Guardar Idea
                 </button>
- */}
+ 
 
 
                 <button onClick={onCreateChat} className="">

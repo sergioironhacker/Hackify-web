@@ -31,7 +31,7 @@ const Home = () => {
 
   return (
     <div className="max-w-container mx-auto p-6">
-      <h1 className="flex justify-center text-2xl font-bold text-green-400 mb-4">Hackify <AboutUsLogo /> </h1>
+      <h1 className="flex justify-center text-2xl font-bold text-green-400 mb-4 ">Hackify  <AboutUsLogo /> </h1>
 
     
       <SearchBar onSearch={handleSearch} />

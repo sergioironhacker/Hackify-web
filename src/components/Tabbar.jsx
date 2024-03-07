@@ -1,18 +1,19 @@
-import { useState } from 'react';
-import axios from 'axios';
+import { useContext, useEffect, useState } from 'react';
+/* import axios from 'axios'; */
 import { CogIcon, MoonIcon, SunIcon, TrashIcon } from '@heroicons/react/solid';
 import clsx from 'clsx';
 import { logout } from "../stores/AccessTokenStore";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { deleteUserAccount } from '../services/UserService';
+import { ThemeContext } from '../contexts/ThemeContext';
 
-const Tabbar = ({ user }) => {
-  const [theme, setTheme] = useState('light');
+const Tabbar = () => {
+  const {theme, toggleTheme} = useContext(ThemeContext)
 
-  const toggleTheme = () => {
-    setTheme(theme === 'light' ? 'dark' : 'light');
-  };
+  useEffect(()=>{
+    console.log(theme)
+  }, [theme])
 
   const confirmDeleteAccount = () => {
     toast.warn(
