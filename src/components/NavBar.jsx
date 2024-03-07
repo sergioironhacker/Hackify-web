@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import AuthContext from '../contexts/AuthContext';
-import { logout } from "../stores/AccessTokenStore";
 import FindLogo from "../assets/FindLogo";
 import MessageLogo from "../assets/MessageLogo";
 import UserIcon from "../assets/UserIcon";
@@ -70,7 +69,7 @@ const Navbar = () => {
 
   return (
     <nav className="bg-green-400 fixed bottom-0 w-full z-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div className="max-w-7xl mx-auto px-0 sm:px-6 lg:px-0">
         <div className="flex items-center justify-around h-16">
           <div className="flex items-center">
             <div className="flex-shrink-0">
@@ -83,21 +82,14 @@ const Navbar = () => {
                 <NavLink
                   key={index}
                   to={route.to}
-                  className="text-white hover:bg-green-300 px-3 py-2 rounded-md text-sm font-medium flex items-center"
-                  style={{ marginRight: '10px' }} // Agrega margen entre los elementos NavLink
+                  className="text-white hover:bg-green-300 px-3 py-2 rounded-md text-sm font-medium flex items-center "
+                  style={{ marginRight: '21px' }} // Agrega margen entre los elementos NavLink
                 >
+                  
                   {route.text}
                 </NavLink>
               ))}
-              {hasUser && (
-                <button
-                  type="button"
-                  className="text-white hover:bg-red-600 px-3 py-2 rounded-md text-sm font-medium flex items-center"
-                  onClick={logout}
-                >
-                  
-                </button>
-              )}
+              
             </div>
           </div>
         </div>

@@ -165,7 +165,7 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
         <button
           disabled={!isValid || isSubmitting}
           type="submit"
-          className="w-full bg-tw-primary text-white font-semibold py-2 px-4 rounded-md hover:bg-tw-primary-accent focus:outline-none focus:ring-2 focus:ring-tw-primary focus:ring-opacity-50"
+          className="w-full bg-green-400 text-white font-semibold py-2 px-4 rounded-md hover:bg-tw-primary-accent focus:outline-none focus:ring-2 focus:ring-tw-primary focus:ring-opacity-50"
         >
           {isSubmitting ? <>Guardando...</> : <>{initialValues ? 'Editar' : 'Crear'} Idea</>}
         </button>
