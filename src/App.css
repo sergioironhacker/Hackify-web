@@ -1,7 +1,7 @@
 .dark{
     background-color: rgb(30, 30, 46);
     min-height: 100vh;
-    color: white;
+    color: #000000;
 }
 
 .dark nav{
