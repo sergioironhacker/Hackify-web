@@ -9,7 +9,7 @@ const ideaSchema = object({
   contributionMax: string().required("Campo requerido"),
   fullDescription: string().required("Campo requerido"),
   contributionLimitActive: boolean(),
-  categories: array().required('Campo requerido'),
+  categories: array().required("Campo requerido"),
   timeLimit: date().required("Campo requerido"),
   location: yupObject({
     city: string().required("Campo requerido"),
@@ -39,7 +39,7 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
       contributionMax: initialValues?.contributionMax || "",
       fullDescription: initialValues?.fullDescription || "",
       contributionLimitActive: initialValues?.contributionLimitActive || false,
-      categories: initialValues?.categories || '',
+      categories: initialValues?.categories || "",
       timeLimit: initialValues?.timeLimit || "",
       location: {
         city: initialValues?.location?.city || "",
@@ -50,18 +50,21 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
     },
     onSubmit: (values, { setSubmitting }) => {
       setSubmitting(true);
-      console.log('entro')
+      console.log("entro");
 
       const formData = new FormData();
       formData.append("title", values.title);
       formData.append("description", values.description);
       formData.append("contributionMax", values.contributionMax);
       formData.append("fullDescription", values.fullDescription);
-      formData.append("contributionLimitActive", values.contributionLimitActive);
+      formData.append(
+        "contributionLimitActive",
+        values.contributionLimitActive
+      );
       formData.append("categories", values.categories);
       const timeLimitDate = new Date(values.timeLimit);
       formData.append("timeLimit", timeLimitDate.toISOString());
-      
+
       formData.append("location[city]", values.location.city);
       formData.append("location[country]", values.location.country);
       formData.append("location[zipcode]", values.location.zipcode);
@@ -94,9 +97,9 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
     validateOnBlur: true,
     validateOnMount: true,
   });
-  console.log(initialValues?.categories)
+  console.log(initialValues?.categories);
 
-console.log('errors', errors)
+  console.log("errors", errors);
   useEffect(() => {
     const fetchCategories = () => {
       getCategories()
@@ -110,20 +113,24 @@ console.log('errors', errors)
           setLoadingCategories(false);
         });
     };
-  
+
     fetchCategories();
   }, []);
-  
-  
 
   useEffect(() => {
     setFieldValue("title", initialValues?.title || "");
     setFieldValue("description", initialValues?.description || "");
     setFieldValue("contributionMax", initialValues?.contributionMax || "");
     setFieldValue("fullDescription", initialValues?.fullDescription || "");
-    setFieldValue("contributionLimitActive", initialValues?.contributionLimitActive || false);
+    setFieldValue(
+      "contributionLimitActive",
+      initialValues?.contributionLimitActive || false
+    );
     setFieldValue("categories", initialValues?.categories || []);
-    setFieldValue("timeLimit", initialValues?.timeLimit || "");
+    const formattedTimeLimit = initialValues?.timeLimit
+      ? new Date(initialValues.timeLimit).toISOString().slice(0, -5)
+      : null;
+    setFieldValue("timeLimit", formattedTimeLimit);
     setFieldValue("location.city", initialValues?.location?.city || "");
     setFieldValue("location.country", initialValues?.location?.country || "");
     setFieldValue("location.zipcode", initialValues?.location?.zipcode || "");
@@ -145,7 +152,7 @@ console.log('errors', errors)
       console.error("Total size of images exceeds the limit");
     }
   };
-console.log(values)
+  console.log(values);
   return (
     <div className="max-w-container mx-auto p-6 text-green-400">
       <h1 className="text-2xl font-bold mb-4 ">
@@ -256,14 +263,17 @@ console.log(values)
               required
               className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent"
             >
-              <option value="" disabled>Select a category</option>
-              {categoryOptions.map((category) =>{ 
-                console.log('category', category)
-                return(
-                <option key={category} value={category}>
-                  {category}
-                </option>
-              )})}
+              <option value="" disabled>
+                Select a category
+              </option>
+              {categoryOptions.map((category) => {
+                console.log("category", category);
+                return (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                );
+              })}
             </select>
           ) : (
             <p>Loading categories...</p>
