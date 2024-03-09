@@ -5,6 +5,7 @@ import Button from "../components/Button";
 import { useContext } from "react";
 import AuthContext from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import AboutUsLogo from "../assets/AboutUsLogo";
 
 const userSchema = object({
   email: string().email('Enter a valid email').required('Required field'),
@@ -33,7 +34,11 @@ const Login = () => {
   return (
     <div className="flex justify-center items-center h-screen ">
       <div className="w-full max-w-md p-6 bg-white shadow-md rounded-md ">
-        <h1 className="text-green-400 uppercase font-bold text-3xl mb-6 ">Sign in to your account</h1>
+      <div className="flex justify-center mb-4">
+          <h1 className="text-2xl font-bold text-green-400 mr-2">Hackify</h1>
+          <AboutUsLogo />
+        </div>
+        <h1 className="text-green-400 uppercase font-bold text-3xl mb-6 ">Login</h1>
         
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 gap-4 text-green-400 ">
