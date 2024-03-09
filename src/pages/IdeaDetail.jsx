@@ -89,6 +89,13 @@ const IdeaDetail = ({ bookmarks, isBookmarked, showBookmarkButton = true }) => {
     }
   };
 
+
+
+   const handleSaveIdea = () => {
+    // Lógica para guardar la idea
+    console.log("Idea guardada");
+  };
+
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const settings = {

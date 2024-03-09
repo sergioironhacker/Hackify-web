@@ -10,7 +10,6 @@ const Profile = ({ user }) => {
         <div>
           <h1 className="font-bold text-xl lg:text-2xl text-green-500">{user.username}</h1>
           <p className="text-gray-600">Email: {user.email}</p>
-          {/* Agrega más detalles del usuario aquí si lo deseas */}
         </div>
       </div>
 
