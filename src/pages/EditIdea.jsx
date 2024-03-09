@@ -37,8 +37,7 @@ const EditIdea = () => {
 
   return (
     <div>
-      <h1>Editar idea</h1>
-      {loading ? (
+        {loading ? (
         <p>Cargando...</p>
       ) : (
         <IdeaForm initialValues={idea} onSubmit={onSubmit} />
