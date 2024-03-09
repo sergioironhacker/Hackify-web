@@ -12,7 +12,6 @@ const NewIdea = () => {
 
   return (
     <div>
-      <h1>Crear nueva Idea</h1>
       <IdeaForm onSubmit={onSubmit} />
     </div>
   );
