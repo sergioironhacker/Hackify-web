@@ -75,6 +75,13 @@ const IdeaDetail = () => {
     }
   };
 
+
+
+   const handleSaveIdea = () => {
+    // Lógica para guardar la idea
+    console.log("Idea guardada");
+  };
+
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const settings = {
@@ -135,7 +142,7 @@ const IdeaDetail = () => {
                       <ChatAltIcon className="w-7 ml-4 text-green-400" />
                       Chatear
                     </button>
-                    <button>
+                    <button onClick={handleSaveIdea}>
                       <SaveIcon className="w-7 mr-2 text-yellow-500" />
                       Guardar Idea
                     </button>
