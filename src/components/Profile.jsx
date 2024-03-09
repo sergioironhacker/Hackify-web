@@ -2,6 +2,7 @@ import Tabbar from "../components/Tabbar";
 import Avatar from "../components/Avatar";
 
 const Profile = ({ user }) => {
+
   return (
     <div className="p-4 ">
       <div className="flex items-center gap-4">

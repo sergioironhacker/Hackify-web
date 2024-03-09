@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getUserIdeas } from "../services/IdeaService";
+import { getUserIdeas } from "../services/UserService";
 import Avatar from "../components/Avatar";
 import IdeaCard from "./IdeaCard";
 

@@ -4,16 +4,30 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { useFormik } from "formik";
 import Button from "../components/Button";
 import { createChat } from "../services/Chat.service";
-import { PencilIcon, TrashIcon, ChatAltIcon,  SaveIcon  } from "@heroicons/react/outline";
+import { PencilIcon, TrashIcon, ChatAltIcon, BookmarkIcon as OutlineBookmarkIcon } from "@heroicons/react/outline";
+import { BookmarkIcon } from "@heroicons/react/solid"
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import AuthContext from "../contexts/AuthContext";
+import { toggleBookmark } from "../services/UserService";
 
-const IdeaDetail = () => {
+const IdeaDetail = ({ bookmarks, isBookmarked, showBookmarkButton = true }) => {
   const { user } = useContext(AuthContext);
   const { id } = useParams();
   const navigate = useNavigate();
+
+  const [numBookmarks, setNumBookmarks] = useState(bookmarks)
+  const [bookmark, setBookmark] = useState(isBookmarked);
+
+  const handleBookmark = () => {
+    toggleBookmark(user.id, id)
+      .then(() => {
+        setNumBookmarks(bookmark ? numBookmarks - 1 : numBookmarks + 1)
+        setBookmark(!bookmark)
+        console.log('user', user)
+      })
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -135,10 +149,16 @@ const IdeaDetail = () => {
                       <ChatAltIcon className="w-7 ml-4 text-green-400" />
                       Chatear
                     </button>
-                    <button>
-                      <SaveIcon className="w-7 mr-2 text-yellow-500" />
+                    {showBookmarkButton && (
+                      <div onClick={handleBookmark} className="w-7 mr-2">
+                        {bookmark ? (
+                          <BookmarkIcon className="fill-yellow-500" />
+                        ) : (
+                          <OutlineBookmarkIcon className="" />
+                        )}
                       Guardar Idea
-                    </button>
+                      </div>
+                    )}
                   </>
                 )}
               </div>
@@ -166,6 +186,7 @@ const IdeaDetail = () => {
             </div>
           </div>
         </div>
+        
       )}
     </div>
   );

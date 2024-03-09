@@ -9,17 +9,15 @@ export const getCurrentUser = () => {
 export const getUser = (id) => {
   return http.get(`/users/${id}`)
 }
-
-/* export const getUserTweets = (id) => {
-  return http.get(`/tweets/${id}`)
+export const getUserIdeas = (userId) => {
+  console.log('userId', userId)
+  return http.get(`/users/${userId.id}`);
 }
-
-export const toggleLike = (tweetOwner, tweet) => {
-  return http.post(`/likes/${tweetOwner}/${tweet}`)
-}
- */
 
 export const deleteUserAccount = () => {
   return http.delete('/delete-account');
 };
 
+export const toggleBookmark = (ideaOwner, idea) => {
+  return http.post(`/bookmarks/${ideaOwner}/${idea}`)
+}

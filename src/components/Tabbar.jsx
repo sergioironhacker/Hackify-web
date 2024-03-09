@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useMemo } from 'react';
 /* import axios from 'axios'; */
 import { CogIcon, MoonIcon, SunIcon, TrashIcon } from '@heroicons/react/solid';
 import clsx from 'clsx';
@@ -7,9 +7,14 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { deleteUserAccount } from '../services/UserService';
 import { ThemeContext } from '../contexts/ThemeContext';
+import BookmarkedIdeas from './BookmarkedIdeas';
+import AuthContext from '../contexts/AuthContext';
 
 const Tabbar = () => {
   const {theme, toggleTheme} = useContext(ThemeContext)
+  const { user } = useContext(AuthContext)
+  const bookmarkedIdeas = useMemo(() => user.ideas.map((bookmark) => ({data: bookmark.idea})), [user.data]);
+
 
   useEffect(()=>{
     console.log(theme)
@@ -82,7 +87,7 @@ const Tabbar = () => {
     {
       key: 2,
       title: 'Ideas Guardadas',
-      body: <>Ideas Guardadas</>
+      body: <BookmarkedIdeas ideas={bookmarkedIdeas} />
     },
     {
       key: 3,

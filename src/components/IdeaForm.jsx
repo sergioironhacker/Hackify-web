@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { object, string, boolean, date, object as yupObject, array } from "yup";
+import { object, string, boolean, date, object as yupObject } from "yup";
 import { createIdea, editIdea, getCategories } from "../services/IdeaService";
 import { useEffect, useState } from "react";
 
@@ -9,7 +9,7 @@ const ideaSchema = object({
   contributionMax: string().required("Campo requerido"),
   fullDescription: string().required("Campo requerido"),
   contributionLimitActive: boolean(),
-  categories: array().required("Campo requerido"),
+  categories: string().required("Campo requerido"),
   timeLimit: date().required("Campo requerido"),
   location: yupObject({
     city: string().required("Campo requerido"),
@@ -39,7 +39,7 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
       contributionMax: initialValues?.contributionMax || "",
       fullDescription: initialValues?.fullDescription || "",
       contributionLimitActive: initialValues?.contributionLimitActive || false,
-      categories: initialValues?.categories || "",
+      categories: initialValues?.categories || '',
       timeLimit: initialValues?.timeLimit || "",
       location: {
         city: initialValues?.location?.city || "",
@@ -100,6 +100,7 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
   console.log(initialValues?.categories);
 
   console.log("errors", errors);
+  
   useEffect(() => {
     const fetchCategories = () => {
       getCategories()
@@ -259,7 +260,7 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
               name="categories"
               onBlur={handleBlur}
               onChange={handleChange}
-              value={values.categories[0]}
+              value={[values.categories]}
               required
               className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent"
             >
