@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import Profile from "../components/Profile";
 import { useParams } from "react-router-dom";
 import { getUser } from "../services/UserService";
+import OtherUserProfile from '../components/OtherUserProfile';
 
 const UserProfile = () => {
-  const { id } = useParams()
+ const { id } = useParams()
 
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true)
@@ -22,7 +22,7 @@ const UserProfile = () => {
   }
 
   return (
-    <Profile user={user}/>
+    <OtherUserProfile userId={user}/>
   )
 }
 
