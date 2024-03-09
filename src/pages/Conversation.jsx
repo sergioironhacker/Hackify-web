@@ -101,6 +101,7 @@ const Chat = () => {
                         avatar: currentUser.avatar
                     }
                 }
+               
 
                 const updatedMessages = [...chatMessages, newMessagePopulated];
                 setChatMessages(updatedMessages);
@@ -125,13 +126,13 @@ const Chat = () => {
             <div className="chat-margin">
                 <div className="top-div-header"></div>
                 <div className="Chat container mx-auto">
-                    <NavLink style={{ textDecoration: 'none', color: ' #FF5A5F' }} to={`/user/users/detail/${otherUser.id}`}>
+                    <NavLink style={{ textDecoration: 'none', color: ' #FF5A5F' }} to={`/users/${otherUser.id}`}>
                         <div className="chat-user-info flex items-center">
                             <img src={otherUser.avatar} alt="" className="w-16 h-16 rounded-full" />
                             <div className="chat-user-name flex flex-col items-center ml-4  text-green-400">
-                                <h2 className="text-xl text-green-400">{otherUser.name}</h2>
+                                <h2 className="text-xl text-green-400">{otherUser.username}</h2>
                                
-                                <p className="text-green-600 mt-2"> {currentUser.id}</p>
+                             
                                
                             </div>
                         </div>
