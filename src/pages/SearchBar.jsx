@@ -70,10 +70,10 @@ const SearchBar = ({ onSearch }) => {
   // se puede deslizar hacia los lados si ñaadiesemos mas categorias y quedaia un efecto guay propomngo añadir categoria 'todas'
   const categoryIcons = {
     "Inmobiliaria": <AiOutlineHome />,
-    "Tecnología": <FaLaptop />, // Cambiado a FaLaptop
+    "Tecnología": <FaLaptop />, 
     "Arte": <AiOutlinePicture />,
     "Ocio": <AiOutlinePlaySquare />,
-    "Sin ánimo de lucro": <AiOutlineDollarCircle /> // Cambiado a AiOutlineDollarCircle
+    "Sin ánimo de lucro": <AiOutlineDollarCircle /> 
   };
 
   return (
