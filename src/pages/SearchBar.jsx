@@ -1,15 +1,17 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import IdeaCard from "../components/IdeaCard.jsx";
 import { getIdeas } from "../services/IdeaService.js";
 import { getCategories } from "../services/IdeaService.js";
+import { AiOutlinePicture, AiOutlinePlaySquare, AiOutlineDollarCircle, AiOutlineHome } from 'react-icons/ai'; 
+import { FaLaptop } from 'react-icons/fa';
 
 const SearchBar = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [ideas, setIdeas] = useState([]);
   const [filteredIdeas, setFilteredIdeas] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -29,14 +31,7 @@ const SearchBar = ({ onSearch }) => {
   };
 
   const handleCategoryChange = (category) => {
-    const index = selectedCategories.indexOf(category);
-    if (index === -1) {
-      setSelectedCategories([...selectedCategories, category]);
-    } else {
-      const updatedCategories = [...selectedCategories];
-      updatedCategories.splice(index, 1);
-      setSelectedCategories(updatedCategories);
-    }
+    setSelectedCategory(category === selectedCategory ? null : category);
   };
 
   const handleSubmit = (event) => {
@@ -63,14 +58,23 @@ const SearchBar = ({ onSearch }) => {
       idea.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    if (selectedCategories.length > 0) {
+    if (selectedCategory) {
       filtered = filtered.filter(idea =>
-        selectedCategories.some(category => idea.categories.includes(category))
+        idea.categories.includes(selectedCategory)
       );
     }
 
     setFilteredIdeas(filtered);
-  }, [searchTerm, ideas, selectedCategories]);
+  }, [searchTerm, ideas, selectedCategory]);
+
+  // se puede deslizar hacia los lados si ñaadiesemos mas categorias y quedaia un efecto guay propomngo añadir categoria 'todas'
+  const categoryIcons = {
+    "Inmobiliaria": <AiOutlineHome />,
+    "Tecnología": <FaLaptop />, // Cambiado a FaLaptop
+    "Arte": <AiOutlinePicture />,
+    "Ocio": <AiOutlinePlaySquare />,
+    "Sin ánimo de lucro": <AiOutlineDollarCircle /> // Cambiado a AiOutlineDollarCircle
+  };
 
   return (
     <div>
@@ -87,18 +91,21 @@ const SearchBar = ({ onSearch }) => {
         </button>
       </form>
 
-      <div>
-        <h2>Categorías</h2>
+      <div className="flex overflow-x-auto mt-3">
         {categories.map((category, index) => (
-          <div key={index}>
+          <div key={index} className="flex-shrink-0 mr-4">
             <input
               type="checkbox"
               id={category}
               value={category}
               onChange={() => handleCategoryChange(category)}
-              checked={selectedCategories.includes(category)}
+              checked={category === selectedCategory}
+              className="sr-only"
             />
-            <label htmlFor={category}>{category}</label>
+            <label htmlFor={category} className={`flex flex-col items-center cursor-pointer ${category === selectedCategory ? 'text-green-400' : 'text-gray-600'}`}>
+              {categoryIcons[category]}
+              <span className="text-xs mt-1">{category}</span>
+            </label>
           </div>
         ))}
       </div>
