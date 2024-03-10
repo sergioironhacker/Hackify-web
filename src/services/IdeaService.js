@@ -36,3 +36,16 @@ export const createContribution = async (ideaId, amount) => {
   return response;
 }
 export const getCategories = () => http.get('/categories');
+
+
+// contribuciones para la home 
+export const getTotalContributions = async () => {
+  try {
+    const response = await http.get('/ideas/total-contributions');
+    console.log(response); // Imprime la respuesta completa para verificar su estructura
+    return response.data; // Devuelve la respuesta completa por ahora
+  } catch (error) {
+    console.error("Error al obtener el total de contribuciones:", error.message);
+    throw error; // Lanza el error para que sea manejado por el componente que llama a esta función
+  }
+};
