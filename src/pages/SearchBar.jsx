@@ -13,6 +13,7 @@ const SearchBar = ({ onSearch }) => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -67,17 +68,20 @@ const SearchBar = ({ onSearch }) => {
     setFilteredIdeas(filtered);
   }, [searchTerm, ideas, selectedCategory]);
 
+
+  
+
   // se puede deslizar hacia los lados si ñaadiesemos mas categorias y quedaia un efecto guay propomngo añadir categoria 'todas'
   const categoryIcons = {
-    "Inmobiliaria": <AiOutlineHome />,
-    "Tecnología": <FaLaptop />, 
-    "Arte": <AiOutlinePicture />,
-    "Ocio": <AiOutlinePlaySquare />,
-    "Sin ánimo de lucro": <AiOutlineDollarCircle /> 
+    "Inmobiliaria": <AiOutlineHome className="category-icon" />,
+    "Tecnología": <FaLaptop className="category-icon" />, 
+    "Arte": <AiOutlinePicture className="category-icon" />,
+    "Ocio": <AiOutlinePlaySquare className="category-icon" />,
+    "Sin ánimo de lucro": <AiOutlineDollarCircle className="category-icon" /> 
   };
 
   return (
-    <div>
+    <div className=''>
       <form onSubmit={handleSubmit} className="flex items-center border border-gray-300 rounded-md px-3 py-2">
         <input
           type="text"
@@ -91,9 +95,9 @@ const SearchBar = ({ onSearch }) => {
         </button>
       </form>
 
-      <div className="flex overflow-x-auto mt-3">
+      <div className="flex overflow-x-auto mt-3 ">
         {categories.map((category, index) => (
-          <div key={index} className="flex-shrink-0 mr-4">
+          <div key={index} className="flex-shrink-0 mr-4 ">
             <input
               type="checkbox"
               id={category}

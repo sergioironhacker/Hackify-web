@@ -9,7 +9,7 @@ const Profile = ({ user }) => {
         <Avatar avatar={user.avatar} />
         <div>
           <h1 className="font-bold text-xl lg:text-2xl text-green-500">{user.username}</h1>
-          <p className="text-gray-600">Email: {user.email}</p>
+          <p className="email text-gray-600">Email: {user.email}</p>
         </div>
       </div>
 

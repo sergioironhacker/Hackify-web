@@ -10,6 +10,7 @@ import { ThemeContext } from '../contexts/ThemeContext';
 import BookmarkedIdeas from './BookmarkedIdeas';
 import AuthContext from '../contexts/AuthContext';
 
+
 const Tabbar = () => {
   const {theme, toggleTheme} = useContext(ThemeContext)
   const { user } = useContext(AuthContext)
@@ -41,7 +42,7 @@ const Tabbar = () => {
   };
 
   const deleteAccount = () => {
-    deleteUserAccount() // Usa deleteUserAccount en lugar de axios.delete
+    deleteUserAccount() 
       .then(response => {
         console.log("La cuenta del usuario ha sido eliminada correctamente.");
         logout();
@@ -77,22 +78,26 @@ const Tabbar = () => {
     {
       key: 0,
       title: 'Mis Ideas',
-      body: <>Mis Ideas</>
+      body: <>Mis Ideas</>,
+      className: 'mis-ideas-tab'
     },
     {
       key: 1,
       title: 'Mis Contribuciones',
-      body: <>Mis Contribuciones</>
+      body: <>Mis Contribuciones</>,
+      className: 'mis-contribuciones-tab'
     },
     {
       key: 2,
       title: 'Ideas Guardadas',
-      body: <BookmarkedIdeas ideas={bookmarkedIdeas} />
+      body: <BookmarkedIdeas ideas={bookmarkedIdeas} />,
+      className: 'ideas-guardadas-tab'
     },
     {
       key: 3,
       title: <CogIcon className="h-5 w-5" />,
-      body: null
+      body: null,
+      className: 'configuracion-tab'
     },
   ];
 
@@ -109,7 +114,8 @@ const Tabbar = () => {
               className={clsx(
                 "w-full py-4 px-1 text-sm font-medium rounded-t-lg focus:outline-none focus:ring-inset focus:ring-tw-primary",
                 { "text-green-400": tab.key === activeTab },
-                { "text-grey-400": tab.key !== activeTab }
+                { "text-grey-400": tab.key !== activeTab },
+                "custom-tab-button-class"
               )}
             >
               {tab.title}

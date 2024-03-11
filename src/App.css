@@ -11,3 +11,24 @@
 body {
     background-color: rgba(238, 232, 225, 0.582);
 }
+
+.dark .mis-ideas-tab,
+.dark .mis-contribuciones-tab,
+.dark .ideas-guardadas-tab,
+.dark .configuracion-tab {
+    color: #ffffff; 
+}
+
+.dark .custom-tab-button-class {
+    color: #ffffff; /* Cambia el color del texto del botón a blanco en modo oscuro */
+}
+
+
+.dark .category-icon {
+    color: #ffffff; /* Cambia el color del icono a blanco en modo oscuro */
+  }
+
+
+  .dark .email {
+  color: #ffffff; /* Cambia el color del texto a blanco en modo oscuro */
+}

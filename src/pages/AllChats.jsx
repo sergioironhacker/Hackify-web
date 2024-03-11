@@ -75,7 +75,7 @@ const Chats = () => {
                 ) : (
                     <div className="row">
                         <div className="no-conversations-container mt-4">
-                            <h3 className="text-xl text-red-600 font-semibold">Aún no has iniciado ninguna conversación.</h3>
+                            <h3 className="text-xl text-green-600 font-semibold">Aún no has iniciado ninguna conversación.</h3>
                         </div>
                     </div>
                 )}
