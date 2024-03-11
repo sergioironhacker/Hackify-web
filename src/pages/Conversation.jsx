@@ -1,14 +1,11 @@
 import { getCurrentChat } from "../services/Chat.service";
 import { useParams } from "react-router-dom";
-import { useState, useEffect, useContext, useCallback} from "react";
+import { useState, useEffect, useContext, useCallback, useRef } from "react";
 import AuthContext from "../contexts/AuthContext";
 import { createMessage, updateMessages } from "../services/Message.Service";
 import { NavLink } from "react-router-dom";
 import { format } from "date-fns";
-import { useRef } from "react";
 import { FaPaperPlane } from 'react-icons/fa';
-
-
 
 const initialValues = {
     text: ''
@@ -16,6 +13,7 @@ const initialValues = {
 
 const Chat = () => {
     const chatContainerRef = useRef(null);
+    const inputFieldRef = useRef(null);
     const [chat, setChat] = useState(null);
     const [message, setMessage] = useState(initialValues);
     const [chatMessages, setChatMessages] = useState([]);
@@ -27,118 +25,104 @@ const Chat = () => {
         messages.forEach((message) => {
             if (message.status === 'unread' && message.sender.id !== currentUser.id) {
                 updateMessages(message.id, { status: 'read' })
-                    .then(() => {
-                      
-                    })
+                    .then(() => {})
                     .catch(err => {
                         console.log(err)
                     })
             }
         });
-    }, []);
-
+    }, [currentUser]);
 
     useEffect(() => {
-       
-        if (chatContainerRef.current) {
-            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-        }
         const fetchData = async () => {
             try {
                 const chatData = await getCurrentChat(id);
                 setChat(chatData);
-                setChatMessages(chatData.messages);
-                markMessagesAsRead(chatData.messages);
+                if (chatData && chatData.messages) {
+                    setChatMessages(chatData.messages);
+                    markMessagesAsRead(chatData.messages);
+                    // Scroll al final del contenedor solo cuando se carga el chat por primera vez
+                    if (chatContainerRef.current && chatMessages.length === 0) {
+                        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+                    }
+                }
             } catch (error) {
                 console.error(error);
             }
         };
-
-      
+    
         fetchData();
         const intervalId = setInterval(fetchData, 2000);
-
-      
+    
         return () => {
             clearInterval(intervalId);
         };
     }, [id, chatMessages.length, markMessagesAsRead]);
 
-
-    const handleFocus = () => {
-        setMessageError("");
-    };
-
-    const handleBlur = () => {
-        if (!message.text) {
-            setMessageError("Debes escribir un mensaje");
-        }
-    };
-
     const handleMessageChange = (e) => {
-        const key = e.target.name;
-        const value = e.target.value;
-
+        const { name, value } = e.target;
         setMessage(prevMessage => ({
             ...prevMessage,
-            [key]: value
-        }))
+            [name]: value
+        }));
     }
 
     const handleSubmitMessage = (e) => {
         e.preventDefault();
-        createMessage(chat.id, message)
-            .then((response) => {
-                const newMessage = response.message;
-
-                console.log('Mensaje creado:', newMessage); 
-
-                const newMessagePopulated = {
-                    ...newMessage,
-                    sender: {
-                        id: currentUser.id,
-                        name: currentUser.name,
-                        avatar: currentUser.avatar
+        if (chat && chat.id) {
+            createMessage(chat.id, message)
+                .then((response) => {
+                    const newMessage = response.message;
+                    const newMessagePopulated = {
+                        ...newMessage,
+                        sender: {
+                            id: currentUser.id,
+                            name: currentUser.name,
+                            avatar: currentUser.avatar
+                        }
                     }
-                }
-               
-
-                const updatedMessages = [...chatMessages, newMessagePopulated];
-                setChatMessages(updatedMessages);
-
-                const updatedChat = {
-                    ...chat,
-                    messages: updatedMessages
-                };
-
-                setChat(updatedChat);
-            })
-            .catch(err => {
-                console.log(err)
-            })
-        setMessage(initialValues);
+                    const updatedMessages = [...chatMessages, newMessagePopulated];
+                    setChatMessages(updatedMessages);
+                    const updatedChat = {
+                        ...chat,
+                        messages: updatedMessages
+                    };
+                    setChat(updatedChat);
+                    setMessage(initialValues);
+                    // Scroll al final del contenedor después de enviar un mensaje
+                    if (chatContainerRef.current) {
+                        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+                    }
+                    // Enfocar el campo de entrada de mensajes después de enviar un mensaje
+                    if (inputFieldRef.current) {
+                        inputFieldRef.current.focus();
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
+                });
+        }
     }
 
-    const otherUser = chat?.users.find((user) => user.id !== currentUser._id);
-    console.log(chat)
+    const otherUser = chat && chat.users ? chat.users.find((user) => user._id !== currentUser._id) : null;
+
     return (
         chat ? (
             <div className="chat-margin">
                 <div className="top-div-header"></div>
                 <div className="Chat container mx-auto">
-                    <NavLink style={{ textDecoration: 'none', color: ' #FF5A5F' }} to={`/users/${otherUser.id}`}>
-                        <div className="chat-user-info flex items-center">
-                            <img src={otherUser.avatar} alt="" className="w-16 h-16 rounded-full" />
-                            <div className="chat-user-name flex flex-col items-center ml-4  text-green-400">
-                                <h2 className="text-xl text-green-400">{otherUser.username}</h2>
-                               
-                             
-                               
+                    {otherUser && otherUser.id && (
+                        <NavLink style={{ textDecoration: 'none', color: ' #FF5A5F' }} to={`/users/${otherUser.id}`}>
+                            <div className="chat-user-info flex items-center">
+                                <img src={otherUser.avatar} alt="" className="w-16 h-16 rounded-full" />
+                                <div className="chat-user-name flex flex-col items-center ml-4  text-green-400">
+                                    <h2 className="text-xl text-green-400">{otherUser.username}</h2>
+                                </div>
                             </div>
-                        </div>
-                    </NavLink>
+                        </NavLink>
+                    )}
                     <hr className="border-green-400" />
-                    <div className="chat-box overflow-y-auto" ref={chatContainerRef}>
+                    <div className="chat-box overflow-y-auto" style={{ maxHeight: "calc(100vh - 200px)" }} ref={chatContainerRef}>
                         {chatMessages.map((msg) => (
                             <div className={`message flex ${msg.sender.id === currentUser.id ? 'justify-end' : 'justify-start'}`} key={msg.id}>
                                 <div className="chat-message-content flex flex-col items-start ms-3">
@@ -155,10 +139,10 @@ const Chat = () => {
                             </div>
                         ))}
                     </div>
-
+    
                     <form onSubmit={handleSubmitMessage}>
                         <div className="form-group flex items-center">
-                            <input onChange={handleMessageChange} type="text" name="text" className="form-control w-full bg-white border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-green-400" placeholder="Escribe un mensaje..." value={message.text} onFocus={handleFocus} onBlur={handleBlur} />
+                            <input ref={inputFieldRef} onChange={handleMessageChange} type="text" name="text" className="form-control w-full bg-white border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-green-400" placeholder="Escribe un mensaje..." value={message.text} />
                             <button type="submit" className="btn-circle bg-green-400 text-white px-4 py-2 rounded-full ml-2">
                                 <FaPaperPlane />
                             </button>
