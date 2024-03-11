@@ -18,7 +18,8 @@ const Chats = () => {
             })
     }, []);
 
-    const handleDeleteChat = (chatId) => {
+    const handleDeleteChat = (chatId, e) => {
+        e.preventDefault();
         // Lógica para eliminar el chat
         deleteChat(chatId)
             .then(() => {
@@ -65,7 +66,7 @@ const Chats = () => {
                                                     <span className="unread-circle bg-red-600 text-white rounded-full px-2 py-1">{unreadMessages}</span>
                                                 </div>
                                             )}
-                                            <button onClick={() => handleDeleteChat(chat.id)} className="ml-20  text-green-400 font-semibold">Eliminar</button>
+                                            <button onClick={(e) => handleDeleteChat(chat.id, e)} className="ml-20  text-green-400 font-semibold">Eliminar</button>
                                         </div>
                                     </div>
                                 </NavLink>

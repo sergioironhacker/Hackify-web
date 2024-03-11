@@ -17,16 +17,16 @@ export const getIdeaDetail = (id) => http.get(`/ideas/${id}`)
 export const getLatestIdeas = () => http.get('/ideas/latest');
 
 export const editIdea = async (id, formData) => {
-    const response = await http.put(`/ideas/${id}`, formData);
-    console.log(response); 
-    return response;
-  }
+  const response = await http.put(`/ideas/${id}`, formData);
+  console.log(response);
+  return response;
+}
 
 export const deleteIdea = (id) => http.delete(`/ideas/${id}`)
 
 export const buyProduct = (ideaId, paymentAmount) => {
-  
-  return http.post(`/ideas/${ideaId}/checkout`, {paymentAmount});
+
+  return http.post(`/ideas/${ideaId}/checkout`, { paymentAmount });
 }
 
 export const createContribution = async (ideaId, amount) => {
@@ -41,10 +41,10 @@ export const getCategories = () => http.get('/categories');
 export const getTotalContributions = async () => {
   try {
     const response = await http.get('/ideas/total-contributions');
-    console.log(response); 
-    return response.data; 
+    console.log(response);
+    return response;
   } catch (error) {
     console.error("Error al obtener el total de contribuciones:", error.message);
-    throw error; 
+    throw error;
   }
 };
