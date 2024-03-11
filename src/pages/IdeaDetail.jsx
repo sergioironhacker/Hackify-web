@@ -19,13 +19,16 @@ const IdeaDetail = ({ bookmarks, isBookmarked, showBookmarkButton = true }) => {
 
   const [numBookmarks, setNumBookmarks] = useState(bookmarks)
   const [bookmark, setBookmark] = useState(isBookmarked);
-
+  
   const handleBookmark = () => {
-    toggleBookmark(user.id, id)
-      .then(() => {
+    toggleBookmark(id)
+    .then((data) => {
+      console.log('user', user)
+      console.log('id', id)
+      console.log('bookmark', bookmark)
+      console.log('data', data)
         setNumBookmarks(bookmark ? numBookmarks - 1 : numBookmarks + 1)
         setBookmark(!bookmark)
-        console.log('user', user)
       })
   }
 
@@ -87,13 +90,6 @@ const IdeaDetail = ({ bookmarks, isBookmarked, showBookmarkButton = true }) => {
     } catch (error) {
       console.error(error);
     }
-  };
-
-
-
-   const handleSaveIdea = () => {
-    // Lógica para guardar la idea
-    console.log("Idea guardada");
   };
 
   const [currentIndex, setCurrentIndex] = useState(0);

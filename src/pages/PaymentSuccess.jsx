@@ -17,7 +17,7 @@ const PaymentSuccess = () => {
     makeContribution();
     setTimeout(() => {
       navigate(`/ideas/${id}`)
-    }, 5000);
+    }, 3000);
     }, [amount, id]);
 
   return (

@@ -18,6 +18,6 @@ export const deleteUserAccount = () => {
   return http.delete('/delete-account');
 };
 
-export const toggleBookmark = (ideaOwner, idea) => {
-  return http.post(`/bookmarks/${ideaOwner}/${idea}`)
-}
+export const toggleBookmark = (ideaId) => {
+  return http.post(`/bookmarks/${ideaId}`);
+};
