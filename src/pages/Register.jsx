@@ -15,6 +15,7 @@ const userSchema = object({
 
 const Register = () => {
   const navigate = useNavigate();
+
   const { values, errors, touched, isValid, setFieldValue, handleSubmit, handleChange, handleBlur } = useFormik({
     initialValues: {
       username: '',
@@ -22,14 +23,26 @@ const Register = () => {
       password: '',
       avatar: ''
     },
-    onSubmit: async (values) => {
+    onSubmit: async (values, { setFieldError }) => {
       try {
         const data = new FormData();
         Object.keys(values).forEach(key => data.append(key, values[key]));
         await register(data);
         navigate('/login');
       } catch (error) {
-        console.error('Error registering:', error.message);
+        if (error.response) {
+          // Si la respuesta contiene errores de validación del formulario, establece los errores de campo correspondientes
+          if (error.response.data.errors) {
+            error.response.data.errors.forEach(({ field, message }) => {
+              setFieldError(field, message);
+            });
+          } else {
+            // Si hay otros errores, muestra un mensaje genérico
+            console.error('Error registering:', error.response.data.message);
+          }
+        } else {
+          console.error('Error registering:', error.message);
+        }
       }
     },
     validationSchema: userSchema,

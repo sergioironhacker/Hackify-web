@@ -4,7 +4,7 @@ import { getAccessToken, setAccessToken } from "../stores/AccessTokenStore";
 import { getCurrentUser } from "../services/UserService";
 import { useLocation } from "react-router-dom";
 
-const AuthContext = createContext()
+const AuthContext = createContext();
 
 export default AuthContext;
 
@@ -12,34 +12,37 @@ export const AuthContextProvider = ({ children }) => {
   const { pathname } = useLocation();
   const [user, setUser] = useState(null);
   const [isAuthFetched, setIsAuthFetched] = useState(false);
+  const [error, setError] = useState('');
 
   const fetchCurrentUser = useCallback(() => {
     getCurrentUser()
       .then(user => {
-        console.log('user', user)
-        setUser(user)
-        setIsAuthFetched(true)
+        setUser(user);
+        setIsAuthFetched(true);
       })
       .catch(err => {
-        console.error(err)
-      })
-  }, [])
+        console.error(err);
+      });
+  }, []);
 
   const login = useCallback((data) => {
     return loginService(data)
       .then(response => {
-        // Guardo el token en el store que hemos creado para que sea accesible a los servicios
-        setAccessToken(response.accessToken)
+        setAccessToken(response.accessToken);
+        return response; // Devuelve la respuesta para que puedas manejarla en el componente de inicio de sesión
       })
       .then(() => {
-        fetchCurrentUser()
+        fetchCurrentUser();
       })
-      .catch(err => console.error(err))
-  }, [fetchCurrentUser])
+      .catch(err => {
+        setError('Email or password incorrect');
+        throw err; // Lanza una excepción para que puedas manejar el error en el componente de inicio de sesión
+      });
+  }, [fetchCurrentUser]);
 
   useEffect(() => {
     if (getAccessToken()) {
-      fetchCurrentUser()
+      fetchCurrentUser();
     } else {
       if (pathname !== '/login') {
         setIsAuthFetched(true);
@@ -47,17 +50,18 @@ export const AuthContextProvider = ({ children }) => {
         setIsAuthFetched(false);
       }
     }
-  }, [fetchCurrentUser, pathname])
+  }, [fetchCurrentUser, pathname]);
 
   const contextValue = useMemo(() => ({
     isAuthFetched,
     user,
     login,
-  }), [isAuthFetched, user, login]);
+    error,
+  }), [isAuthFetched, user, login, error]);
 
   return (
     <AuthContext.Provider value={contextValue}>
       {children}
     </AuthContext.Provider>
-  )
-}
+  );
+};
