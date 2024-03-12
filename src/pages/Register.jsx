@@ -89,16 +89,38 @@ const Register = () => {
               onChange={handleChange}
               onBlur={handleBlur}
             />
-            <Input
-              name="avatar"
-              type="file"
-              label="Add your photo"
-              error={touched.avatar && errors.avatar}
-              onChange={(event) => {
-                setFieldValue("avatar", event.currentTarget.files[0]);
-              }}
-              onBlur={handleBlur}
-            />
+            <div className="flex items-center">
+              <label htmlFor="avatar" className="block text-sm font-medium text-green-400 mr-2">
+                Add your photo:
+              </label>
+              <label htmlFor="avatar" className="cursor-pointer bg-green-400 text-white font-semibold py-2 px-4 rounded-md hover:bg-tw-primary-accent focus:outline-none focus:ring-2 focus:ring-tw-primary focus:ring-opacity-50">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 inline-block mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                  />
+                </svg>
+                Upload
+              </label>
+              <input
+                id="avatar"
+                name="avatar"
+                type="file"
+                style={{ display: "none" }}
+                onBlur={handleBlur}
+                onChange={(event) => {
+                  setFieldValue("avatar", event.currentTarget.files[0]);
+                }}
+              />
+            </div>
           </div>
           <Button extraClassName="mt-6 w-full text-green-400" text="Create account" disabled={!isValid} />
         </form>

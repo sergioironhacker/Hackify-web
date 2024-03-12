@@ -352,23 +352,37 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
             className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent"
           />
         </div>
-        <div>
-          <label
-            htmlFor="images"
-            className="block text-sm font-medium text-green-400"
-          >
-            Imágenes:
-          </label>
-          <input
-            id="images"
-            name="images"
-            type="file"
-            onBlur={handleBlur}
-            onChange={handleImageChange}
-            multiple
-            className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent"
-          />
-        </div>
+        <div className="flex items-center">
+  <label htmlFor="images" className="block text-sm font-medium text-green-400 mr-2">
+    Subir Imágenes:
+  </label>
+  <label htmlFor="images" className="cursor-pointer bg-green-400 text-white font-semibold py-2 px-4 rounded-md hover:bg-tw-primary-accent focus:outline-none focus:ring-2 focus:ring-tw-primary focus:ring-opacity-50">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="h-6 w-6 inline-block mr-2"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+      />
+    </svg>
+    Subir
+  </label>
+  <input
+    id="images"
+    name="images"
+    type="file"
+    style={{ display: "none" }}
+    onBlur={handleBlur}
+    onChange={handleImageChange}
+    multiple
+  />
+</div>
         <button
           disabled={!isValid || isSubmitting}
           type="submit"
