@@ -12,25 +12,36 @@ import "slick-carousel/slick/slick-theme.css";
 import AuthContext from "../contexts/AuthContext";
 import { toggleBookmark } from "../services/UserService";
 
-const IdeaDetail = ({ bookmarks, isBookmarked, showBookmarkButton = true }) => {
+const IdeaDetail = ({ bookmarks, showBookmarkButton = true }) => {
   const { user } = useContext(AuthContext);
   const { id } = useParams();
   const navigate = useNavigate();
 
   const [numBookmarks, setNumBookmarks] = useState(bookmarks)
-  const [bookmark, setBookmark] = useState(isBookmarked);
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  
+  const fetchIsBookmarked = useCallback(() => {
+    if (bookmarks) {
+      const isBookmarked = bookmarks.some((bookmark) => bookmark.idea === id);
+      setIsBookmarked(isBookmarked);
+    }
+  }, [bookmarks, id]);
+  
   
   const handleBookmark = () => {
-    toggleBookmark(id)
-    .then((data) => {
-      console.log('user', user)
-      console.log('id', id)
-      console.log('bookmark', bookmark)
-      console.log('data', data)
-        setNumBookmarks(bookmark ? numBookmarks - 1 : numBookmarks + 1)
-        setBookmark(!bookmark)
+    console.log('bookmarks', bookmarks);
+    console.log('idea', idea);
+    console.log('user', user);
+    console.log('id', id);
+    toggleBookmark(user.id, id)
+    .then(() => {
+      setNumBookmarks(isBookmarked ? numBookmarks - 1 : numBookmarks + 1);
+        setIsBookmarked(!isBookmarked);
       })
-  }
+      .catch((error) => console.error("Error toggling bookmark:", error));
+  };
+
+
 
   const formik = useFormik({
     initialValues: {
@@ -71,7 +82,10 @@ const IdeaDetail = ({ bookmarks, isBookmarked, showBookmarkButton = true }) => {
 
   useEffect(() => {
     fetchIdeaData();
-  }, [fetchIdeaData]);
+    fetchIsBookmarked();
+  }, [fetchIdeaData, fetchIsBookmarked]);
+
+
 
   const onDelete = () => {
     if (confirm(`Estás a punto de borrar la idea: ${idea.title}`)) {
@@ -154,7 +168,7 @@ const IdeaDetail = ({ bookmarks, isBookmarked, showBookmarkButton = true }) => {
                     </button>
                     {showBookmarkButton && (
                       <div onClick={handleBookmark} className="w-7 mr-2">
-                        {bookmark ? (
+                        {isBookmarked ? (
                           <BookmarkIcon className="fill-yellow-500" />
                         ) : (
                           <OutlineBookmarkIcon className="" />

@@ -18,7 +18,6 @@ export const getLatestIdeas = () => http.get('/ideas/latest');
 
 export const editIdea = async (id, formData) => {
   const response = await http.put(`/ideas/${id}`, formData);
-  console.log(response);
   return response;
 }
 

@@ -9,12 +9,14 @@ import { deleteUserAccount } from '../services/UserService';
 import { ThemeContext } from '../contexts/ThemeContext';
 import BookmarkedIdeas from './BookmarkedIdeas';
 import AuthContext from '../contexts/AuthContext';
-
+import MyIdeas from './MyIdeas';
+/* import MyContributions from './MyContributions';
+ */
 
 const Tabbar = () => {
   const {theme, toggleTheme} = useContext(ThemeContext)
   const { user } = useContext(AuthContext)
-  const bookmarkedIdeas = useMemo(() => user.ideas.map((bookmark) => ({data: bookmark.idea})), [user.data]);
+  const bookmarkedIdeas = useMemo(() => user.bookmarks.map((bookmark) => bookmark.idea), [user.bookmarks]);
 
 
   useEffect(()=>{
@@ -78,19 +80,19 @@ const Tabbar = () => {
     {
       key: 0,
       title: 'Mis Ideas',
-      body: <>Mis Ideas</>,
+      body: <MyIdeas />,
       className: 'mis-ideas-tab'
     },
     {
       key: 1,
       title: 'Mis Contribuciones',
-      body: <>Mis Contribuciones</>,
+      body: <>Mis contribuciones</>,
       className: 'mis-contribuciones-tab'
     },
     {
       key: 2,
       title: 'Ideas Guardadas',
-      body: <BookmarkedIdeas ideas={bookmarkedIdeas} />,
+      body: <BookmarkedIdeas ideas={user.bookmarks.map((bookmark) => ({ data: bookmark.idea }))} />      ,
       className: 'ideas-guardadas-tab'
     },
     {

@@ -9,6 +9,11 @@ export const getCurrentUser = () => {
 export const getUser = (id) => {
   return http.get(`/users/${id}`)
 }
+export const getCurrentUserIdeas = (userId) => {
+  console.log('userId', userId)
+  return http.get('/users/me/ideas');
+}
+
 export const getUserIdeas = (userId) => {
   console.log('userId', userId)
   return http.get(`/users/${userId.id}`);
@@ -19,5 +24,9 @@ export const deleteUserAccount = () => {
 };
 
 export const toggleBookmark = (ideaId) => {
-  return http.post(`/bookmarks/${ideaId}`);
+  return http.post(`/bookmarks/${ideaId}`)
+};
+
+export const getUserBookmarkedIdeas = (userId) => {
+  return http.get(`/bookmarks/${userId}`);
 };

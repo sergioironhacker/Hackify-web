@@ -1,41 +1,41 @@
-/* import { useState, useEffect, useContext } from 'react'
-import { get } from '../services/UserService';
-import Tweet from './Tweet';
+import { useState, useEffect, useContext } from 'react'
+import { getUserIdeas } from '../services/UserService';
+import IdeaCard from './IdeaCard';
 import AuthContext from '../contexts/AuthContext';
 
-const ProfileTweets = ({ userId }) => {
+const MyIdeas = () => {
   const { user } = useContext(AuthContext);
-  const [tweets, setTweets] = useState([]);
-  const [loading, setLoading] = useState(true)
+  const [ideas, setIdeas] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getUserTweets(userId)
-      .then(DBTweets => {
-        setTweets(DBTweets)
-        setLoading(false)
+    getUserIdeas(user)
+      .then((DBIdeas) => {
+        setIdeas(DBIdeas);
+        console.log("User data:", user);
+        setLoading(false);
       })
-  }, [userId])
-
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+        setLoading(false);
+      });
+  }, []);
+  
   if (loading) {
-    return <p>Loading...</p>
+    return <p>Loading...</p>;
+  }
+
+  if (user.ideas && user.ideas.length === 0) {
+    return <p>You have no created ideas yet</p>;
   }
 
   return (
     <div>
-      {tweets.map(tweet => (
-        <Tweet {...tweet} key={tweet.data.id} isLiked={user.data.likes.some(like => like.tweet === tweet.data.id)} />
+      {user.ideas.map((idea) => (
+        <IdeaCard {...idea} key={idea.id} />
       ))}
     </div>
-  )
-}
-
-export default ProfileTweets
-const MyIdeas = () => {
-    return (
-        <div>
-            
-        </div>
-    );
+  );
 };
 
-export default MyIdeas; */
+export default MyIdeas;

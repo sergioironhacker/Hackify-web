@@ -22,6 +22,7 @@ export const AuthContextProvider = ({ children }) => {
       })
       .catch(err => {
         console.error(err);
+        setIsAuthFetched(true);
       });
   }, []);
 

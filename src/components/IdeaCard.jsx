@@ -19,7 +19,9 @@ const IdeaCard = ({
 
   return (
     <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden mt-6 font-bold flex flex-col items-center">
-      <img src={images[0]} alt={title} className="w-full h-48 object-cover object-center" />
+      {images && images.length > 0 && (
+        <img src={images[0]} alt={title} className="w-full h-48 object-cover object-center" />
+      )}
       <div className="p-6 text-center">
         <h2 className="text-2xl font-semibold text-gray-800 mb-4">{title}</h2>
         <p className="mb-4">{description}</p>
