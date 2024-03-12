@@ -56,7 +56,7 @@ const Register = () => {
         <h1 className="flex justify-center text-2xl font-bold text-green-400 mb-4 ">
           Hackify <AboutUsLogo />
         </h1>
-        <h3 className="text-green-400 uppercase font-bold text-3xl mb-6 italic">Register</h3>
+        <h3 className="text-center text-green-400 uppercase font-bold text-3xl mb-6 italic">Register</h3>
         
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 gap-4">

@@ -43,7 +43,7 @@ const Login = () => {
           <h1 className="text-2xl font-bold text-green-400 mr-2">Hackify</h1>
           <AboutUsLogo />
         </div>
-        <h1 className="text-green-400 uppercase font-bold text-3xl mb-6">Login</h1>
+        <h1 className="text-center text-green-400 uppercase font-bold text-3xl mb-6">Login</h1>
         
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 gap-4 text-green-400">
