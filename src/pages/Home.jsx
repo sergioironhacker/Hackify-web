@@ -7,7 +7,7 @@ import Chart from "chart.js/auto";
 const Home = () => {
   const [ideas, setIdeas] = useState([]);
   const [filteredIdeas, setFilteredIdeas] = useState([]);
-  const [totalContributions, setTotalContributions] = useState(0); 
+  const [totalContributions, setTotalContributions] = useState(0);
 
   useEffect(() => {
     const fetchIdeas = async () => {
@@ -43,54 +43,58 @@ const Home = () => {
   }, [totalContributions]);
 
   const renderChart = (totalContributions) => {
-    const ctx = document.getElementById('contributionsChart').getContext('2d');
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Total de Contribuciones'], 
-        datasets: [{
-          label: 'Total de Contribuciones',
-          data: [totalContributions],
-          backgroundColor: [
-            'rgba(66, 153, 0, 0.2)', // green-400
-          ],
-          borderColor: [
-            'rgba(66, 153, 0, 1)', // green-400
-          ],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          x: {
-            title: {
-              display: true,
-              text: 'Total de Contribuciones ', 
-              font: {
-                size: 16,
-                weight: 'bold'
+    const ctx = document.getElementById('contributionsChart');
+    if (ctx) {
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: [''], // Elimina el texto aquí
+          datasets: [{
+            label: '', // Elimina el texto aquí
+            data: [totalContributions],
+            backgroundColor: [
+              'rgba(66, 153, 0, 0.2)', // green-400
+            ],
+            borderColor: [
+              'rgba(66, 153, 0, 1)', // green-400
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Total de Contribuciones ',
+                font: {
+                  size: 16,
+                  weight: 'bold'
+                }
+              }
+            },
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Cantidad ',
+                font: {
+                  size: 16,
+                  weight: 'bold'
+                }
               }
             }
           },
-          y: {
-            beginAtZero: true,
-            title: {
-              display: true,
-              text: 'Cantidad ',              
-              font: {
-                size: 16,
-                weight: 'bold'
-              }             
+          plugins: {
+            legend: {
+              display: false
             }
           }
-        },
-        plugins: {
-          legend: {
-            display: false
-          }
         }
-      }
-    });
+      });
+    } else {
+      console.error("El elemento 'contributionsChart' no está presente en el DOM.");
+    }
   };
 
   return (
