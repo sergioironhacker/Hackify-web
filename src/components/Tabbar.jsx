@@ -1,5 +1,4 @@
-import { useContext, useEffect, useState, useMemo } from 'react';
-/* import axios from 'axios'; */
+import { useContext, useEffect, useState } from 'react';
 import { CogIcon, MoonIcon, SunIcon, TrashIcon } from '@heroicons/react/solid';
 import clsx from 'clsx';
 import { logout } from "../stores/AccessTokenStore";
@@ -7,21 +6,14 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { deleteUserAccount } from '../services/UserService';
 import { ThemeContext } from '../contexts/ThemeContext';
-import BookmarkedIdeas from './BookmarkedIdeas';
 import AuthContext from '../contexts/AuthContext';
+import BookmarkedIdeas from './BookmarkedIdeas';
 import MyIdeas from './MyIdeas';
-/* import MyContributions from './MyContributions';
- */
+import MyContributions from './MyContributions';
 
 const Tabbar = () => {
-  const {theme, toggleTheme} = useContext(ThemeContext)
-  const { user } = useContext(AuthContext)
-  const bookmarkedIdeas = useMemo(() => user.bookmarks.map((bookmark) => bookmark.idea), [user.bookmarks]);
-
-
-  useEffect(()=>{
-    console.log(theme)
-  }, [theme])
+  const { theme, toggleTheme } = useContext(ThemeContext);
+  const { user } = useContext(AuthContext);
 
   const confirmDeleteAccount = () => {
     toast.warn(
@@ -44,7 +36,7 @@ const Tabbar = () => {
   };
 
   const deleteAccount = () => {
-    deleteUserAccount() 
+    deleteUserAccount()
       .then(response => {
         console.log("La cuenta del usuario ha sido eliminada correctamente.");
         logout();
@@ -53,6 +45,7 @@ const Tabbar = () => {
         console.error("Error al eliminar la cuenta del usuario:", error);
       });
   };
+
   const handleLogout = () => {
     toast.warn(
       <div>
@@ -86,13 +79,13 @@ const Tabbar = () => {
     {
       key: 1,
       title: 'Mis Contribuciones',
-      body: <>Mis contribuciones</>,
+      body: <MyContributions />,
       className: 'mis-contribuciones-tab'
     },
     {
       key: 2,
       title: 'Ideas Guardadas',
-      body: <BookmarkedIdeas ideas={user.bookmarks.map((bookmark) => ({ data: bookmark.idea }))} />      ,
+      body: <BookmarkedIdeas ideas={user.bookmarks.map((bookmark) => ({ data: bookmark.idea }))} />,
       className: 'ideas-guardadas-tab'
     },
     {

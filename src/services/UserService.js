@@ -30,3 +30,15 @@ export const toggleBookmark = (ideaId) => {
 export const getUserBookmarkedIdeas = (userId) => {
   return http.get(`/bookmarks/${userId}`);
 };
+
+
+// obtener contribuciones 
+export const getUserContributedIdeas = async (userId) => {
+  try {
+    const response = await http.get(`/ideas/contributed/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching contributed ideas:', error);
+    throw error;
+  }
+};

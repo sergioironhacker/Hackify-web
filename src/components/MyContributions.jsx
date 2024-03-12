@@ -1,5 +1,5 @@
-/* import { useState, useEffect, useContext } from 'react';
-import { getContributedIdeas } from '../services/UserService';
+import { useState, useEffect, useContext } from 'react';
+import { getUserContributedIdeas } from '../services/UserService';
 import IdeaCard from './IdeaCard';
 import AuthContext from '../contexts/AuthContext';
 
@@ -9,29 +9,45 @@ const MyContributions = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getContributedIdeas(user)
-      .then((ideas) => {
-        setContributedIdeas(ideas);
+    const fetchContributedIdeas = async () => {
+      try {
+        if (user && user.id) {
+          console.log('User ID:', user.id);
+          const response = await getUserContributedIdeas(user.id);
+          console.log('API Response:', response);
+          if (response && response.data) {
+            setContributedIdeas(response.data);
+          } else {
+            console.error('Invalid response data:', response);
+          }
+        } else {
+          console.error('User or user ID is undefined');
+        }
         setLoading(false);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error('Error fetching contributed ideas:', error);
         setLoading(false);
-      });
+      }
+    };
+
+    fetchContributedIdeas();
   }, [user]);
 
   if (loading) {
     return <p>Loading...</p>;
   }
 
+  if (!contributedIdeas || !Array.isArray(contributedIdeas)) {
+    return <p>No contributed ideas found.</p>;
+  }
+
   return (
     <div>
-      {contributedIdeas.map((idea) => (
-        <IdeaCard {...idea} key={idea.id} />
+      {contributedIdeas.map((contribution) => (
+        <IdeaCard idea={contribution.idea} key={contribution._id} />
       ))}
     </div>
   );
 };
 
 export default MyContributions;
- */
