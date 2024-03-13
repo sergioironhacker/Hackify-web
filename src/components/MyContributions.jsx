@@ -8,6 +8,8 @@ const MyContributions = () => {
   const [contributedIdeas, setContributedIdeas] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  console.log(user.contributions)
+
   useEffect(() => {
     const fetchContributedIdeas = async () => {
       try {
@@ -43,9 +45,9 @@ const MyContributions = () => {
 
   return (
     <div>
-      {contributedIdeas.map((contribution) => (
+      {user.contributions.map((contribution) => (
 
-        <IdeaCard idea={contribution.idea} key={contribution._id} />
+        <IdeaCard {...contribution.idea} key={contribution._id} />
       ))}
     </div>
   );
