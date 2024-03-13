@@ -116,7 +116,7 @@ const Chat = () => {
                             <div className="chat-user-info flex items-center">
                                 <img src={otherUser.avatar} alt="" className="w-16 h-16 rounded-full" />
                                 <div className="chat-user-name flex flex-col items-center ml-4  text-green-400">
-                                    <h2 className="text-xl text-green-400">{otherUser.username}</h2>
+                                <h2 className="text-xl text-green-400">Ver perfil de {otherUser.username} <i className="bi bi-arrow-right-circle-fill"></i></h2>
                                 </div>
                             </div>
                         </NavLink>
