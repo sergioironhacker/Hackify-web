@@ -32,7 +32,7 @@ export const getUserBookmarkedIdeas = (userId) => {
 };
 
 
-// obtener contribuciones ////////////////////////////////////////////////////////////////
+
 export const getUserContributedIdeas = async (userId) => {
   try {
     const response = await http.get(`/ideas/contributed/${userId}`);

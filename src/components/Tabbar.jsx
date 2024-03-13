@@ -85,7 +85,7 @@ const Tabbar = () => {
     {
       key: 2,
       title: 'Ideas Guardadas',
-      body: <BookmarkedIdeas ideas={user.bookmarks.map((bookmark) => ({ data: bookmark.idea }))} />,
+      body: <BookmarkedIdeas />,
       className: 'ideas-guardadas-tab'
     },
     {
