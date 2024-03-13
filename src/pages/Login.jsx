@@ -1,8 +1,11 @@
+import { useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import Input from "../components/Input";
+import Button from "../components/Button";
 import { useFormik } from 'formik';
 import { string, object } from 'yup';
-import Button from "../components/Button";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import AuthContext from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import AboutUsLogo from "../assets/AboutUsLogo";
@@ -16,6 +19,7 @@ const Login = () => {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const { values, errors, touched, isValid, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues: {
@@ -23,10 +27,16 @@ const Login = () => {
       password: ''
     },
     onSubmit: async (values) => {
+      setLoading(true); 
       try {
         await login(values);
-        navigate('/profile');
+       
+        setTimeout(() => {
+          setLoading(false); 
+          navigate('/profile');
+        }, 2000);
       } catch (error) {
+        setLoading(false); 
         setError('Email or password incorrect');
       }
     },
@@ -73,7 +83,7 @@ const Login = () => {
             />
           </div>
           {error && <p className="text-red-500">{error}</p>}
-          <Button extraClassName="mt-6 bg-green-400" disabled={!isValid} text="Sign in" />
+          <Button extraClassName="mt-6 bg-green-400" disabled={!isValid || loading} text={loading ? <FontAwesomeIcon icon={faSpinner} spin /> : "Sign in"} />
         </form>
       </div>
     </div>

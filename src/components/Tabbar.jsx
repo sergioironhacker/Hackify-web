@@ -79,7 +79,7 @@ const Tabbar = () => {
     {
       key: 1,
       title: 'Mis Contribuciones',
-      body: <MyContributions />,
+      body: <MyContributions />, ////////////////
       className: 'mis-contribuciones-tab'
     },
     {
