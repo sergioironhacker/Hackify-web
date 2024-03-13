@@ -45,10 +45,12 @@ const MyContributions = () => {
 
   return (
     <div>
-      {user.contributions.map((contribution) => (
-
-        <IdeaCard {...contribution.idea} key={contribution._id} />
-      ))}
+      {user.contributions.map((contribution) => {
+        console.log('contribution.idea', contribution.idea)
+        return (
+          <IdeaCard {...contribution.idea} key={contribution._id} />
+        )
+      })}
     </div>
   );
 };

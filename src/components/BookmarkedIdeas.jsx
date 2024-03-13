@@ -31,9 +31,9 @@ const BookmarkedIdeas = () => {
 
   return (
     <div>
-      {user.bookmarks.map((idea) => (
+      {user.bookmarks.map((bookmark) => (
         console.log('user bookmarks', user.bookmarks),
-        <IdeaCard {...idea} key={idea.data} />
+        <IdeaCard {...bookmark.idea} key={bookmark.idea} />
       ))}
     </div>
   );
