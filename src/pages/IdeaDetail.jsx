@@ -18,25 +18,22 @@ const IdeaDetail = ({ bookmarks, showBookmarkButton = true }) => {
   const navigate = useNavigate();
 
   const [numBookmarks, setNumBookmarks] = useState(bookmarks)
-  const [isBookmarked, setIsBookmarked] = useState(false);
-  
-  const fetchIsBookmarked = useCallback(() => {
-    if (bookmarks) {
-      const isBookmarked = bookmarks.some((bookmark) => bookmark.idea === id);
-      setIsBookmarked(isBookmarked);
-    }
-  }, [bookmarks, id]);
-  
-  
+  const [isBookMarked, setIsBookMarked] = useState(false)
+
+
+  const handleBookMarked = useCallback(() => {
+    setIsBookMarked(user.bookmarks.some((bookmark) => bookmark.idea._id === id))
+  }, []);
+
+
   const handleBookmark = () => {
-    console.log('bookmarks', bookmarks);
-    console.log('idea', idea);
-    console.log('user', user);
-    console.log('id', id);
-    toggleBookmark(user.id, id)
-    .then(() => {
-      setNumBookmarks(isBookmarked ? numBookmarks - 1 : numBookmarks + 1);
-        setIsBookmarked(!isBookmarked);
+    toggleBookmark(id)
+      .then((res) => {
+        if (res === 'creado') {
+          setIsBookMarked(true)
+        } else {
+          setIsBookMarked(false)
+        }
       })
       .catch((error) => console.error("Error toggling bookmark:", error));
   };
@@ -82,8 +79,8 @@ const IdeaDetail = ({ bookmarks, showBookmarkButton = true }) => {
 
   useEffect(() => {
     fetchIdeaData();
-    fetchIsBookmarked();
-  }, [fetchIdeaData, fetchIsBookmarked]);
+    handleBookMarked()
+  }, [fetchIdeaData]);
 
 
 
@@ -168,12 +165,12 @@ const IdeaDetail = ({ bookmarks, showBookmarkButton = true }) => {
                     </button>
                     {showBookmarkButton && (
                       <div onClick={handleBookmark} className="w-7 mr-2">
-                        {isBookmarked ? (
+                        {isBookMarked ? (
                           <BookmarkIcon className="fill-yellow-500" />
                         ) : (
                           <OutlineBookmarkIcon className="" />
                         )}
-                      Guardar Idea
+                        Guardar Idea
                       </div>
                     )}
                   </>
@@ -203,7 +200,7 @@ const IdeaDetail = ({ bookmarks, showBookmarkButton = true }) => {
             </div>
           </div>
         </div>
-        
+
       )}
     </div>
   );
