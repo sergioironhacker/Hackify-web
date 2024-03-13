@@ -14,11 +14,11 @@ const MyContributions = () => {
         if (user && user.id) {
           console.log('User ID:', user.id);
           const response = await getUserContributedIdeas(user.id);
-          console.log('API Response:', response);
+          console.log(' Response:', response);
           if (response && response.data) {
-            setContributedIdeas(response.data);
+            setContributedIdeas(response);
           } else {
-            console.error('Invalid response data:', response);
+            console.error(' data:', response);
           }
         } else {
           console.error('User or user ID is undefined');
@@ -44,6 +44,7 @@ const MyContributions = () => {
   return (
     <div>
       {contributedIdeas.map((contribution) => (
+
         <IdeaCard idea={contribution.idea} key={contribution._id} />
       ))}
     </div>
