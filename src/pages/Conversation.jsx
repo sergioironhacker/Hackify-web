@@ -5,7 +5,8 @@ import AuthContext from "../contexts/AuthContext";
 import { createMessage, updateMessages } from "../services/Message.Service";
 import { NavLink } from "react-router-dom";
 import { format } from "date-fns";
-import { FaPaperPlane } from 'react-icons/fa';
+import { FaPaperPlane, FaCheckDouble } from 'react-icons/fa';
+import classNames from "classnames";
 
 const initialValues = {
     text: ''
@@ -113,23 +114,27 @@ const Chat = () => {
                 <div className="Chat container mx-auto">
                     {otherUser && otherUser.id && (
                         <NavLink style={{ textDecoration: 'none', color: ' #FF5A5F' }} to={`/users/${otherUser.id}`}>
-                            <div className="chat-user-info flex items-center">
-                                <img src={otherUser.avatar} alt="" className="w-16 h-16 rounded-full" />
-                                <div className="chat-user-name flex flex-col items-center ml-4  text-green-400">
-                                <h2 className="text-xl text-green-400">Ver perfil de {otherUser.username} <i className="bi bi-arrow-right-circle-fill"></i></h2>
-                                </div>
-                            </div>
+                            <button className="bg-green-400 hover:bg-green-600 text-white font-bold py-2 px-4 rounded flex items-center">
+                                <img src={otherUser.avatar} alt="" className="w-8 h-8 rounded-full mr-2" />
+                                Ver perfil de {otherUser.username}
+                            </button>
                         </NavLink>
                     )}
                     <hr className="border-green-400" />
                     <div className="chat-box overflow-y-auto" style={{ maxHeight: "calc(100vh - 200px)" }} ref={chatContainerRef}>
                         {chatMessages.map((msg) => (
-                            <div className={`message flex ${msg.sender.id === currentUser.id ? 'justify-end' : 'justify-start'}`} key={msg.id}>
+                            <div className={classNames("message flex p-2 rounded-lg", {
+                                'justify-end bg-green-100': msg.sender.id === currentUser.id,
+                                'justify-start bg-gray-200': msg.sender.id !== currentUser.id
+                            })} key={msg.id}>
                                 <div className="chat-message-content flex flex-col items-start ms-3">
                                     <div className="message-text flex items-center">
                                         <p className="text-base">{msg.text}</p>
                                         {msg.sender.id === currentUser.id && (
-                                            <i className={`bi bi-check-all ${msg.status === 'unread' ? 'text-red-500' : 'text-red-500'} ms-2`}></i>
+                                            <i className={`bi bi-check-all ${msg.status === 'unread' ? 'text-red-500' : 'text-green-500'} ms-2`}></i>
+                                        )}
+                                        {msg.sender.id !== currentUser.id && msg.status === 'read' && (
+                                            <FaCheckDouble className="text-green-500 ml-2" />
                                         )}
                                     </div>
                                     <div className="message-time mt-1">
@@ -139,7 +144,7 @@ const Chat = () => {
                             </div>
                         ))}
                     </div>
-    
+
                     <form onSubmit={handleSubmitMessage}>
                         <div className="form-group flex items-center">
                             <input ref={inputFieldRef} onChange={handleMessageChange} type="text" name="text" className="form-control w-full bg-white border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-green-400" placeholder="Escribe un mensaje..." value={message.text} />
