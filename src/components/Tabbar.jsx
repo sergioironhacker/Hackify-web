@@ -1,26 +1,34 @@
-import { useContext, useEffect, useState } from 'react';
-import { CogIcon, MoonIcon, SunIcon, TrashIcon } from '@heroicons/react/solid';
-import clsx from 'clsx';
+import { useContext, useState } from "react";
+import { CogIcon, MoonIcon, SunIcon, TrashIcon } from "@heroicons/react/solid";
 import { logout } from "../stores/AccessTokenStore";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { deleteUserAccount } from '../services/UserService';
-import { ThemeContext } from '../contexts/ThemeContext';
-import AuthContext from '../contexts/AuthContext';
-import BookmarkedIdeas from './BookmarkedIdeas';
-import MyIdeas from './MyIdeas';
-import MyContributions from './MyContributions';
+import { toast, ToastContainer } from "react-toastify";
+import { deleteUserAccount } from "../services/UserService";
+import { ThemeContext } from "../contexts/ThemeContext";
+import BookmarkedIdeas from "./BookmarkedIdeas";
+import MyIdeas from "./MyIdeas";
+import MyContributions from "./MyContributions";
+import clsx from "clsx";
+import "react-toastify/dist/ReactToastify.css";
 
 const Tabbar = () => {
   const { theme, toggleTheme } = useContext(ThemeContext);
-  const { user } = useContext(AuthContext);
 
   const confirmDeleteAccount = () => {
     toast.warn(
       <div>
         <p>¿Estás seguro de que quieres borrar tu cuenta?</p>
-        <button className="mr-2 bg-green-400 text-white px-3 py-1 rounded-md" onClick={deleteAccount}>Sí</button>
-        <button className="bg-gray-400 text-white px-3 py-1 rounded-md" onClick={toast.dismiss}>No</button>
+        <button
+          className="mr-2 bg-green-400 text-white px-3 py-1 rounded-md"
+          onClick={deleteAccount}
+        >
+          Sí
+        </button>
+        <button
+          className="bg-gray-400 text-white px-3 py-1 rounded-md"
+          onClick={toast.dismiss}
+        >
+          No
+        </button>
       </div>,
       {
         position: "bottom",
@@ -30,18 +38,18 @@ const Tabbar = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        closeButton: false
+        closeButton: false,
       }
     );
   };
 
   const deleteAccount = () => {
     deleteUserAccount()
-      .then(response => {
+      .then((response) => {
         console.log("La cuenta del usuario ha sido eliminada correctamente.");
         logout();
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error al eliminar la cuenta del usuario:", error);
       });
   };
@@ -50,11 +58,21 @@ const Tabbar = () => {
     toast.warn(
       <div>
         <p>¿Estás seguro de que quieres cerrar sesión?</p>
-        <button className="mr-2 bg-green-400 text-white px-3 py-1 rounded-md" onClick={() => {
-          logout();
-          toast.dismiss();
-        }}>Sí</button>
-        <button className="bg-gray-400 text-white px-3 py-1 rounded-md" onClick={() => toast.dismiss()}>No</button>
+        <button
+          className="mr-2 bg-green-400 text-white px-3 py-1 rounded-md"
+          onClick={() => {
+            logout();
+            toast.dismiss();
+          }}
+        >
+          Sí
+        </button>
+        <button
+          className="bg-gray-400 text-white px-3 py-1 rounded-md"
+          onClick={() => toast.dismiss()}
+        >
+          No
+        </button>
       </div>,
       {
         position: "bottom",
@@ -64,7 +82,7 @@ const Tabbar = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        closeButton: false
+        closeButton: false,
       }
     );
   };
@@ -72,27 +90,27 @@ const Tabbar = () => {
   const tabs = [
     {
       key: 0,
-      title: 'Mis Ideas',
+      title: "Mis Ideas",
       body: <MyIdeas />,
-      className: 'mis-ideas-tab'
+      className: "mis-ideas-tab",
     },
     {
       key: 1,
-      title: 'Mis Contribuciones',
-      body: <MyContributions />, 
-      className: 'mis-contribuciones-tab'
+      title: "Mis Contribuciones",
+      body: <MyContributions />,
+      className: "mis-contribuciones-tab",
     },
     {
       key: 2,
-      title: 'Ideas Guardadas',
+      title: "Ideas Guardadas",
       body: <BookmarkedIdeas />,
-      className: 'ideas-guardadas-tab'
+      className: "ideas-guardadas-tab",
     },
     {
       key: 3,
       title: <CogIcon className="h-5 w-5" />,
       body: null,
-      className: 'configuracion-tab'
+      className: "configuracion-tab",
     },
   ];
 
@@ -102,7 +120,7 @@ const Tabbar = () => {
     <div className="sm:hidden">
       <div className="border-t border-gray-200">
         <nav className="flex" aria-label="Tabs">
-          {tabs.map(tab => (
+          {tabs.map((tab) => (
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
@@ -128,7 +146,11 @@ const Tabbar = () => {
                 onClick={toggleTheme}
                 className="p-1 rounded-full text-gray-500 hover:text-gray-700 focus:outline-none"
               >
-                {theme === 'light' ? <MoonIcon className="h-6 w-6" /> : <SunIcon className="h-6 w-6" />}
+                {theme === "light" ? (
+                  <MoonIcon className="h-6 w-6" />
+                ) : (
+                  <SunIcon className="h-6 w-6" />
+                )}
               </button>
               <span className="text-sm text-green-500">Cambiar tema</span>
             </div>

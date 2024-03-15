@@ -19,6 +19,7 @@ const OtherUserProfile = ( {userId} ) => {
     if (loading) {
       return <p>Loading...</p>
     }
+    
     return (
         <div className="p-4 ">
         <div className="flex items-center gap-4">
@@ -30,6 +31,7 @@ const OtherUserProfile = ( {userId} ) => {
         </div>
 
         <div>
+        
       {userId.ideas.map(idea => (
         <IdeaCard {...idea} key={idea.id} />
       ))}
