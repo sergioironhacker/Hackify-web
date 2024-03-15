@@ -2,6 +2,9 @@ import { useFormik } from "formik";
 import { object, string, boolean, date, object as yupObject } from "yup";
 import { createIdea, editIdea, getCategories } from "../services/IdeaService";
 import { useEffect, useState } from "react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import Input from "./Input";
 
 const ideaSchema = object({
   title: string().required("Campo requerido"),
@@ -22,11 +25,13 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
   const [existingImages, setExistingImages] = useState([]);
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [loadingCategories, setLoadingCategories] = useState(true);
+  const [videoUrl, setVideoUrl] = useState(initialValues?.videoUrl || "");
 
   const {
     values,
     errors,
     isValid,
+    touched,
     isSubmitting,
     handleChange,
     handleBlur,
@@ -39,7 +44,7 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
       contributionMax: initialValues?.contributionMax || "",
       fullDescription: initialValues?.fullDescription || "",
       contributionLimitActive: initialValues?.contributionLimitActive || false,
-      categories: initialValues?.categories || '',
+      categories: initialValues?.categories || "",
       timeLimit: initialValues?.timeLimit || "",
       location: {
         city: initialValues?.location?.city || "",
@@ -48,59 +53,67 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
       },
       images: existingImages || [],
     },
-    onSubmit: (values, { setSubmitting }) => {
+    onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true);
-      console.log("entro");
 
-      const formData = new FormData();
-      formData.append("title", values.title);
-      formData.append("description", values.description);
-      formData.append("contributionMax", values.contributionMax);
-      formData.append("fullDescription", values.fullDescription);
-      formData.append(
-        "contributionLimitActive",
-        values.contributionLimitActive
-      );
-      formData.append("categories", values.categories);
-      const timeLimitDate = new Date(values.timeLimit);
-      formData.append("timeLimit", timeLimitDate.toISOString());
-
-      formData.append("location[city]", values.location.city);
-      formData.append("location[country]", values.location.country);
-      formData.append("location[zipcode]", values.location.zipcode);
-
-      existingImages.forEach((image) => formData.append("images", image));
-
-      if (values.images && values.images.length > 0) {
-        values.images.forEach((image) => formData.append("images", image));
+      // Parse video URL and extract video ID
+      let videoId;
+      if (videoUrl.includes("youtube.com")) {
+        const urlParams = new URLSearchParams(new URL(videoUrl).search);
+        videoId = urlParams.get("v");
+      } else if (videoUrl.includes("vimeo.com")) {
+        videoId = videoUrl.split("/").pop();
       }
 
-      const submissionPromise = initialValues
-        ? editIdea(initialValues.id, formData)
-        : createIdea(formData);
+      // Append video ID to form data
+      values.videoId = videoId;
 
-      submissionPromise
-        .then((createdIdea) => {
-          if (onSubmit) {
-            onSubmit(createdIdea);
-          }
-        })
-        .catch((error) => {
-          console.error("Error al crear/editar la idea:", error.message);
-        })
-        .finally(() => {
-          setSubmitting(false);
-        });
+      // Submit form data
+      try {
+        const formData = new FormData();
+        formData.append("title", values.title);
+        formData.append("description", values.description);
+        formData.append("contributionMax", values.contributionMax);
+        formData.append("fullDescription", values.fullDescription);
+        formData.append(
+          "contributionLimitActive",
+          values.contributionLimitActive
+        );
+        formData.append("categories", values.categories);
+        formData.append("timeLimit", new Date(values.timeLimit).toISOString());
+        formData.append("location[city]", values.location.city);
+        formData.append("location[country]", values.location.country);
+        formData.append("location[zipcode]", values.location.zipcode);
+
+        existingImages.forEach((image) => formData.append("images", image));
+
+        if (values.images && values.images.length > 0) {
+          values.images.forEach((image) => formData.append("images", image));
+        }
+
+        const createdIdea = initialValues
+          ? await editIdea(initialValues.id, formData)
+          : await createIdea(formData);
+
+        if (onSubmit) {
+          onSubmit(createdIdea);
+        }
+      } catch (error) {
+        console.error("Error al crear/editar la idea:", error.message);
+      } finally {
+        setSubmitting(false);
+      }
     },
     validationSchema: ideaSchema,
     validateOnChange: true,
     validateOnBlur: true,
     validateOnMount: true,
   });
+
   console.log(initialValues?.categories);
 
   console.log("errors", errors);
-  
+
   useEffect(() => {
     const fetchCategories = () => {
       getCategories()
@@ -141,6 +154,10 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
     }
   }, [initialValues]);
 
+  const handleVideoUrlChange = (event) => {
+    setVideoUrl(event.target.value);
+  };
+
   const handleImageChange = (event) => {
     const newImages = Array.from(event.target.files);
 
@@ -161,38 +178,25 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
       </h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label
-            htmlFor="title"
-            className="block text-sm font-medium text-green-400"
-          >
-            Título:
-          </label>
-          <input
-            id="title"
+          <Input
             name="title"
             type="text"
-            onBlur={handleBlur}
-            onChange={handleChange}
+            label="Título:"
             value={values.title}
-            required
-            className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent"
+            error={touched.title && errors.title}
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
         </div>
         <div>
-          <label
-            htmlFor="description"
-            className="block text-sm font-medium text-green-400"
-          >
-            Descripción:
-          </label>
-          <textarea
-            id="description"
+          <Input
             name="description"
-            onBlur={handleBlur}
-            onChange={handleChange}
+            type="text"
+            label="Descripción:"
             value={values.description}
-            required
-            className="mt-1 p-2 block w-full rounded-md text-green-400 shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent"
+            error={touched.description && errors.description}
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
         </div>
         <div>
@@ -202,32 +206,56 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
           >
             Descripción completa:
           </label>
-          <textarea
+          <ReactQuill
             id="fullDescription"
             name="fullDescription"
             onBlur={handleBlur}
-            onChange={handleChange}
+            onChange={(value) => setFieldValue("fullDescription", value)}
             value={values.fullDescription}
             required
-            className="mt-1 p-2 block w-full rounded-md text-green-400 shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent"
+            modules={{
+              toolbar: [
+                [{ header: [1, 2, false] }],
+                ["bold", "italic", "underline", "strike", "blockquote"],
+                [{ list: "ordered" }, { list: "bullet" }],
+                ["link", "image", "video"],
+                [{ align: [] }],
+                ["clean"],
+              ],
+              clipboard: {
+                matchVisual: false,
+              },
+            }}
+            formats={[
+              "header",
+              "font",
+              "size",
+              "bold",
+              "italic",
+              "underline",
+              "strike",
+              "blockquote",
+              "list",
+              "bullet",
+              "link",
+              "image",
+              "video",
+            ]}
+            allowPaste={true} // Allow paste from clipboard
           />
+           {(touched.fullDescription || isSubmitting) && errors.fullDescription && (
+            <div className="mt-2 text-red-600">{errors.fullDescription}</div>
+          )}
         </div>
         <div>
-          <label
-            htmlFor="contributionMax"
-            className="block text-sm font-medium text-green-400"
-          >
-            Precio(€):
-          </label>
-          <input
-            type="number"
-            id="contributionMax"
+          <Input
             name="contributionMax"
-            onBlur={handleBlur}
-            onChange={handleChange}
+            type="number"
+            label="Precio(€):"
             value={values.contributionMax}
-            required
-            className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent"
+            error={touched.contributionMax && errors.contributionMax}
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
         </div>
         <div>
@@ -281,108 +309,87 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
           )}
         </div>
         <div>
-          <label
-            htmlFor="timeLimit"
-            className="block text-sm font-medium text-green-400"
-          >
-            Límite de tiempo:
-          </label>
-          <input
-            type="datetime-local"
-            id="timeLimit"
+          <Input
             name="timeLimit"
-            onBlur={handleBlur}
-            onChange={handleChange}
+            type="datetime-local"
+            label="Límite de tiempo:"
             value={values.timeLimit}
-            required
-            className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent"
+            error={touched.timeLimit && errors.timeLimit}
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
         </div>
         <div>
-          <label
-            htmlFor="location.city"
-            className="block text-sm font-medium text-green-400"
-          >
-            Ciudad:
-          </label>
-          <input
-            id="location.city"
+          <Input
             name="location.city"
             type="text"
-            onBlur={handleBlur}
-            onChange={handleChange}
+            label="Ciudad:"
             value={values.location.city}
-            required
-            className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent"
+            error={touched.location?.city && errors.location?.city}
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
         </div>
         <div>
-          <label
-            htmlFor="location.country"
-            className="block text-sm font-medium text-green-400"
-          >
-            País:
-          </label>
-          <input
-            id="location.country"
+          <Input
             name="location.country"
             type="text"
-            onBlur={handleBlur}
-            onChange={handleChange}
+            label="País:"
             value={values.location.country}
-            required
-            className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent"
+            error={touched.location?.country && errors.location?.country}
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
         </div>
         <div>
-          <label
-            htmlFor="location.zipcode"
-            className="block text-sm font-medium text-green-400"
-          >
-            Código postal:
-          </label>
-          <input
-            id="location.zipcode"
+          <Input
             name="location.zipcode"
             type="text"
-            onBlur={handleBlur}
-            onChange={handleChange}
+            label="Código postal:"
             value={values.location.zipcode}
-            required
-            className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent"
+            error={touched.location?.zipcode && errors.location?.zipcode}
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
         </div>
         <div className="flex items-center">
-  <label htmlFor="images" className="block text-sm font-medium text-green-400 mr-2">
-    Subir Imágenes:
-  </label>
-  <label htmlFor="images" className="cursor-pointer bg-green-400 text-white font-semibold py-2 px-4 rounded-md hover:bg-tw-primary-accent focus:outline-none focus:ring-2 focus:ring-tw-primary focus:ring-opacity-50">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-6 w-6 inline-block mr-2"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-      />
-    </svg>
-    Subir
-  </label>
-  <input
-    id="images"
-    name="images"
-    type="file"
-    style={{ display: "none" }}
-    onBlur={handleBlur}
-    onChange={handleImageChange}
-    multiple
-  />
-</div>
+          <label
+            htmlFor="images"
+            className="block text-sm font-medium text-green-400 mr-2"
+          >
+            Subir Imágenes:
+          </label>
+          <label
+            htmlFor="images"
+            className="cursor-pointer bg-green-400 text-white font-semibold py-2 px-4 rounded-md hover:bg-tw-primary-accent focus:outline-none focus:ring-2 focus:ring-tw-primary focus:ring-opacity-50"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 inline-block mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+              />
+            </svg>
+            Subir
+          </label>
+          <input
+            id="images"
+            name="images"
+            type="file"
+            style={{ display: "none" }}
+            onBlur={handleBlur}
+            onChange={handleImageChange}
+            multiple
+          />
+        </div>
+
         <button
           disabled={!isValid || isSubmitting}
           type="submit"

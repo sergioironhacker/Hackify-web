@@ -12,9 +12,11 @@ const Home = () => {
   useEffect(() => {
     const fetchIdeas = async () => {
       try {
+        // Fetch ideas sorted by createdAt field in descending order
         const response = await getIdeas();
-        setIdeas(response);
-        setFilteredIdeas(response);
+        const sortedIdeas = response.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        setIdeas(sortedIdeas);
+        setFilteredIdeas(sortedIdeas);
       } catch (error) {
         console.error("Error al obtener las ideas:", error.message);
       }
@@ -22,6 +24,7 @@ const Home = () => {
 
     fetchIdeas();
   }, []);
+
 
   useEffect(() => {
     const fetchTotalContributions = async () => {

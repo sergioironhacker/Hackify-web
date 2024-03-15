@@ -12,14 +12,16 @@ import "slick-carousel/slick/slick-theme.css";
 import AuthContext from "../contexts/AuthContext";
 import { toggleBookmark } from "../services/UserService";
 import IdeaTabbar from "../components/IdeaTabbar";
+import Input from "../components/Input";
 
 const IdeaDetail = ({ bookmarks, showBookmarkButton = true }) => {
   const { user } = useContext(AuthContext);
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [numBookmarks, setNumBookmarks] = useState(bookmarks)
   const [isBookMarked, setIsBookMarked] = useState(false)
+  const [contributionError, setContributionError] = useState("");
+  const [inputValue, setInputValue] = useState(0);
 
 
   const handleBookMarked = useCallback(() => {
@@ -61,12 +63,23 @@ const IdeaDetail = ({ bookmarks, showBookmarkButton = true }) => {
 
   const handleCheckout = async () => {
     try {
+      if (idea.contributionLimitActive && formik.values.paymentAmount > (idea.contributionMax - idea.contributionTotal)) {
+        // Display error message or handle accordingly
+        setContributionError("La cantidad de contribución excede el límite permitido");
+        setTimeout(() => {
+          setContributionError("");
+          setInputValue(0); // Reset input value
+        }, 3000); // 3 seconds
+        return;
+      }
+
       const session = await buyProduct(idea.id, formik.values.paymentAmount);
       window.location.href = session.url;
     } catch (error) {
       console.error(error);
     }
   };
+
 
   const fetchIdeaData = useCallback(() => {
     const promises = [getIdeaDetail(id)];
@@ -179,20 +192,27 @@ const IdeaDetail = ({ bookmarks, showBookmarkButton = true }) => {
                 <label htmlFor="paymentAmount" className="block font-bold text-sm">
                   Cantidad a contribuir(€):
                 </label>
-                <input
+                <Input
                   type="number"
                   id="paymentAmount"
                   name="paymentAmount"
-                  onChange={formik.handleChange}
-                  value={formik.values.paymentAmount}
+                  onChange={(e) => {
+                    formik.handleChange(e);
+                    setInputValue(e.target.value); // Update input value
+                  }}
+                  value={inputValue}
                   required
+                  disabled={idea.contributionLimitActive && formik.values.paymentAmount > (idea.contributionMax - idea.contributionTotal)}
+                  max={idea.contributionLimitActive ? (idea.contributionMax - idea.contributionTotal) : null}
                   className="mt-1 p-2 block w-full rounded-md border border-black shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent mb-1 text-sm"
                 />
+                {/* Render error message if contribution error exists */}
+                {contributionError && (
+                  <p className="text-red-500 text-sm mt-1">{contributionError}</p>
+                )}
               </div>
               <Button
-                onClick={() => {
-                  handleCheckout(idea.id, formik.values.paymentAmount);
-                }}
+                onClick={handleCheckout}
                 text="Contribuir"
                 className="bg-green-400 text-white"
               />

@@ -33,10 +33,8 @@ export const createContribution = async (ideaId, amount) => {
 
   return response;
 }
+
 export const getCategories = () => http.get('/categories');
-
-
-
 
 // contribuciones para la home 
 export const getTotalContributions = async () => {
