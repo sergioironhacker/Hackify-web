@@ -16,7 +16,6 @@ const IdeaCard = ({
     contributionPercentage = 100;
   }
 
-  console.log('id', id)
   return (
     <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden mt-6 font-bold flex flex-col items-center">
       {images && images.length > 0 && (

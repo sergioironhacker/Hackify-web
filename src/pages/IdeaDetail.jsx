@@ -11,6 +11,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import AuthContext from "../contexts/AuthContext";
 import { toggleBookmark } from "../services/UserService";
+import IdeaTabbar from "../components/IdeaTabbar";
 
 const IdeaDetail = ({ bookmarks, showBookmarkButton = true }) => {
   const { user } = useContext(AuthContext);
@@ -141,10 +142,8 @@ const IdeaDetail = ({ bookmarks, showBookmarkButton = true }) => {
                   </div>
                 </div>
               )}
-              <p className="text-sm">{idea.description}</p>
-              <p className="font-bold text-sm">
-                Necesita recaudar: {idea.contributionMax}
-              </p>
+              <IdeaTabbar idea={idea} />  
+
               <div className="flex justify-between items-center mt-4">
                 {user.id === idea.user ? (
                   <>
