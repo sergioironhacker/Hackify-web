@@ -6,7 +6,7 @@ const ProtectedRoute = ({ children }) => {
   const { isAuthFetched, user } = useContext(AuthContext)
 
   if (!isAuthFetched) {
-    return (<p>Loading...</p>)
+    return (<p>Cargando...</p>)
   }
 
   if (!user) {

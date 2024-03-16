@@ -22,17 +22,16 @@ const BookmarkedIdeas = () => {
   }, []);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <p>Cargando...</p>;
   }
 
   if (user.bookmarks && user.bookmarks.length === 0) {
-    return <p>You have no bookmarked ideas yet</p>;
+    return <p>Todavía no has guardado ninguna idea.</p>;
   }
 
   return (
     <div>
       {user.bookmarks.map((bookmark) => (
-  
         <IdeaCard {...bookmark.idea} key={bookmark.idea} />
       ))}
     </div>

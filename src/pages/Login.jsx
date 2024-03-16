@@ -11,8 +11,8 @@ import { useNavigate } from "react-router-dom";
 import AboutUsLogo from "../assets/AboutUsLogo";
 
 const userSchema = object({
-  email: string().email('Enter a valid email').required('Required field'),
-  password: string().min(8, 'Password of at least 8 characters').required('Required field')
+  email: string().email('Introduce un email válido').required('Campo requerido'),
+  password: string().min(8, 'La contraseña debe tener al menos 8 caracteres').required('Campo requerido')
 });
 
 const Login = () => {
@@ -37,7 +37,7 @@ const Login = () => {
         }, 2000);
       } catch (error) {
         setLoading(false); 
-        setError('Email or password incorrect');
+        setError('Email o contraseña incorrectos');
       }
     },
     validationSchema: userSchema,
@@ -61,7 +61,7 @@ const Login = () => {
               name="email"
               type="email"
               label="Email"
-              placeholder="Enter your email"
+              placeholder="hey@hola.com"
               value={values.email}
               error={touched.email && errors.email}
               onChange={handleChange}
@@ -72,8 +72,8 @@ const Login = () => {
             <Input
               name="password"
               type="password"
-              label="Password"
-              placeholder="Enter your password"
+              label="Contraseña"
+              placeholder="*********"
               value={values.password}
               error={touched.password && errors.password}
               onChange={handleChange}
@@ -83,7 +83,7 @@ const Login = () => {
             />
           </div>
           {error && <p className="text-red-500">{error}</p>}
-          <Button extraClassName="mt-6 bg-green-400" disabled={!isValid || loading} text={loading ? <FontAwesomeIcon icon={faSpinner} spin /> : "Sign in"} />
+          <Button extraClassName="mt-6 bg-green-400" disabled={!isValid || loading} text={loading ? <FontAwesomeIcon icon={faSpinner} spin /> : "Accede"} />
         </form>
       </div>
     </div>

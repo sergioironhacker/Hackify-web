@@ -17,7 +17,7 @@ const OtherUserProfile = ( {userId} ) => {
     }, [userId])
   
     if (loading) {
-      return <p>Loading...</p>
+      return <p>Cargando...</p>
     }
     
     return (
