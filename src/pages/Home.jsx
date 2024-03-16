@@ -106,7 +106,7 @@ const Home = () => {
       <div className="flex justify-center mb-4 text-center text-green-400 text-2xl font-bold">Haz realidad tus proyectos</div>
       <div className="max-w-sm mx-auto bg-white border border-gray-300 p-4 rounded-md shadow-md">
       <div className="grid grid-cols-2 gap-4">
-      <div className="text-center"><br></br>Dinero recaudado: <span className="text-green-400 text-4xl font-bold">{totalContributions} €</span></div>
+      <div className="text-center"><br></br>Dinero recaudado:<br></br><span className="text-green-400 text-4xl font-bold">{totalContributions}€</span></div>
       <div className="text-center"><span className="text-green-400 text-4xl font-bold">{ideas.length}</span> <br></br> proyectos en busca de financiación</div>
         {/* <canvas id="contributionsChart"></canvas> */}
         </div>
