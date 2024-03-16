@@ -42,7 +42,7 @@ const IdeaDetailMain = ({ idea }) => {
       <p className="text-lg text-tw-dark mb-2">Cantidad recaudada:</p>
       <p className="text-3xl text-green-400 mb-2">
         {idea.contributionTotal} /{" "}
-        <span className="font-bold">{idea.contributionMax} €</span>
+        <span className="font-bold">{idea.contributionMax}€</span>
       </p>
       <p className="text-lg text-tw-dark mb-2">Tiempo restante: </p>
       <p>
