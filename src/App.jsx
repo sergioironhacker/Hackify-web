@@ -6,7 +6,6 @@ import NavBar from './components/NavBar';
 import ProtectedRoute from './components/ProtectedRoute';
 import UserProfile from './pages/UserProfile';
 import CurrentUserProfile from './pages/CurrentUserProfile';
-/* import Timeline from './pages/Timeline';  */
 import SearchBar from './pages/SearchBar';
 import IdeaDetail from './pages/IdeaDetail';
 import ChatsView from './pages/AllChats';
@@ -34,16 +33,12 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<ProtectedRoute><CurrentUserProfile /></ProtectedRoute>} />
           <Route path="/users/:id" element={<UserProfile />} />
-          {/* <Route path="/timeline" element={<ProtectedRoute><Timeline /></ProtectedRoute>} /> */}
           <Route path="/ideas/create" element={<ProtectedRoute><NewIdea /></ProtectedRoute>} />
           <Route path="/ideas/:id" element={<ProtectedRoute><IdeaDetail /></ProtectedRoute>} />
           <Route path="/ideas/:id/edit" element={<ProtectedRoute><EditIdea /></ProtectedRoute>} />
           <Route path="/search" element={<SearchBar />} />
           <Route path="/about-us" element={<AboutUsPage />} />
           <Route path="/ideas/:id/contributions/:amount" element={<PaymentSuccess />} />
-
-
-
           <Route path="/user/chats" element={<ChatsView />} />
           <Route path="/user/chat/:id" element={<Conversation />} />
         </Routes>

@@ -1,4 +1,10 @@
-import { createContext, useCallback, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { login as loginService } from "../services/AuthService";
 import { getAccessToken, setAccessToken } from "../stores/AccessTokenStore";
 import { getCurrentUser } from "../services/UserService";
@@ -12,40 +18,43 @@ export const AuthContextProvider = ({ children }) => {
   const { pathname } = useLocation();
   const [user, setUser] = useState(null);
   const [isAuthFetched, setIsAuthFetched] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const fetchCurrentUser = useCallback(() => {
     getCurrentUser()
-      .then(user => {
+      .then((user) => {
         setUser(user);
         setIsAuthFetched(true);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
         setIsAuthFetched(true);
       });
   }, []);
 
-  const login = useCallback((data) => {
-    return loginService(data)
-      .then(response => {
-        setAccessToken(response.accessToken);
-        return response; // Devuelve la respuesta para que puedas manejarla en el componente de inicio de sesión
-      })
-      .then(() => {
-        fetchCurrentUser();
-      })
-      .catch(err => {
-        setError('Email or password incorrect');
-        throw err; // Lanza una excepción para que puedas manejar el error en el componente de inicio de sesión
-      });
-  }, [fetchCurrentUser]);
+  const login = useCallback(
+    (data) => {
+      return loginService(data)
+        .then((response) => {
+          setAccessToken(response.accessToken);
+          return response; // Devuelve la respuesta para que puedas manejarla en el componente de inicio de sesión
+        })
+        .then(() => {
+          fetchCurrentUser();
+        })
+        .catch((err) => {
+          setError("Email or password incorrect");
+          throw err; // Lanza una excepción para que puedas manejar el error en el componente de inicio de sesión
+        });
+    },
+    [fetchCurrentUser]
+  );
 
   useEffect(() => {
     if (getAccessToken()) {
       fetchCurrentUser();
     } else {
-      if (pathname !== '/login') {
+      if (pathname !== "/login") {
         setIsAuthFetched(true);
       } else {
         setIsAuthFetched(false);
@@ -53,16 +62,17 @@ export const AuthContextProvider = ({ children }) => {
     }
   }, [fetchCurrentUser, pathname]);
 
-  const contextValue = useMemo(() => ({
-    isAuthFetched,
-    user,
-    login,
-    error,
-  }), [isAuthFetched, user, login, error]);
+  const contextValue = useMemo(
+    () => ({
+      isAuthFetched,
+      user,
+      login,
+      error,
+    }),
+    [isAuthFetched, user, login, error]
+  );
 
   return (
-    <AuthContext.Provider value={contextValue}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
 };

@@ -3,8 +3,10 @@ import { object, string, boolean, date, object as yupObject } from "yup";
 import { createIdea, editIdea, getCategories } from "../services/IdeaService";
 import { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
+
 import "react-quill/dist/quill.snow.css";
 import Input from "./Input";
+import Button from "./Button";
 
 const ideaSchema = object({
   title: string().required("Campo requerido"),
@@ -25,7 +27,7 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
   const [existingImages, setExistingImages] = useState([]);
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [loadingCategories, setLoadingCategories] = useState(true);
-  const [videoUrl, setVideoUrl] = useState(initialValues?.videoUrl || "");
+  const [currentStep, setCurrentStep] = useState(0);
 
   const {
     values,
@@ -55,18 +57,6 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
     },
     onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true);
-
-      // Parse video URL and extract video ID
-      let videoId;
-      if (videoUrl.includes("youtube.com")) {
-        const urlParams = new URLSearchParams(new URL(videoUrl).search);
-        videoId = urlParams.get("v");
-      } else if (videoUrl.includes("vimeo.com")) {
-        videoId = videoUrl.split("/").pop();
-      }
-
-      // Append video ID to form data
-      values.videoId = videoId;
 
       // Submit form data
       try {
@@ -154,10 +144,6 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
     }
   }, [initialValues]);
 
-  const handleVideoUrlChange = (event) => {
-    setVideoUrl(event.target.value);
-  };
-
   const handleImageChange = (event) => {
     const newImages = Array.from(event.target.files);
 
@@ -170,237 +156,320 @@ const IdeaForm = ({ onSubmit, initialValues }) => {
       console.error("Total size of images exceeds the limit");
     }
   };
-  console.log(values);
+
+  const handleNextStep = () => {
+    setCurrentStep((prevStep) => prevStep + 1);
+  };
+
+  const handlePrevStep = () => {
+    setCurrentStep((prevStep) => prevStep - 1);
+  };
+
   return (
     <div className="max-w-container mx-auto p-6 text-green-400">
       <h1 className="text-2xl font-bold mb-4 ">
-        {initialValues ? "Editar" : "Crear"} una nueva Idea
+        {initialValues ? "Editar una" : "Crear una nueva"} Idea
       </h1>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <Input
-            name="title"
-            type="text"
-            label="Título:"
-            value={values.title}
-            error={touched.title && errors.title}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-        </div>
-        <div>
-          <Input
-            name="description"
-            type="text"
-            label="Descripción:"
-            value={values.description}
-            error={touched.description && errors.description}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-        </div>
-        <div>
-          <label
-            htmlFor="fullDescription"
-            className="block text-sm font-medium text-green-400"
-          >
-            Descripción completa:
-          </label>
-          <ReactQuill
-            id="fullDescription"
-            name="fullDescription"
-            onBlur={handleBlur}
-            onChange={(value) => setFieldValue("fullDescription", value)}
-            value={values.fullDescription}
-            required
-            modules={{
-              toolbar: [
-                [{ header: [1, 2, false] }],
-                ["bold", "italic", "underline", "strike", "blockquote"],
-                [{ list: "ordered" }, { list: "bullet" }],
-                ["link", "image", "video"],
-                [{ align: [] }],
-                ["clean"],
-              ],
-              clipboard: {
-                matchVisual: false,
-              },
-            }}
-            formats={[
-              "header",
-              "font",
-              "size",
-              "bold",
-              "italic",
-              "underline",
-              "strike",
-              "blockquote",
-              "list",
-              "bullet",
-              "link",
-              "image",
-              "video",
-            ]}
-            allowPaste={true} // Allow paste from clipboard
-          />
-           {(touched.fullDescription || isSubmitting) && errors.fullDescription && (
-            <div className="mt-2 text-red-600">{errors.fullDescription}</div>
-          )}
-        </div>
-        <div>
-          <Input
-            name="contributionMax"
-            type="number"
-            label="Precio(€):"
-            value={values.contributionMax}
-            error={touched.contributionMax && errors.contributionMax}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-        </div>
-        <div>
-          <label
-            htmlFor="contributionLimitActive"
-            className="block text-sm font-medium text-green-400"
-          >
-            Límite de contribución activo:
-          </label>
-          <input
-            type="checkbox"
-            id="contributionLimitActive"
-            name="contributionLimitActive"
-            onBlur={handleBlur}
-            onChange={handleChange}
-            checked={values.contributionLimitActive}
-            className="mt-1 p-2 block rounded-md border-gray-300 shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent"
-          />
-        </div>
-        <div>
-          <label
-            htmlFor="categories"
-            className="block text-sm font-medium text-green-400"
-          >
-            Categorías:
-          </label>
-          {categoryOptions && !loadingCategories ? (
-            <select
-              id="categories"
-              name="categories"
-              onBlur={handleBlur}
-              onChange={handleChange}
-              value={[values.categories]}
-              required
-              className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent"
-            >
-              <option value="" disabled>
-                Select a category
-              </option>
-              {categoryOptions.map((category) => {
-                console.log("category", category);
-                return (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                );
-              })}
-            </select>
-          ) : (
-            <p>Loading categories...</p>
-          )}
-        </div>
-        <div>
-          <Input
-            name="timeLimit"
-            type="datetime-local"
-            label="Límite de tiempo:"
-            value={values.timeLimit}
-            error={touched.timeLimit && errors.timeLimit}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-        </div>
-        <div>
-          <Input
-            name="location.city"
-            type="text"
-            label="Ciudad:"
-            value={values.location.city}
-            error={touched.location?.city && errors.location?.city}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-        </div>
-        <div>
-          <Input
-            name="location.country"
-            type="text"
-            label="País:"
-            value={values.location.country}
-            error={touched.location?.country && errors.location?.country}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-        </div>
-        <div>
-          <Input
-            name="location.zipcode"
-            type="text"
-            label="Código postal:"
-            value={values.location.zipcode}
-            error={touched.location?.zipcode && errors.location?.zipcode}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-        </div>
-        <div className="flex items-center">
-          <label
-            htmlFor="images"
-            className="block text-sm font-medium text-green-400 mr-2"
-          >
-            Subir Imágenes:
-          </label>
-          <label
-            htmlFor="images"
-            className="cursor-pointer bg-green-400 text-white font-semibold py-2 px-4 rounded-md hover:bg-tw-primary-accent focus:outline-none focus:ring-2 focus:ring-tw-primary focus:ring-opacity-50"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 inline-block mr-2"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+        {currentStep === 0 && (
+          <>
+            {/* Paso 1, título y descripción */}
+            <div>
+              <h1 className="text-xl font-bold mb-4">
+                Primero, cuéntanos brevemente: <br></br> <br></br>¿Qué proyecto
+                quieres llevar a cabo?
+              </h1>
+              <Input
+                name="title"
+                type="text"
+                label="Nombra tu proyecto:"
+                value={values.title}
+                error={touched.title && errors.title}
+                onChange={handleChange}
+                onBlur={handleBlur}
               />
-            </svg>
-            Subir
-          </label>
-          <input
-            id="images"
-            name="images"
-            type="file"
-            style={{ display: "none" }}
-            onBlur={handleBlur}
-            onChange={handleImageChange}
-            multiple
-          />
-        </div>
+            </div>
+            <div>
+              <Input
+                name="description"
+                type="text"
+                label="Ahora, una descripción breve:"
+                value={values.description}
+                error={touched.description && errors.description}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="categories"
+                className="block text-sm font-medium text-green-400"
+              >
+                Categorías:
+              </label>
+              {categoryOptions && !loadingCategories ? (
+                <select
+                  id="categories"
+                  name="categories"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={[values.categories]}
+                  required
+                  className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent"
+                >
+                  <option value="" disabled>
+                    Elige una categoría
+                  </option>
+                  {categoryOptions.map((category) => {
+                    console.log("category", category);
+                    return (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
+                    );
+                  })}
+                </select>
+              ) : (
+                <p>Cargando categorías...</p>
+              )}
+            </div>
+          </>
+        )}
+        {currentStep === 1 && (
+          <>
+            {/* Paso 2: Dinero y localización */}
+            <div>
+              <h1 className="text-xl font-bold mb-4">
+                Hablemos de finanzas... <br></br>
+                <br></br> ¿Cuánto necesitas recaudar?
+              </h1>
 
-        <button
-          disabled={!isValid || isSubmitting}
-          type="submit"
-          className="w-full bg-green-400 text-white font-semibold py-2 px-4 rounded-md hover:bg-tw-primary-accent focus:outline-none focus:ring-2 focus:ring-tw-primary focus:ring-opacity-50"
-        >
-          {isSubmitting ? (
-            <>Guardando...</>
-          ) : (
-            <>{initialValues ? "Editar" : "Crear"} Idea</>
+              <Input
+                name="contributionMax"
+                type="number"
+                label="Fija una cantidad (€):"
+                value={values.contributionMax}
+                error={touched.contributionMax && errors.contributionMax}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="contributionLimitActive"
+                className="block text-sm font-medium text-green-400"
+              >
+                Límite de contribuciones activo:
+              </label>
+              <input
+                type="checkbox"
+                id="contributionLimitActive"
+                name="contributionLimitActive"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                checked={values.contributionLimitActive}
+                className="mt-2 p-2 block rounded-md border-gray-300 shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent"
+              />
+            </div>
+
+            <h1 className="text-xl font-bold mb-4">¿En cuánto tiempo?</h1>
+
+            <div>
+              <Input
+                name="timeLimit"
+                type="datetime-local"
+                label="Establece una fecha límite:"
+                value={values.timeLimit}
+                error={touched.timeLimit && errors.timeLimit}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+            </div>
+          </>
+        )}
+        ,
+        {currentStep === 2 && (
+          <>
+            {/* Paso 3: Dinero y localización */}
+
+            <h1 className="text-xl font-bold mb-4">
+              Háblanos un poco más de tu idea: <br></br>
+              <br></br> ¿Dónde se ubica el proyecto?
+            </h1>
+
+            <div>
+              <Input
+                name="location.city"
+                type="text"
+                label="Ciudad:"
+                value={values.location.city}
+                error={touched.location?.city && errors.location?.city}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+            </div>
+            <div>
+              <Input
+                name="location.country"
+                type="text"
+                label="País:"
+                value={values.location.country}
+                error={touched.location?.country && errors.location?.country}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+            </div>
+            <div>
+              <Input
+                name="location.zipcode"
+                type="text"
+                label="Código postal:"
+                value={values.location.zipcode}
+                error={touched.location?.zipcode && errors.location?.zipcode}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+            </div>
+          </>
+        )}
+        {currentStep === 3 && (
+          <>
+            {/* Paso 4: Imágenes y descripción ampliada */}
+            <div>
+              <h1 className="text-xl font-bold mb-4">
+                Por último, describe tu idea con todo lujo de detalles...{" "}
+                <br></br>
+              </h1>
+
+              <label
+                htmlFor="fullDescription"
+                className="block text-sm font-medium text-green-400"
+              >
+                Descripción completa:
+              </label>
+              <ReactQuill
+                id="fullDescription"
+                name="fullDescription"
+                onBlur={handleBlur}
+                onChange={(value) => setFieldValue("fullDescription", value)}
+                value={values.fullDescription}
+                required
+                modules={{
+                  toolbar: [
+                    [{ header: [1, 2, false] }],
+                    ["bold", "italic", "underline", "strike", "blockquote"],
+                    [{ list: "ordered" }, { list: "bullet" }],
+                    ["link", "image", "video"],
+                    [{ align: [] }],
+                    ["clean"],
+                  ],
+                  clipboard: {
+                    matchVisual: false,
+                  },
+                }}
+                formats={[
+                  "header",
+                  "font",
+                  "size",
+                  "bold",
+                  "italic",
+                  "underline",
+                  "strike",
+                  "blockquote",
+                  "list",
+                  "bullet",
+                  "link",
+                  "image",
+                  "video",
+                ]}
+                allowPaste={true} // Allow paste from clipboard
+              />
+              {(touched.fullDescription || isSubmitting) &&
+                errors.fullDescription && (
+                  <div className="mt-2 text-red-600">
+                    {errors.fullDescription}
+                  </div>
+                )}
+            </div>
+
+            <h1 className="text-xl font-bold mb-4">
+              ... y añade unas imágenes para mostrar tu idea al mundo. <br></br>
+            </h1>
+
+            <div className="flex items-center">
+              <label
+                htmlFor="images"
+                className="block text-sm font-medium text-green-400 mr-2"
+              >
+                Subir Imágenes:
+              </label>
+              <label
+                htmlFor="images"
+                className="cursor-pointer bg-green-400 text-white font-semibold py-2 px-4 rounded-md hover:bg-tw-primary-accent focus:outline-none focus:ring-2 focus:ring-tw-primary focus:ring-opacity-50"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 inline-block mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                  />
+                </svg>
+                Subir
+              </label>
+              <input
+                id="images"
+                name="images"
+                type="file"
+                style={{ display: "none" }}
+                onBlur={handleBlur}
+                onChange={handleImageChange}
+                multiple
+              />
+            </div>
+          </>
+        )}
+        <div className="flex justify-between">
+          {currentStep > 0 && (
+            <Button
+              type="button"
+              onClick={handlePrevStep}
+              text="Atrás"
+              disabled={false}
+              extraClassName="bg-green-400 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300"
+            />
           )}
-        </button>
+          {currentStep < 3 && (
+            <Button
+              type="button"
+              onClick={handleNextStep}
+              text="Siguiente"
+              disabled={false}
+              extraClassName="bg-green-400 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300"
+            />
+          )}
+          {currentStep === 3 && (
+            <Button
+              type="submit"
+              onClick={null}
+              text={
+                isSubmitting
+                  ? "Guardando..."
+                  : initialValues
+                  ? "Actualizar"
+                  : "¡Listo!"
+              }
+              disabled={isSubmitting}
+              extraClassName="bg-green-400 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300"
+            />
+          )}
+        </div>
       </form>
     </div>
   );

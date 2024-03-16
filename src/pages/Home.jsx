@@ -12,7 +12,6 @@ const Home = () => {
   useEffect(() => {
     const fetchIdeas = async () => {
       try {
-        // Fetch ideas sorted by createdAt field in descending order
         const response = await getIdeas();
         const sortedIdeas = response.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         setIdeas(sortedIdeas);

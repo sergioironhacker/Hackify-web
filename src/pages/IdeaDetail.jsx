@@ -4,8 +4,13 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { useFormik } from "formik";
 import Button from "../components/Button";
 import { createChat } from "../services/Chat.service";
-import { PencilIcon, TrashIcon, ChatAltIcon, BookmarkIcon as OutlineBookmarkIcon } from "@heroicons/react/outline";
-import { BookmarkIcon } from "@heroicons/react/solid"
+import {
+  PencilIcon,
+  TrashIcon,
+  ChatAltIcon,
+  BookmarkIcon as OutlineBookmarkIcon,
+} from "@heroicons/react/outline";
+import { BookmarkIcon } from "@heroicons/react/solid";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -19,29 +24,27 @@ const IdeaDetail = ({ bookmarks, showBookmarkButton = true }) => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [isBookMarked, setIsBookMarked] = useState(false)
+  const [isBookMarked, setIsBookMarked] = useState(false);
   const [contributionError, setContributionError] = useState("");
   const [inputValue, setInputValue] = useState(0);
 
-
   const handleBookMarked = useCallback(() => {
-    setIsBookMarked(user.bookmarks.some((bookmark) => bookmark.idea._id === id))
+    setIsBookMarked(
+      user.bookmarks.some((bookmark) => bookmark.idea._id === id)
+    );
   }, []);
-
 
   const handleBookmark = () => {
     toggleBookmark(id)
       .then((res) => {
-        if (res === 'creado') {
-          setIsBookMarked(true)
+        if (res === "creado") {
+          setIsBookMarked(true);
         } else {
-          setIsBookMarked(false)
+          setIsBookMarked(false);
         }
       })
       .catch((error) => console.error("Error toggling bookmark:", error));
   };
-
-
 
   const formik = useFormik({
     initialValues: {
@@ -63,9 +66,15 @@ const IdeaDetail = ({ bookmarks, showBookmarkButton = true }) => {
 
   const handleCheckout = async () => {
     try {
-      if (idea.contributionLimitActive && formik.values.paymentAmount > (idea.contributionMax - idea.contributionTotal)) {
+      if (
+        idea.contributionLimitActive &&
+        formik.values.paymentAmount >
+          idea.contributionMax - idea.contributionTotal
+      ) {
         // Display error message or handle accordingly
-        setContributionError("La cantidad de contribución excede el límite permitido");
+        setContributionError(
+          "La cantidad de contribución excede el límite permitido"
+        );
         setTimeout(() => {
           setContributionError("");
           setInputValue(0); // Reset input value
@@ -80,7 +89,6 @@ const IdeaDetail = ({ bookmarks, showBookmarkButton = true }) => {
     }
   };
 
-
   const fetchIdeaData = useCallback(() => {
     const promises = [getIdeaDetail(id)];
     Promise.all(promises)
@@ -93,10 +101,8 @@ const IdeaDetail = ({ bookmarks, showBookmarkButton = true }) => {
 
   useEffect(() => {
     fetchIdeaData();
-    handleBookMarked()
+    handleBookMarked();
   }, [fetchIdeaData]);
-
-
 
   const onDelete = () => {
     if (confirm(`Estás a punto de borrar la idea: ${idea.title}`)) {
@@ -155,7 +161,7 @@ const IdeaDetail = ({ bookmarks, showBookmarkButton = true }) => {
                   </div>
                 </div>
               )}
-              <IdeaTabbar idea={idea} />  
+              <IdeaTabbar idea={idea} />
 
               <div className="flex justify-between items-center mt-4">
                 {user.id === idea.user ? (
@@ -189,7 +195,10 @@ const IdeaDetail = ({ bookmarks, showBookmarkButton = true }) => {
                 )}
               </div>
               <div className="mt-4">
-                <label htmlFor="paymentAmount" className="block font-bold text-sm">
+                <label
+                  htmlFor="paymentAmount"
+                  className="block font-bold text-sm"
+                >
                   Cantidad a contribuir(€):
                 </label>
                 <Input
@@ -202,13 +211,23 @@ const IdeaDetail = ({ bookmarks, showBookmarkButton = true }) => {
                   }}
                   value={inputValue}
                   required
-                  disabled={idea.contributionLimitActive && formik.values.paymentAmount > (idea.contributionMax - idea.contributionTotal)}
-                  max={idea.contributionLimitActive ? (idea.contributionMax - idea.contributionTotal) : null}
+                  disabled={
+                    idea.contributionLimitActive &&
+                    formik.values.paymentAmount >
+                      idea.contributionMax - idea.contributionTotal
+                  }
+                  max={
+                    idea.contributionLimitActive
+                      ? idea.contributionMax - idea.contributionTotal
+                      : null
+                  }
                   className="mt-1 p-2 block w-full rounded-md border border-black shadow-sm focus:ring-tw-primary focus:border-tw-primary-accent mb-1 text-sm"
                 />
                 {/* Render error message if contribution error exists */}
                 {contributionError && (
-                  <p className="text-red-500 text-sm mt-1">{contributionError}</p>
+                  <p className="text-red-500 text-sm mt-1">
+                    {contributionError}
+                  </p>
                 )}
               </div>
               <Button
@@ -219,7 +238,6 @@ const IdeaDetail = ({ bookmarks, showBookmarkButton = true }) => {
             </div>
           </div>
         </div>
-
       )}
     </div>
   );

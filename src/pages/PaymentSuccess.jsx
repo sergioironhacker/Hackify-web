@@ -23,7 +23,7 @@ const PaymentSuccess = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
       <h1>Pago realizado con éxito!</h1>
-      <p>Has pagado {amount} €</p>
+      <p>Has contribuido con {amount} €</p>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="100" height="100" fill="#4CAF50">
         <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
       </svg>

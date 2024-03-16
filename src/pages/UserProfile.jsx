@@ -18,7 +18,7 @@ const UserProfile = () => {
   }, [id])
 
   if (loading) {
-    return <p>Loading...</p>
+    return <p>Cargando...</p>
   }
 
   return (

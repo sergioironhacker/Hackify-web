@@ -7,10 +7,10 @@ import { object, string, mixed } from 'yup';
 import AboutUsLogo from '../assets/AboutUsLogo'; // Importa el componente del logo
 
 const userSchema = object({
-  username: string().required('Required field'),
-  email: string().email('Enter a valid email').required('Required field'),
-  password: string().min(8, 'Password of at least 8 characters').required('Required field'),
-  avatar: mixed().required('Required field')
+  username: string().required('Campo requerido'),
+  email: string().email('Introduce un email válido').required('Campo requerido'),
+  password: string().min(8, 'La contraseña debe tener al menos 8 caracteres').required('Campo requerido'),
+  avatar: mixed().required('Campo requerido')
 });
 
 const Register = () => {
@@ -62,8 +62,8 @@ const Register = () => {
           <div className="grid grid-cols-1 gap-4">
             <Input
               name="username"
-              label="User name"
-              placeholder="Ex: 'Example'"
+              label="Nombre de usuario"
+              placeholder="Pepe123"
               value={values.username}
               error={touched.username && errors.username}
               onChange={handleChange}
@@ -72,8 +72,8 @@ const Register = () => {
             <Input
               name="email"
               type="email"
-              label="Email"
-              placeholder="Ex: 'Example@gmail.com'"
+              label="Dirección de email:"
+              placeholder="Example@gmail.com"
               value={values.email}
               error={touched.email && errors.email}
               onChange={handleChange}
@@ -82,8 +82,8 @@ const Register = () => {
             <Input
               name="password"
               type="password"
-              label="Password"
-              placeholder="Ex: '11223344'"
+              label="Contraseña"
+              placeholder="Ej: '11223344'"
               value={values.password}
               error={touched.password && errors.password}
               onChange={handleChange}
@@ -91,7 +91,7 @@ const Register = () => {
             />
             <div className="flex items-center">
               <label htmlFor="avatar" className="block text-sm font-medium text-green-400 mr-2">
-                Add your photo:
+                Añade tu foto de perfil:
               </label>
               <label htmlFor="avatar" className="cursor-pointer bg-green-400 text-white font-semibold py-2 px-4 rounded-md hover:bg-tw-primary-accent focus:outline-none focus:ring-2 focus:ring-tw-primary focus:ring-opacity-50">
                 <svg
@@ -108,7 +108,7 @@ const Register = () => {
                     d="M12 6v6m0 0v6m0-6h6m-6 0H6"
                   />
                 </svg>
-                Upload
+                Subir archivo...
               </label>
               <input
                 id="avatar"

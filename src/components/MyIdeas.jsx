@@ -1,7 +1,7 @@
-import { useState, useEffect, useContext } from 'react'
-import { getUserIdeas } from '../services/UserService';
-import IdeaCard from './IdeaCard';
-import AuthContext from '../contexts/AuthContext';
+import { useState, useEffect, useContext } from "react";
+import { getUserIdeas } from "../services/UserService";
+import IdeaCard from "./IdeaCard";
+import AuthContext from "../contexts/AuthContext";
 
 const MyIdeas = () => {
   const { user } = useContext(AuthContext);
@@ -20,13 +20,13 @@ const MyIdeas = () => {
         setLoading(false);
       });
   }, []);
-  
+
   if (loading) {
-    return <p>Loading...</p>;
+    return <p>Cargando...</p>;
   }
 
   if (user.ideas && user.ideas.length === 0) {
-    return <p>You have no created ideas yet</p>;
+    return <p>Todavía no has creado una idea.</p>;
   }
 
   return (

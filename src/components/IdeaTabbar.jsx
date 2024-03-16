@@ -3,20 +3,20 @@ import clsx from "clsx";
 import "react-toastify/dist/ReactToastify.css";
 import IdeaFullDescription from "./IdeaFullDescription";
 import IdeaComments from "./IdeaComments";
-import IdeaDetailMain from './IdeaDetailMain';
+import IdeaDetailMain from "./IdeaDetailMain";
 
 const IdeaTabbar = ({ idea }) => {
   const tabs = [
     {
       key: 0,
       title: "Vista general",
-      body: <IdeaDetailMain idea={idea}/>,
+      body: <IdeaDetailMain idea={idea} />,
       className: "vista-general-tab",
     },
     {
       key: 1,
       title: "Información completa",
-      body: <IdeaFullDescription idea={idea}/>,
+      body: <IdeaFullDescription idea={idea} />,
       className: "descripcion-ampliada-tab",
     },
     {
@@ -49,9 +49,7 @@ const IdeaTabbar = ({ idea }) => {
           ))}
         </nav>
       </div>
-      <div className="p-4">
-      {tabs[activeTab].body}
-      </div>
+      <div className="p-4">{tabs[activeTab].body}</div>
     </div>
   );
 };
