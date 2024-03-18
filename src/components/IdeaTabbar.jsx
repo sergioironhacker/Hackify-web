@@ -30,7 +30,7 @@ const IdeaTabbar = ({ idea }) => {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
-    <div className="sm:hidden">
+    <div className="block">
       <div className="border-t border-gray-200">
         <nav className="flex" aria-label="Tabs">
           {tabs.map((tab) => (
@@ -40,7 +40,7 @@ const IdeaTabbar = ({ idea }) => {
               className={clsx(
                 "w-full py-4 px-1 text-sm font-medium rounded-t-lg focus:outline-none focus:ring-inset focus:ring-tw-primary",
                 { "text-green-400": tab.key === activeTab },
-                { "text-grey-400": tab.key !== activeTab },
+                { "text-gray-400": tab.key !== activeTab },
                 "custom-tab-button-class"
               )}
             >

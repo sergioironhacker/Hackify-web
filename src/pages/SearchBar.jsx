@@ -13,7 +13,6 @@ const SearchBar = ({ onSearch }) => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
-
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -68,10 +67,6 @@ const SearchBar = ({ onSearch }) => {
     setFilteredIdeas(filtered);
   }, [searchTerm, ideas, selectedCategory]);
 
-
-  
-
-  // se puede deslizar hacia los lados si ñaadiesemos mas categorias y quedaia un efecto guay propomngo añadir categoria 'todas'
   const categoryIcons = {
     "Inmobiliaria": <AiOutlineHome className="category-icon" />,
     "Tecnología": <FaLaptop className="category-icon" />, 
@@ -82,7 +77,7 @@ const SearchBar = ({ onSearch }) => {
 
   return (
     <div className=''>
-      <form onSubmit={handleSubmit} className="flex items-center border border-gray-300 rounded-md px-3 py-2">
+      <form onSubmit={handleSubmit} className="flex items-center border border-gray-300 rounded-md px-3 py-2 mb-4">
         <input
           type="text"
           placeholder="Buscar ideas..."
@@ -95,7 +90,7 @@ const SearchBar = ({ onSearch }) => {
         </button>
       </form>
 
-      <div className="flex overflow-x-auto mt-3 ">
+      <div className="flex overflow-x-auto mb-4 justify-center">
         {categories.map((category, index) => (
           <div key={index} className="flex-shrink-0 mr-4 ">
             <input
@@ -114,9 +109,9 @@ const SearchBar = ({ onSearch }) => {
         ))}
       </div>
 
-      <div className="max-w-container mx-auto p-6">
+      <div className="max-w-container mx-auto">
         {filteredIdeas && filteredIdeas.length > 0 ? (
-          <div className="space-y-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredIdeas.map((idea) => (
               <div key={idea.id}>
                 <IdeaCard {...idea} />
@@ -124,7 +119,7 @@ const SearchBar = ({ onSearch }) => {
             ))}
           </div>
         ) : (
-          <p className="text-gray-600">No hay ideas disponibles.</p>
+          <p className="text-gray-600 text-center">No hay ideas disponibles.</p>
         )}
       </div>
     </div>

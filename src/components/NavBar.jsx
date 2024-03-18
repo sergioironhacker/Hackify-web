@@ -24,7 +24,6 @@ const Navbar = () => {
       to: "/ideas/create",
       text: <CreateIdeaIcon />,
     },
-
     {
       to: "/search",
       text: <FindLogo />,
@@ -58,7 +57,7 @@ const Navbar = () => {
     if (isAuthFetched) {
       return user ? protectedRoutes : unprotectedRoutes;
     } else {
-      return unprotectedRoutes; // Si la autenticación no se ha completado, mostrar las rutas desprotegidas
+      return unprotectedRoutes;
     }
   };
 
@@ -67,27 +66,32 @@ const Navbar = () => {
 
   return (
     <nav className="bg-green-400 fixed bottom-0 w-full z-10">
-      <div className="max-w-7xl mx-auto px-0 sm:px-6 lg:px-0">
-        <div className="flex items-center justify-around h-16">
-          <div className="flex items-center">
-            <div className="flex-shrink-0">
-              <Link
-                to={hasUser ? "/" : "/"}
-                className="text-white flex items-center"
-              ></Link>
-            </div>
-            <div className="ml-4 flex md:hidden">
-              {routes.map((route, index) => (
-                <NavLink
-                  key={index}
-                  to={route.to}
-                  className="text-white hover:bg-green-300 px-3 py-2 rounded-md text-sm font-medium flex items-center "
-                  style={{ marginRight: "21px" }} // Agrega margen entre los elementos NavLink
-                >
-                  {route.text}
-                </NavLink>
-              ))}
-            </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <div className="flex-shrink-0">
+            <Link to={hasUser ? "/" : "/"} className="text-white flex items-center"></Link>
+          </div>
+          <div className="hidden md:flex items-center justify-between w-full">
+            {routes.map((route, index) => (
+              <NavLink
+                key={index}
+                to={route.to}
+                className="text-white hover:bg-green-300 px-3 py-2 rounded-md flex items-center space-x-2"
+              >
+                {route.text}
+              </NavLink>
+            ))}
+          </div>
+          <div className="md:hidden flex items-center justify-center w-full">
+            {routes.map((route, index) => (
+              <NavLink
+                key={index}
+                to={route.to}
+                className="text-white hover:bg-green-300 px-3 py-2 rounded-md flex items-center space-x-2"
+              >
+                {route.text}
+              </NavLink>
+            ))}
           </div>
         </div>
       </div>

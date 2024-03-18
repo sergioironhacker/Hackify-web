@@ -117,17 +117,17 @@ const Tabbar = () => {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
-    <div className="sm:hidden">
-      <div className="border-t border-gray-200">
-        <nav className="flex" aria-label="Tabs">
+    <div className="flex flex-col items-center justify-center">
+      <div className="border-t border-gray-200 w-full">
+        <nav className="flex justify-center" aria-label="Tabs">
           {tabs.map((tab) => (
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
               className={clsx(
-                "w-full py-4 px-1 text-sm font-medium rounded-t-lg focus:outline-none focus:ring-inset focus:ring-tw-primary",
+                "py-4 px-1 text-sm font-medium rounded-t-lg focus:outline-none focus:ring-inset focus:ring-tw-primary",
                 { "text-green-400": tab.key === activeTab },
-                { "text-grey-400": tab.key !== activeTab },
+                { "text-gray-400": tab.key !== activeTab },
                 "custom-tab-button-class"
               )}
             >
@@ -136,8 +136,8 @@ const Tabbar = () => {
           ))}
         </nav>
       </div>
-      <div className="p-4">
-        {activeTab !== 3 && tabs[activeTab].body}
+      <div className="p-4 w-full max-w-md">
+        {tabs[activeTab].body}
         {activeTab === 3 && (
           <>
             <div className="flex justify-between mb-2">
